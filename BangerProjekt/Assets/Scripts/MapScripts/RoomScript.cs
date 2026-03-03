@@ -5,10 +5,20 @@ public class RoomScript : MonoBehaviour
 {
    [field:SerializeField] public List<GameObject> RoomDoors{get; set;} //Doors this room has
    [field:SerializeField] public Enums.RoomState State {get; private set;} = Enums.RoomState.Uncleared; //The state of the room
+   [field:SerializeField] public List<Transform> ObstacleSpots{get; set;}
+   [field:SerializeField] public List<GameObject> AllObstacles{get; set;}
+   [field:SerializeField] public bool IsBossRoom{get; set;} = false;
 
     private void Awake() // used to prevent accidental overrides by the inspector
     {
         State = Enums.RoomState.Uncleared; //A room can never be cleared from the get go (Except the Start room which gets unlocked after room gen)
+        foreach (Transform trans in gameObject.transform)
+      {
+         if (trans.gameObject.CompareTag("Obstacle"))
+         {
+            ObstacleSpots.Add(trans);
+         }
+      }
     }
    
     public bool IsCleared() //Returns a simple bool to check if the room is cleared. (Self explaining)
@@ -46,6 +56,24 @@ public class RoomScript : MonoBehaviour
          }
       }
    }
+
+   private void SetObstacles(List<GameObject> obstacleTypes)
+   {
+      foreach (Transform obstacleSpot in ObstacleSpots)
+      {
+         GameObject obstacle = Instantiate(obstacleTypes[Random.Range(0,obstacleTypes.Count)], obstacleSpot);
+         AllObstacles.Add(obstacle);
+      }
+   }
+
+    private void OnEnable()
+    {
+        RoomManager.sendObstacles += SetObstacles;
+    }
+    private void OnDisable()
+    {
+        RoomManager.sendObstacles -= SetObstacles;
+    }
 
 }
 

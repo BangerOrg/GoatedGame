@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class RoomManager : MonoBehaviour
 {
@@ -11,7 +13,10 @@ public class RoomManager : MonoBehaviour
    [SerializeField] private int numOfRoomsInspector = 10; //Number of rooms to generate in the layer set by inspector taken as Default (Might become obsolete due to GenerateRooms being called from outside)
    [SerializeField] private int tries = 0; //Number of current tries (To prevent infinite Loops)
    [SerializeField] private int maxTries = 10000000; //Number of max Tries before the Loop breaks (To prevent infinite Loops)
+   [field:SerializeField] public List<GameObject> Obstacles {get; set;}
+   public static event Action<List<GameObject>> sendObstacles;
    private GameObject startRoom; //The one and only start room instance
+
 
 
     public void Awake()
@@ -74,7 +79,9 @@ public class RoomManager : MonoBehaviour
 
        }
        AddConnectedRooms();//If a random door has luckily aligned with another, we can have those set as "used" as well.
-       //TODO: Let the doors know that they have been connected so they change their status from hidden to locked/open. Doors also are unable to be traversed at the moment.
+       
+       sendObstacles?.Invoke(Obstacles);
+
        startRoom.GetComponent<RoomScript>().ClearRoom();
    }
 
@@ -117,7 +124,7 @@ public class RoomManager : MonoBehaviour
       
       for (int i = 0; i < found; i++) //Lets have a quick look into the array of overlapping rooms just to be sure we don't check the room with itself.
         {
-            if (results[i].transform.root != room.transform.root) //Prevents to check if the room that is about to be placed is overlapping with itself
+            if (results[i].GetComponentInParent<RoomScript>().gameObject != room.GetComponentInParent<RoomScript>().gameObject) //Prevents to check if the room that is about to be placed is overlapping with itself
             {
                 return true; //Then returns that an overlap was indeed found
             }
@@ -157,7 +164,7 @@ public class RoomManager : MonoBehaviour
                 doorA.GetComponent<DoorScript>().LinkDoor(doorB.GetComponent<DoorScript>());
                 doorA.GetComponent<DoorScript>().LockDoor();
                 
-                //Debug.Log($"Connected accidental overlap: {doorA.name} and {doorB.name}"); I dont know if we let those in or not
+                //Debug.Log($"Connected accidental overlap: {doorA.name} and {doorB.name}");
             }
         }
     }
@@ -167,5 +174,10 @@ public class RoomManager : MonoBehaviour
         availableDoors.Remove(door); //remove doors fr fr
     }
 }
+
+    private void SetBossRoom()
+    {
+        GameObject adjecentRoom = startRoom.GetComponent<RoomScript>().RoomDoors[0].GetComponent<DoorScript>().linkedDoor.GetComponentInParent<RoomScript>().gameObject;
+    }
 
 }
