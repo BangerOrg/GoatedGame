@@ -14,6 +14,7 @@ public class EnemySpawner : MonoBehaviour
     private GameObject skipButton;
     private TMP_Text waveText;
     private TMP_Text enemiesAliveText;
+    public List<GameObject> spawnPoints;
 
     private void Awake()
     {
@@ -29,11 +30,13 @@ public class EnemySpawner : MonoBehaviour
     {
         RoomScript.SendEnemyList += GenerateWaves;
         Enemy.enemyDies += RemoveEnemy;
+        GameManager.currRoomChanged += NewSpawnPoints;
     }
     private void OnDisable()
     {
         RoomScript.SendEnemyList -= GenerateWaves;
         Enemy.enemyDies -= RemoveEnemy;
+        GameManager.currRoomChanged -= NewSpawnPoints;
     }
 
     private void FixedUpdate()
@@ -97,8 +100,6 @@ public class EnemySpawner : MonoBehaviour
 
     public void NextWave()
     {
-
-        Debug.Log("CurrentWave: " + currentWave);
         if (currentWave < waveAmount) //if the wave should spawn (because it exists)
         {
             currentWave++;
@@ -128,6 +129,7 @@ public class EnemySpawner : MonoBehaviour
                 enemiesToSpawn[currentWave].RemoveAt(0);
                 aliveEnemies.Add(newEnemy);
                 enemiesAliveText.SetText("Enemies Remaining: " + aliveEnemies.Count);
+                newEnemy.transform.position = spawnPoints[Random.Range(0, spawnPoints.Count)].transform.position;
                 yield return new WaitForSeconds(Random.Range(150,401)/ 100f); //wait between 1,5 to 4 seconds then spawn another enemy
                 //No location is set yet, the enemy just appears at (0,0);
             }
@@ -141,7 +143,15 @@ public class EnemySpawner : MonoBehaviour
             enemiesToSpawn[currentWave].RemoveAt(0);
             aliveEnemies.Add(newEnemy);
             enemiesAliveText.SetText("Enemies Remaining: " + aliveEnemies.Count);
+            newEnemy.transform.position = spawnPoints[Random.Range(0, spawnPoints.Count)].transform.position;
         }
         NextWave();
+    }
+
+    public void NewSpawnPoints(RoomScript currRoom) //call by reference :)
+    {
+        spawnPoints.Clear();
+        spawnPoints = currRoom.Spawnpoints;
+        //the existence of currRoom is theoretically not necessary here, but an event has to give a variable (as far as i know) so why not
     }
 }

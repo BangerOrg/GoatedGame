@@ -64,7 +64,7 @@ public class RoomScript : MonoBehaviour
                door.GetComponent<DoorScript>().LockDoor();
             }
          }
-            GameManager.currentRoom = this;
+            GameManager.SetCurrentRoom(this);
             Budget = Random.Range(15,40) * LayerManager.CurrentLayerNumber; //currently random number, not set in stone
             SendEnemyList?.Invoke(EnemiesInRoom, Budget);
             //send event to start enemy Spawn
