@@ -66,6 +66,12 @@ MonoBehaviour:
   - {fileID: 1816581398339456472}
   - {fileID: 8997240681369588674}
   - {fileID: 6566320153052345336}
+  <State>k__BackingField: 0
+  <EnemiesInRoom>k__BackingField: []
+  <SpawnpointSpacingToEachOther>k__BackingField: 2
+  <Spawnpoints>k__BackingField: []
+  numOfSpawnpoints: 100
+  spawnpointSpacingToWall: 2
 --- !u!1001 &764391702081527147
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1242,6 +1248,10 @@ PrefabInstance:
       propertyPath: m_ColliderPaths.Array.data[0].m_ColliderPaths.Array.data[0].Array.data[3].Y
       value: 2500000
       objectReference: {fileID: 0}
+    - target: {fileID: 9195611092463656869, guid: e057c166fea6a5f4e9e3412d10a148e9, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: 248f7d07c8da9d24faebeb41410380d7, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

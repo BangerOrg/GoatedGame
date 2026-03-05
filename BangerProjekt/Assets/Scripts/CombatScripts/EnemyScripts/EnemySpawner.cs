@@ -130,7 +130,7 @@ public class EnemySpawner : MonoBehaviour
                 aliveEnemies.Add(newEnemy);
                 enemiesAliveText.SetText("Enemies Remaining: " + aliveEnemies.Count);
                 newEnemy.transform.position = spawnPoints[Random.Range(0, spawnPoints.Count)].transform.position;
-                yield return new WaitForSeconds(Random.Range(150,401)/ 100f); //wait between 1,5 to 4 seconds then spawn another enemy
+                yield return new WaitForSeconds(Random.Range(100,301)/ 100f); //wait between 1 to 3 seconds then spawn another enemy
                 //No location is set yet, the enemy just appears at (0,0);
             }
     }

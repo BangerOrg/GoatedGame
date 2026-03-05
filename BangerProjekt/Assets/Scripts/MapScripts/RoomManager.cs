@@ -1,3 +1,4 @@
+using NavMeshPlus.Components;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,10 +14,11 @@ public class RoomManager : MonoBehaviour
    [SerializeField] private int maxTries = 10000000; //Number of max Tries before the Loop breaks (To prevent infinite Loops)
    private GameObject startRoom; //The one and only start room instance
    [SerializeField]private List<GameObject> EnemyListForRooms;
-
+    private NavMeshSurface meshSurface; 
 
     public void Awake()
     {
+        meshSurface = gameObject.GetComponent<NavMeshSurface>();
         startRoom = Instantiate(startRoomPrefab, Vector3.zero, Quaternion.identity); //Make tha start room
         float[] angles = { 0f, 90f, 180f, 270f }; //Simple array, because its not gonna change
         float randomAngle = angles[Random.Range(0, angles.Length)]; //Pick a random start rotation
@@ -52,7 +54,8 @@ public class RoomManager : MonoBehaviour
             GameObject randomDoor = availableDoors[randomDoorIndex];
  
             int randomIndex = Random.Range(0, roomPrefabs.Count); //Get a random index for the prefab list
-            GameObject newRoom = Instantiate(roomPrefabs[randomIndex]); //Get the prefab with said random index
+            Vector3 spawnPos = new Vector3(50, 50, 0); //spawn it away from the player so the EnemySpawner doesnt immediately trigger
+            GameObject newRoom = Instantiate(roomPrefabs[randomIndex], spawnPos, new Quaternion(0,0,0,0)); //Get the prefab with said random index
            
             List<GameObject> roomDoors = newRoom.GetComponent<RoomScript>().RoomDoors; //Gets the doors of the new room that has been instantiated. Rooms may have "infinite" doors.
             GameObject newRoomRandomDoor = roomDoors[Random.Range(0,roomDoors.Count)]; //Get the actual door we try to connect to
@@ -86,6 +89,8 @@ public class RoomManager : MonoBehaviour
        AddConnectedRooms();//If a random door has luckily aligned with another, we can have those set as "used" as well.
        //TODO: Let the doors know that they have been connected so they change their status from hidden to locked/open. Doors also are unable to be traversed at the moment.
        startRoom.GetComponent<RoomScript>().ClearRoom();
+       meshSurface.BuildNavMesh(); //after everything is generated, build the NavMesh for the Enemies
+        //needs to get recalculated if new obstacles appear
    }
 
    private void AlignRooms(GameObject doorA, GameObject doorB) //Now here comes the neat part
