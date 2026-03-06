@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -21,7 +22,8 @@ public class RoomManager : MonoBehaviour
 
     public void Awake()
     {
-       startRoom = Instantiate(startRoomPrefab, Vector3.zero, Quaternion.identity); //Make tha start room
+        startRoom = Instantiate(startRoomPrefab, Vector3.zero, Quaternion.identity); //Make tha start room
+        startRoom.GetComponent<RoomScript>().Depth = 0;
         float[] angles = { 0f, 90f, 180f, 270f }; //Simple array, because its not gonna change
         float randomAngle = angles[Random.Range(0, angles.Length)]; //Pick a random start rotation
         startRoom.transform.rotation = Quaternion.Euler(0, 0, randomAngle); // and apply it.
@@ -69,6 +71,7 @@ public class RoomManager : MonoBehaviour
                         availableDoors.Add(door);//and add them to the available doors
                     }
                 }
+                newRoom.GetComponent<RoomScript>().Depth = randomDoor.GetComponentInParent<RoomScript>().Depth + 1;
 
             }
             else
@@ -83,6 +86,8 @@ public class RoomManager : MonoBehaviour
        sendObstacles?.Invoke(Obstacles);
 
        startRoom.GetComponent<RoomScript>().ClearRoom();
+
+       SetBossRoom(); 
    }
 
    private void AlignRooms(GameObject doorA, GameObject doorB) //Now here comes the neat part
@@ -177,7 +182,30 @@ public class RoomManager : MonoBehaviour
 
     private void SetBossRoom()
     {
-        GameObject adjecentRoom = startRoom.GetComponent<RoomScript>().RoomDoors[0].GetComponent<DoorScript>().linkedDoor.GetComponentInParent<RoomScript>().gameObject;
+        GameObject highestDepthRoom = startRoom; 
+        int highestDepthCount = 0;
+        foreach(GameObject room in rooms)
+        {
+            room.GetComponent<RoomScript>().IsBossRoom = false;
+            if (room.GetComponent<RoomScript>().Depth > highestDepthCount && room.GetComponent<RoomScript>().RoomDoors.FindAll((x)=>x.GetComponent<DoorScript>().State != Enums.DoorState.Hidden).Count == 1)
+            {
+                highestDepthRoom = room;
+                highestDepthCount = room.GetComponent<RoomScript>().Depth;
+            }
+        }
+        if(highestDepthRoom == startRoom)
+        {
+            foreach(GameObject room in rooms)
+        {
+            if (room.GetComponent<RoomScript>().Depth > highestDepthCount)
+            {
+                highestDepthRoom = room;
+                highestDepthCount = room.GetComponent<RoomScript>().Depth;
+            }
+        }
+        }
+        highestDepthRoom.GetComponent<RoomScript>().IsBossRoom = true;
+        
     }
 
 }

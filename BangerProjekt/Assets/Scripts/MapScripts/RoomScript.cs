@@ -7,7 +7,8 @@ public class RoomScript : MonoBehaviour
    [field:SerializeField] public Enums.RoomState State {get; private set;} = Enums.RoomState.Uncleared; //The state of the room
    [field:SerializeField] public List<Transform> ObstacleSpots{get; set;}
    [field:SerializeField] public List<GameObject> AllObstacles{get; set;}
-   [field:SerializeField] public bool IsBossRoom{get; set;} = false;
+   [field:SerializeField] public bool IsBossRoom{get; set;} = false; //Gets true when its a boss room
+   [field:SerializeField] public int Depth{get; set;} //This counts up with how far  from the start room we are
 
     private void Awake() // used to prevent accidental overrides by the inspector
     {
