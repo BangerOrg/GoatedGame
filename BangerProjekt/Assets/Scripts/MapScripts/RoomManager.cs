@@ -17,6 +17,7 @@ public class RoomManager : MonoBehaviour
    [field:SerializeField] public List<GameObject> Obstacles {get; set;}
    public static event Action<List<GameObject>> sendObstacles;
    private GameObject startRoom; //The one and only start room instance
+   [SerializeField]private List<GameObject> EnemyListForRooms;
 
 
 
@@ -28,7 +29,14 @@ public class RoomManager : MonoBehaviour
         float randomAngle = angles[Random.Range(0, angles.Length)]; //Pick a random start rotation
         startRoom.transform.rotation = Quaternion.Euler(0, 0, randomAngle); // and apply it.
         rooms.Add(startRoom); //Yes exactly this room should be added to the rooms list
+        startRoom.GetComponent<RoomScript>().ClearRoom();
+        GameManager.currentRoom = startRoom.GetComponent<RoomScript>();
         availableDoors.Add(GameObject.FindWithTag("Door")); //And lets also get the first door.
+    }
+
+    private void Start()
+    {
+        EnemyListForRooms = LayerManager.GetEnemyListFromLayer();
     }
 
     [ContextMenu("Generate Rooms")] //To call GenerateRooms from the inspector (Will probably get obsolete once the Game Manager etc handles when to gen rooms)
@@ -72,6 +80,8 @@ public class RoomManager : MonoBehaviour
                     }
                 }
                 newRoom.GetComponent<RoomScript>().Depth = randomDoor.GetComponentInParent<RoomScript>().Depth + 1;
+                newRoom.GetComponent<RoomScript>().EnemiesInRoom = EnemyListForRooms;
+                //We expect the LayerManager to do its thing before the RoomManager (because first the Layer info gets generated, after that the Rooms get Generated based on that)
 
             }
             else
@@ -208,4 +218,5 @@ public class RoomManager : MonoBehaviour
         
     }
 
+ 
 }
