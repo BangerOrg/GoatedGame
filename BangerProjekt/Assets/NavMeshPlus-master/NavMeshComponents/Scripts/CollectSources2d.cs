@@ -63,13 +63,6 @@ namespace NavMeshPlus.Extensions
                 {
                     Debug.LogWarning("NavMeshSurface is not rotated respectively to (x-90;y0;z0). Apply rotation unless intended.");
                 }
-                if (Application.isPlaying)
-                {
-                    if (surface.useGeometry == NavMeshCollectGeometry.PhysicsColliders && Time.frameCount <= 1)
-                    {
-                        Debug.LogWarning("Use Geometry - Physics Colliders option in NavMeshSurface may cause inaccurate mesh bake if executed before Physics update.");
-                    }
-                }
             }
             var builder = navNeshState.GetExtraState<NavMeshBuilder2dState>();
             builder.defaultArea = surface.defaultArea;

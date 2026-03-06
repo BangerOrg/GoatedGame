@@ -1,6 +1,8 @@
 using NavMeshPlus.Components;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class RoomManager : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class RoomManager : MonoBehaviour
    [SerializeField] private int maxTries = 10000000; //Number of max Tries before the Loop breaks (To prevent infinite Loops)
    private GameObject startRoom; //The one and only start room instance
    [SerializeField]private List<GameObject> EnemyListForRooms;
-    private NavMeshSurface meshSurface; 
+    private NavMeshSurface meshSurface;
 
     public void Awake()
     {
@@ -32,6 +34,7 @@ public class RoomManager : MonoBehaviour
     private void Start()
     {
         EnemyListForRooms = LayerManager.GetEnemyListFromLayer();
+        GenerateRooms();
     }
 
     [ContextMenu("Generate Rooms")] //To call GenerateRooms from the inspector (Will probably get obsolete once the Game Manager etc handles when to gen rooms)
@@ -77,17 +80,17 @@ public class RoomManager : MonoBehaviour
                 }
                 newRoom.GetComponent<RoomScript>().EnemiesInRoom = EnemyListForRooms;
                 //We expect the LayerManager to do its thing before the RoomManager (because first the Layer info gets generated, after that the Rooms get Generated based on that)
-
+                newRoom.GetComponent<RoomScript>().IsReady = true;
             }
             else
             { //Failed to create a room (due to overlap)
                 i--; //add back to the counter of rooms to generate so we are not missing one
+                newRoom.SetActive(false); //because the NavMesh still generated if an object is destroyed but was set to active before getting destroyed (wtf?????)
                 Destroy(newRoom); //Discard the room that didn't fit and try again
             }
 
        }
-       AddConnectedRooms();//If a random door has luckily aligned with another, we can have those set as "used" as well.
-       //TODO: Let the doors know that they have been connected so they change their status from hidden to locked/open. Doors also are unable to be traversed at the moment.
+       AddConnectedRooms();//If a random door has luckily aligned with another, we can have those set as "used" as well
        startRoom.GetComponent<RoomScript>().ClearRoom();
        meshSurface.BuildNavMesh(); //after everything is generated, build the NavMesh for the Enemies
         //needs to get recalculated if new obstacles appear
