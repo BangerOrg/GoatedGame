@@ -31,6 +31,19 @@ public class DeckLogic : MonoBehaviour
         ShuffleDrawPile();
         DrawCards(handSize); //we fill the hand with cards
     }
+
+    private void OnEnable()
+    {
+        SaveManager.SavingGame += SaveCards;
+        SaveManager.LoadingGame += LoadCards;
+    }
+
+    private void OnDisable()
+    {
+        SaveManager.SavingGame -= SaveCards;
+        SaveManager.LoadingGame -= LoadCards;
+
+    }
     public void DrawCards(int amount)
     {
         for (int i = 0; i < amount && cardsInHand.Count < handSize; i++) //for every amount, we draw 1 Card. Alternatively, stop if the hand is "full"
@@ -72,7 +85,7 @@ public class DeckLogic : MonoBehaviour
         }
     }
 
-    public void PlayCard(int indexInHand)
+    public void PlayCard(Card cardToPlay)
     {
         //do a cool effect based in the ID of the card
         //would look probably like switch(cardsInHand[indexInHand].ID) {
@@ -81,8 +94,8 @@ public class DeckLogic : MonoBehaviour
         //....
         //}
 
-        discardPile.Add(cardsInHand[indexInHand]);
-        cardsInHand.RemoveAt(indexInHand);
+        discardPile.Add(cardToPlay);
+        cardsInHand.Remove(cardToPlay);
     }
 
     public void DebugHand() //this is a Debug function to just show every card in hand by name
@@ -91,5 +104,25 @@ public class DeckLogic : MonoBehaviour
         {
             Debug.Log("Card " + i + ": " + cardsInHand[i].Name);
         }
+    }
+
+    private void SaveCards()
+    {
+        SaveManager.currentSave.ActiveCards = new List<Card>(); //this is a placeholder, because active cards are not implemented yet
+        SaveManager.currentSave.EntireDeck = entireDeck;
+        SaveManager.currentSave.DrawPile = drawPile;
+        SaveManager.currentSave.DiscardPile = discardPile;
+    }
+
+    private void LoadCards()
+    {
+        foreach(Card card in SaveManager.currentSave.ActiveCards)
+        {
+            PlayCard(card);
+            //add to list of "Active Cards"
+        }
+        entireDeck = SaveManager.currentSave.EntireDeck;
+        drawPile = SaveManager.currentSave.DrawPile;
+        discardPile = SaveManager.currentSave.DiscardPile;
     }
 }

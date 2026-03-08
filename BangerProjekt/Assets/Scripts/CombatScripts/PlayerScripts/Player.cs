@@ -47,11 +47,15 @@ public class Player : Unit
     private void OnEnable()
     {
         InventoryLogic.ChangeItemPlayerStats += ChangeItemStats;
+        SaveManager.SavingGame += SaveStats;
+        SaveManager.LoadingGame += LoadStats;
     }
 
     private void OnDisable()
     {
         InventoryLogic.ChangeItemPlayerStats -= ChangeItemStats;
+        SaveManager.SavingGame -= SaveStats;
+        SaveManager.LoadingGame -= LoadStats;
     }
     //End of Unity specific functions ----------------------------
 
@@ -165,5 +169,17 @@ public class Player : Unit
         }
 
     }
- //end of inventory functions
+    //end of inventory functions
+
+    //Saving/Loading Function
+    private void SaveStats()
+    {
+        SaveManager.currentSave.EnemiesKilled = KillCount;
+    }
+
+    private void LoadStats()
+    {
+        KillCount = SaveManager.currentSave.EnemiesKilled;
+    }
+    //End of Saving/Loading Function
 }

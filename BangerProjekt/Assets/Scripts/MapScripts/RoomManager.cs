@@ -21,7 +21,6 @@ public class RoomManager : MonoBehaviour
    [SerializeField]private List<GameObject> EnemyListForRooms;
     private NavMeshSurface meshSurface;
 
-
     public void Awake()
     {
         meshSurface = gameObject.GetComponent<NavMeshSurface>();
@@ -34,6 +33,18 @@ public class RoomManager : MonoBehaviour
         startRoom.GetComponent<RoomScript>().ClearRoom();
         GameManager.currentRoom = startRoom.GetComponent<RoomScript>();
         availableDoors.Add(GameObject.FindWithTag("Door")); //And lets also get the first door.
+    }
+
+    private void OnEnable()
+    {
+        SaveManager.SavingGame += SaveRooms;
+        SaveManager.LoadingGame += LoadRooms;
+    }
+
+    private void OnDisable()
+    {
+        SaveManager.SavingGame -= SaveRooms;
+        SaveManager.LoadingGame -= LoadRooms;
     }
 
     private void Start()
@@ -222,4 +233,13 @@ public class RoomManager : MonoBehaviour
     }
 
  
+    private void SaveRooms()
+    {
+        SaveManager.currentSave.CurrentLayerRooms = rooms;
+    }
+
+    private void LoadRooms()
+    {
+        rooms = SaveManager.currentSave.CurrentLayerRooms;
+    }
 }

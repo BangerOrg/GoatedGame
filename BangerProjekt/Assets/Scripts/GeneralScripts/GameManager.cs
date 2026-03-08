@@ -13,4 +13,36 @@ public class GameManager : MonoBehaviour
         currentRoom = newRoom;
         currRoomChanged?.Invoke(currentRoom);
     }
+
+    private void OnEnable()
+    {
+        SaveManager.SavingGame += SaveCurrentRooms;   
+        SaveManager.LoadingGame += LoadCurrentRooms;
+    }
+    private void OnDisable()
+    {
+        SaveManager.SavingGame -= SaveCurrentRooms;
+        SaveManager.LoadingGame -= LoadCurrentRooms;
+    }
+    private void SaveCurrentRooms()
+    {
+        SaveManager.currentSave.CurrentRoom = currentRoom;
+        SaveManager.currentSave.RoomsCleared = roomsCleared;
+    }
+
+    private void LoadCurrentRooms()
+    {
+        currentRoom = SaveManager.currentSave.CurrentRoom;
+        roomsCleared = SaveManager.currentSave.RoomsCleared;
+    }
+
+    public void Save()
+    {
+        StartCoroutine(SaveManager.SaveGame());
+    }
+
+    public void Load()
+    {
+        SaveManager.LoadGame();
+    }
 }

@@ -31,6 +31,18 @@ public class InventoryLogic : MonoBehaviour
 
     }
 
+    private void OnEnable()
+    {
+        SaveManager.SavingGame += SaveInventory;
+        SaveManager.LoadingGame += LoadInventory;
+    }
+
+    private void OnDisable()
+    {
+        SaveManager.SavingGame -= SaveInventory;
+        SaveManager.LoadingGame -= LoadInventory;
+    }
+
     public void ObtainItem(Item itemToGet)
     {
        if (InventoryItems.Count < MaxInventorySlots) //if there is space
@@ -87,5 +99,17 @@ public class InventoryLogic : MonoBehaviour
         InventoryItems.Add(ItemsEquipped[tagOfItemInt]);
         ChangeItemPlayerStats?.Invoke(ItemsEquipped[tagOfItemInt], false); // false because subtract
         ItemsEquipped[tagOfItemInt] = null;
+    }
+
+    private void SaveInventory()
+    {
+        SaveManager.currentSave.InventoryItems = InventoryItems;
+        SaveManager.currentSave.EquippedItems = ItemsEquipped;
+    }
+
+    private void LoadInventory()
+    {
+        InventoryItems = SaveManager.currentSave.InventoryItems;
+        ItemsEquipped = SaveManager.currentSave.EquippedItems;
     }
 }

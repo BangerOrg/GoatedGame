@@ -16,6 +16,17 @@ public class LayerManager : MonoBehaviour
         NextLayer();
     }
 
+    private void OnEnable()
+    {
+        SaveManager.SavingGame += SaveLayer;
+        SaveManager.LoadingGame += LoadLayer;
+    }
+
+    private void OnDisable()
+    {
+        SaveManager.SavingGame -= SaveLayer;
+        SaveManager.LoadingGame -= LoadLayer;
+    }
     public void NextLayer()
     {
         CurrentLayerNumber++;
@@ -48,5 +59,17 @@ public class LayerManager : MonoBehaviour
     {
         return CurrentLayer.SpawnableEnemies;
 
+    }
+
+    private void SaveLayer()
+    {
+        SaveManager.currentSave.ActiveLayer = CurrentLayer;
+        SaveManager.currentSave.LayerNumber = CurrentLayerNumber;
+    }
+
+    private void LoadLayer()
+    {
+        CurrentLayer = SaveManager.currentSave.ActiveLayer;
+        CurrentLayerNumber = SaveManager.currentSave.LayerNumber;
     }
 }
