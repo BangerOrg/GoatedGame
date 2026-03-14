@@ -38,8 +38,6 @@ public class RoomManager : MonoBehaviour
         EnemyListForRooms = LayerManager.GetEnemyListFromLayer();
         StartCoroutine(WaitToGenerateRooms());
     }
-
-
     public IEnumerator WaitToGenerateRooms()
     {
         yield return new WaitUntil(() => GameManager.seedSet); //wait until the seed is set

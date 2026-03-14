@@ -26,6 +26,11 @@ public class EnemySpawner : MonoBehaviour
         enemiesAliveText = GameObject.FindWithTag("EnemiesAliveText").GetComponent<TMP_Text>();
         enemiesAliveText.gameObject.SetActive(false);
     }
+
+    void Start()
+    {
+        InvokeRepeating("CheckForNextWave",0,0.2f); //checks for next wave / end of room every .2 seconds
+    }
     private void OnEnable()
     {
         RoomScript.SendEnemyList += GenerateWaves;
@@ -39,7 +44,7 @@ public class EnemySpawner : MonoBehaviour
         GameManager.currRoomChanged -= NewSpawnPoints;
     }
 
-    private void FixedUpdate()
+    public void CheckForNextWave()
     {
         if (GameManager.currentRoom.State == Enums.RoomState.Uncleared && enemiesToSpawn[currentWave].Count <= 0 && aliveEnemies.Count <= 0) //if there are no enemies to spawn and none are alive
         {

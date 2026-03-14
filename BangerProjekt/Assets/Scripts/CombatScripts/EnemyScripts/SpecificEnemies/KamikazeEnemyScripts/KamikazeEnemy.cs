@@ -36,11 +36,6 @@ public class KamikazeEnemy : Enemy
             MoveSpeed = 1.25f;
             CancelInvoke("TurnToPlayer");
         }
-        else
-        {
-
-        }
-
         if (Distance <= distanceForBomboclat)
         {
             StartBomboclat();

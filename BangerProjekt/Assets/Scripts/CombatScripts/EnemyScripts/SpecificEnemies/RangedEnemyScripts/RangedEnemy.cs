@@ -20,20 +20,18 @@ public class RangedEnemy : Enemy
 
     [SerializeField] private int bulletAmount;
 
-    private bool canShoot = true;
-
     [SerializeField] private int spreadAngle;
 
     new void Start()
     {
         base.Start();
-        InvokeRepeating("Shoot",0,1/fireRate);
+        InvokeRepeating("Shoot",0,1/fireRate); //fireRate = shots per second so we need 1/fireRate (frequency to time)
     }
-    private void Shoot(int amount)
+    private void Shoot()
     {
         if (Distance <= distanceForShooting)
         {
-            for(int i = 0; i < amount ; i++)
+            for(int i = 0; i < bulletAmount ; i++) //shoot as many bullets as the bulletAmount states
             {
                 GameObject newBullet = Instantiate(enemyBulletPrefab,shootingPoint.position, shootingPoint.rotation, gameObject.transform);
                 //all these parameters: we instantiate the bulletPrefab at the position of the shooting point with the rotation of the enemy

@@ -17,13 +17,17 @@ public class DashEnemy : Enemy
         base.Awake();
         dashReady = true;
     }
-    void FixedUpdate()
+
+    new void Start()
+    {
+        InvokeRepeating("CheckForDash",0,0.2f);
+    }
+    void CheckForDash()
     {
         if (dashReady && Distance <= distanceForDashing) 
         {
             Dash();
         }
-
     }
 
     public void Dash()
