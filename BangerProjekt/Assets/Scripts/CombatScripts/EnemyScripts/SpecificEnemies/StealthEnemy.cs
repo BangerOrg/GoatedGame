@@ -7,9 +7,8 @@ public class StealthEnemy : Enemy
     [SerializeField] private float distanceToStartVisibility;
 
 
-    new void FixedUpdate()
+    void FixedUpdate()
     {
-        base.FixedUpdate();
         SetVisibility();
 
     }

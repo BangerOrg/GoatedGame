@@ -32,10 +32,12 @@ public class Enemy : Unit
         playerObject = GameObject.FindWithTag("Player");
         playerScript = playerObject.GetComponent<Player>();
     }
-    public void FixedUpdate()
+
+
+    public void Start()
     {
-        TurnToPlayer();
-        MoveToPlayer();
+        InvokeRepeating("TurnToPlayer",0,0.2f);
+        InvokeRepeating("MoveToPlayer",0,0.2f);
     }
     public void TurnToPlayer()
     {

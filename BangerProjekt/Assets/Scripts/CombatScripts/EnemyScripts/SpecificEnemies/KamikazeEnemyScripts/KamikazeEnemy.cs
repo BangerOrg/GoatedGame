@@ -29,16 +29,16 @@ public class KamikazeEnemy : Enemy
         playerInRangeScript = rangeIndicatorObject.GetComponent<rangeIndicatorDamageGiver>();
     }
 
-    new void FixedUpdate()
+    void FixedUpdate()
     {
-       if (!isBomboclating)
+       if (isBomboclating)
         {
-            base.FixedUpdate();
+            MoveSpeed = 1.25f;
+            CancelInvoke("TurnToPlayer");
         }
         else
         {
-            MoveSpeed = 1.25f;
-            MoveToPlayer();
+
         }
 
         if (Distance <= distanceForBomboclat)

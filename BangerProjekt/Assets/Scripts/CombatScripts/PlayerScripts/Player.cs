@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Player : Unit
 {
@@ -43,7 +44,6 @@ public class Player : Unit
             TakeDamage(collision.gameObject.GetComponent<Enemy>().Damage);
         }
     }
-
     private void OnEnable()
     {
         InventoryLogic.ChangeItemPlayerStats += ChangeItemStats;
