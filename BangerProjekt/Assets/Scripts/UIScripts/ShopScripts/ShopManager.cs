@@ -13,11 +13,11 @@ public class ShopManager : MonoBehaviour
 
     private void OnEnable()
     {
-        LayerManager.sendLayer += NewLayer;
+        LayerManager.newLayer += NewLayer;
     }
     private void OnDisable()
     {
-        LayerManager.sendLayer -= NewLayer;
+        LayerManager.newLayer -= NewLayer;
     }
     void Awake()
     {
@@ -36,9 +36,21 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public void NewLayer(Layer layer)
+    public void NewLayer()
     {
+        
+        Layer layer = LayerManager.CurrentLayer;
         Debug.Log(layer.name);
+         if (layer == null)
+         {
+             Debug.LogError("CurrentLayer is null in ShopManager");
+             return;
+         }
+         if (layer.PossibleItems.Count == 0 || layer.PossibleCards.Count == 0)
+         {
+             Debug.LogError("No possible items or cards in the current layer");
+             return;
+         }
         List<Item> itemsToSend = new List<Item>();
         for(int i = 0; i < 4; i++)
         {
