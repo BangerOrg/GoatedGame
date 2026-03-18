@@ -10,7 +10,6 @@ public class LayerManager : MonoBehaviour
     [field: SerializeField] public static int CurrentLayerNumber { get; set; } = 0;
     public static Action newLayer;
     private AllLayers AllLayerScript;
-    public static event Action<Layer> sendLayer;
 
     private void Awake()
     {
