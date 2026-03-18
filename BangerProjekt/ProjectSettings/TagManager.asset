@@ -17,7 +17,6 @@ TagManager:
   - WaveText
   - Spawnpoint
   - Shop
-  - Shelf
   layers:
   - Default
   - TransparentFX

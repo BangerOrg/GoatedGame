@@ -9,5 +9,7 @@ public class Card : ScriptableObject
     [field: SerializeField] public string Description{get;set;}
     [field: SerializeField] public Enums.Class ClassOfCard{get;set;}
     [field: SerializeField] public Sprite CardImage {get;set;}
+    [field: SerializeField] public int Cost {get;set;} //Pricy little things
+    
 }
 
