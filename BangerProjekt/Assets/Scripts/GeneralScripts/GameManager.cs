@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public static int seed = 0;
     public static bool isSeeded = false;
     public static bool seedSet = false;
+    public static int credits = 0; // Yay Money. WOOOOOO. (Name pending)
 
 
     private void Start()
@@ -58,6 +59,7 @@ public class GameManager : MonoBehaviour
         roomsCleared = SaveManager.currentSave.RoomsCleared;
         seed = SaveManager.currentSave.Seed;
         isSeeded = SaveManager.currentSave.IsSeeded;
+        credits = SaveManager.currentSave.credits;
     }
 
     public void Save()

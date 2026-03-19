@@ -19,7 +19,8 @@ MonoBehaviour:
   ID: 0
   itemTag: 0
   itemName: Rusty Helmet
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: f6e2c6b98033e0a639d81b32b101b009, type: 3}
   itemClasses: 00000000
   itemRarity: 5
   description: Rusty :)
+  <Cost>k__BackingField: 0

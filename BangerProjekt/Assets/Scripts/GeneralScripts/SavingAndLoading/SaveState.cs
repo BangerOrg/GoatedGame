@@ -21,6 +21,7 @@ public class SaveState
     [field: SerializeField] public int RoomsCleared { get; set; }
     [field: SerializeField] public int Seed {  get; set; }
     [field: SerializeField] public bool IsSeeded {  get; set; }
+    [field: SerializeField] public int credits { get; set; }
     //PlayerStats do not need to be saved, only the stuff that modifies it!
     //except for EnemiesKilled
     //IMPORTANT FOR INVENTORYITEMS AND ACTIVECARDS: HAVE TO BE EQUIPPED / PLAYED AGAIN FOR EVERYTHING TO WORK
@@ -39,5 +40,6 @@ public class SaveState
         RoomsCleared = 0;
         Seed = 0;
         IsSeeded = false;
+        credits = 0; // Yay Money. WOOOOOO. (Name pending)
     }
 }
