@@ -26,6 +26,12 @@ public class Player : Unit
 
     //End of general Player variables -------------------------
 
+    //Start of Bonus Stat Variables (for now only Weapon) --------
+    public int BonusDamage {get; set;}
+    public float BonusFireRate {get; set;}
+    //End of Bonus Stat Variables (for now only Weapon) -----------
+
+
     //_______________________________________________________________________________________________________________
     //START OF FUNCTIONS
 
@@ -47,6 +53,7 @@ public class Player : Unit
     private void OnEnable()
     {
         InventoryLogic.ChangeItemPlayerStats += ChangeItemStats;
+        InventoryLogic.SendNewWeapon += NewWeapon;
         SaveManager.SavingGame += SaveStats;
         SaveManager.LoadingGame += LoadStats;
     }
@@ -54,6 +61,7 @@ public class Player : Unit
     private void OnDisable()
     {
         InventoryLogic.ChangeItemPlayerStats -= ChangeItemStats;
+        InventoryLogic.SendNewWeapon -= NewWeapon;
         SaveManager.SavingGame -= SaveStats;
         SaveManager.LoadingGame -= LoadStats;
     }
@@ -157,20 +165,32 @@ public class Player : Unit
     {
         if (addSub)
         {
-            weaponScript.Damage += itemToChangeStats.damage;
-            weaponScript.FireRate += itemToChangeStats.fireRate; //because firerate is a frequency
+            BonusDamage += itemToChangeStats.damage;
+            BonusFireRate += itemToChangeStats.fireRate; //because firerate is a frequency
             //defense not implemented
             AddMaxHealth(itemToChangeStats.healthBonus);
         }
         else
         {
-            weaponScript.Damage -= itemToChangeStats.damage;
-            weaponScript.FireRate -= itemToChangeStats.fireRate; //because firerate is a frequency
+            BonusDamage -= itemToChangeStats.damage;
+            BonusFireRate -= itemToChangeStats.fireRate; //because firerate is a frequency
             //defense not implemented
             AddMaxHealth(-itemToChangeStats.healthBonus);
             //if equipment adds / subtracts more stats, this has to be added here
         }
 
+    }
+
+    public void NewWeapon(GameObject newWeaponItem)
+    {
+        Debug.Log("Setting new Weapon...");
+        Destroy(GameObject.FindWithTag("Weapon")); //the weapon gets fucking blasted
+        GameObject newWeaponObject = Instantiate(newWeaponItem,gameObject.transform); //new weapon yippie
+        Weapon newWeaponScript = newWeaponObject.GetComponent<Weapon>();
+        newWeaponScript.Damage += BonusDamage;
+        newWeaponScript.FireRate += BonusFireRate;
+        //simply adding that shit (might need to get a function later)
+        //set new weapon and add stats    
     }
     //end of inventory functions
 

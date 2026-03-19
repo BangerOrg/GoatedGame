@@ -4,9 +4,9 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
-    [SerializeField] protected GameObject bulletPrefab; //the bullet you shoot as a prefab
-    [field:SerializeField]public Transform ShootingPoint{get;set;} //the point you shoot from
-    [field: SerializeField] public GameObject ShootingMiddle{get;set;} //a point in the middle of the character, to rotate the shooting point around the player
+    protected GameObject bulletPrefab; //the bullet you shoot as a prefab
+    public Transform ShootingPoint{get;set;} //the point you shoot from
+    public GameObject ShootingMiddle{get;set;} //a point in the middle of the character, to rotate the shooting point around the player
     //also this is a GameObject and not just the transform because it gets buggy with just the transform (idk why tho)
 
     [field: SerializeField] public float FireRate{get;set;} //your FireRate in shots per second 
@@ -34,10 +34,15 @@ public abstract class Weapon : MonoBehaviour
     //if this is set to e.g 0.1, the delay between the shots in a "magazine" (u have infinite ammo but just need to reload like with a revolver)
     //the shots will come with small cooldown of 0.1. After that, the FireRate or as it is now called "reloadSpeed" comes into play to reload your new bulletAmount
     //so this acts as a kind of "second cooldown" for some weapons that want to use a magazine mechanic
+
+    [field:SerializeField] public WeaponItem CorrespondingItem {get; set;}
     private void Awake()
     {
         CanShoot = true;
         bulletsLeft = BulletAmount;
+        ShootingMiddle = GameObject.Find("ShootingMiddle"); //we find by name to not bloat the tags aaaaaaaa help names are so bad aaaaaa
+        ShootingPoint = ShootingMiddle.transform.GetChild(0);
+        SetItemStats();
     }
 
 
@@ -60,6 +65,19 @@ public abstract class Weapon : MonoBehaviour
 
 
     public abstract void Shoot(int bulletCount); //we need to specify how many Bullets we shoot
+
+    public void SetItemStats()
+    {
+        bulletPrefab = CorrespondingItem.BulletPrefab;
+        Damage += CorrespondingItem.damage;
+        FireRate += CorrespondingItem.fireRate;
+        ShotSpeed += CorrespondingItem.ShotSpeed;
+        BulletAmount += CorrespondingItem.bulletAmount;
+        spreadAngle += CorrespondingItem.SpreadAngle;
+        shotDelay += CorrespondingItem.ShotDelay;
+        bulletsLeft = BulletAmount;
+        //we add everywhere in case the player shit gets called first to add the fucking stats (i dont think it could happen and even if, the stats would affect the old weapon, but fuck it)
+    }
     
 
     public IEnumerator StartShotDelayCooldown()

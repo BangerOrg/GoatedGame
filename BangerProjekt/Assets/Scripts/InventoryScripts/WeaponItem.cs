@@ -5,8 +5,9 @@ using UnityEngine;
 [CreateAssetMenu]
 public class WeaponItem : Item
 {
-    public float shotDelay;
-    public int spreadAngle;
-    public int shotSpeed;
-    public GameObject bulletPrefab;
+    [field:SerializeField] public float ShotDelay {get; set;}
+    [field:SerializeField] public int SpreadAngle {get; set;}
+    [field:SerializeField] public int ShotSpeed {get; set;}
+    [field:SerializeField] public GameObject BulletPrefab {get; set;}
+    [field:SerializeField] public GameObject CorrespondingPrefab {get; set;}
 }
