@@ -55,7 +55,7 @@ public class RoomScript : MonoBehaviour
    public void ClearRoom() //This name might change as clear room sounds a bit like it will be emptied but for now it just sets it as Cleared
    {
       State = Enums.RoomState.Cleared;
-        RoomCleared?.Invoke();
+      RoomCleared?.Invoke();
       foreach (GameObject door in RoomDoors)
       {
          if(door.GetComponent<DoorScript>().State == Enums.DoorState.Locked) //and unlocks the doors once it is

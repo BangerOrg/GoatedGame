@@ -22,7 +22,9 @@ public class SpearWeapon : MeleeWeapon
         CanShoot = false;
         currBlade = Instantiate(bulletPrefab, ShootingPoint.position, ShootingPoint.rotation, ShootingPoint.transform);
         goalPos =  ShootingMiddle.transform.position + ((ShootingPoint.transform.position - ShootingMiddle.transform.position).normalized * Range);
-        goalObject = Instantiate(new GameObject(name = "goalPoint"), goalPos, Quaternion.identity, ShootingPoint.transform); //in world space so our vector shit is accurate
+        GameObject temp = new GameObject(name = "goalPoint");
+        goalObject = Instantiate(temp, goalPos, Quaternion.identity, ShootingPoint.transform);
+        Destroy(temp);
         InvokeRepeating("CheckForSwing", 0, 0.05f); //check pretty frequently
 
     }
