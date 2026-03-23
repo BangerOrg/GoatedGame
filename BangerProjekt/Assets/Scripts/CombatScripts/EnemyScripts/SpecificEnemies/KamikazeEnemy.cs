@@ -68,17 +68,10 @@ public class KamikazeEnemy : Enemy
     public void Bomboclat()
     {
         //Explode
-        ContactFilter2D filter = new ContactFilter2D();
-        Collider2D[] results = new Collider2D[20];
-        GetComponent<Collider2D>().OverlapCollider(filter, results);
-
-        foreach (Collider2D col in results)
-        {
-            if (col && col.gameObject.CompareTag("Player"))
-            {
-                isInRange = true;
-            }
-        }
+        if (GetComponent<Collider2D>().IsTouching(GameObject.FindWithTag("Player").GetComponent<Collider2D>()))
+       {
+            isInRange = true;
+       }
         if (isInRange)
         {
             playerScript.TakeDamage(Damage);
