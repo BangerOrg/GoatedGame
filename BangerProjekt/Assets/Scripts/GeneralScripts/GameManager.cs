@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
@@ -8,28 +9,29 @@ using Random = UnityEngine.Random;
 public class GameManager : MonoBehaviour
 {
     public static RoomScript currentRoom;
-    public static Action<RoomScript> currRoomChanged;
+    public static Action currRoomChanged;
     public static int roomsCleared;
     public static int seed = 0;
     public static bool isSeeded = false;
     public static bool seedSet = false;
     public static int credits = 0; // Yay Money. WOOOOOO. (Name pending)
-    [field:SerializeField] public List<Weapon> AllWeaponScripts {get; set;}
     public static GameManager Instance = null;
+    private TMP_Text creditsText;
+    public static Action CreditsChanged;
+    [field: SerializeField] public GameObject LootChest {  get; set; }
 
     void Awake()
     {
-        
+        Time.timeScale = 1.0f; //for good measure if the game starts, to not be in a paused state from GameOver or something else
     if (Instance == null) //straight up copied from the discord (thx qutun)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // <--- The Magic Line
         }
         else
         {
             Destroy(gameObject);
         }
-    
+        creditsText = GameObject.FindWithTag("CreditsText").GetComponent<TMP_Text>();
     }
     private void Start()
     {
@@ -45,11 +47,12 @@ public class GameManager : MonoBehaviour
         }
         Random.InitState(seed); //to actually set the seed
         seedSet = true;
+        ChangeCredits(0); //to set the text
     }
     public static void SetCurrentRoom(RoomScript newRoom)
     {
         currentRoom = newRoom;
-        currRoomChanged?.Invoke(currentRoom);
+        currRoomChanged?.Invoke();
     }
 
     private void OnEnable()
@@ -85,5 +88,13 @@ public class GameManager : MonoBehaviour
     public void Load()
     {
         SaveManager.LoadGame();
+    }
+
+    public void ChangeCredits(int amount)
+    {
+        credits += amount;
+        creditsText.SetText("Credits: " + credits);
+        CreditsChanged?.Invoke();
+        //we change the text here for now
     }
 }

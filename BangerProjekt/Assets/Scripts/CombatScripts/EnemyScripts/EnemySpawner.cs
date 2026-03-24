@@ -164,22 +164,31 @@ public class EnemySpawner : MonoBehaviour
         enemiesToSpawn[currentWave].RemoveAt(0);
         aliveEnemies.Add(newEnemy);
         enemiesAliveText.SetText("Enemies Remaining: " + aliveEnemies.Count);
-        newEnemy.transform.position = spawnPoints[Random.Range(0, spawnPoints.Count)].transform.position;
+        SetEnemyPos(newEnemy);
     }
-
     public void SpawnEnemy(GameObject enemy) //if we want to Spawn a specific enemy
     {        
         GameObject newEnemy = Instantiate(enemy);
         aliveEnemies.Add(newEnemy);
         enemiesAliveText.SetText("Enemies Remaining: " + aliveEnemies.Count);
-        newEnemy.transform.position = spawnPoints[Random.Range(0, spawnPoints.Count)].transform.position;
+        SetEnemyPos(newEnemy);
     }
 
-    public void NewSpawnPoints(RoomScript currRoom) //call by reference :)
+    public void SetEnemyPos(GameObject newEnemy)
+    {
+        Camera mainCam = Camera.main;
+        float maxX = mainCam.pixelWidth;
+        float maxY = mainCam.pixelHeight;
+        do
+        {
+            newEnemy.transform.position = spawnPoints[Random.Range(0, spawnPoints.Count)].transform.position;
+        } while ((mainCam.WorldToScreenPoint(newEnemy.transform.position).x < maxX && mainCam.WorldToScreenPoint(newEnemy.transform.position).x > 0) && (mainCam.WorldToScreenPoint(newEnemy.transform.position).y < maxY && mainCam.WorldToScreenPoint(newEnemy.transform.position).y > 0));
+
+    }
+    public void NewSpawnPoints() //call by reference :)
     {
         spawnPoints.Clear();
-        spawnPoints = currRoom.Spawnpoints;
-        //the existence of currRoom is theoretically not necessary here, but an event has to give a variable (as far as i know) so why not
+        spawnPoints = GameManager.currentRoom.Spawnpoints;
     }
 
     public void SpawnBoss()

@@ -18,6 +18,7 @@ public abstract class Weapon : MonoBehaviour
 
  
     [field: SerializeField] public int Damage{get;set;}
+    public float DamageMult { get; set; } = 1f;
 
     [field: SerializeField] public int BulletAmount{get;set;}
     protected int bulletsLeft; //the amount in your magazine

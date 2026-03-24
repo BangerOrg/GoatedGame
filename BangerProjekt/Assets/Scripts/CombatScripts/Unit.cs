@@ -11,6 +11,11 @@ public class Unit : MonoBehaviour
     [field:SerializeField] public int MaxHealth{get;set;} //Same for MaxHealth
     [field:SerializeField] public float MoveSpeed{get;set;}
     [field:SerializeField] public float InitialMoveSpeed{get;set;}
+    //the InitialMoveSpeed is a value that kind of acts as a "Backup" without TEMPORARY speedUps
+    //for example if the player moves faster because they are in a cleared room, after entering a new uncleared room, this
+    //is the value we use to set the new MoveSpeed
+    //My recommendation is that if you have an item that increases speed, it should also increase the InitialMoveSpeed
+    //However if you have something like a Pickup or other Speed Boosts, Probably not
 
 
 

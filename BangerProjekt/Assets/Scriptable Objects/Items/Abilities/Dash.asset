@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: Dash
   m_EditorClassIdentifier: 
   fireRate: 0
+  bulletAmount: 0
   damage: 0
   defense: 0
   healthBonus: 0
   ID: 1
-  itemTag: 5
+  itemTag: 3
   itemName: Dash
   icon: {fileID: 0}
   itemClasses: 00000000
   itemRarity: 0
   description: Dash Wheeee
+  <Cost>k__BackingField: 0

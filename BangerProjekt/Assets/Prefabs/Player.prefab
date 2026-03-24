@@ -255,6 +255,8 @@ MonoBehaviour:
   <MoveSpeed>k__BackingField: 5
   <InitialMoveSpeed>k__BackingField: 5
   fistPrefab: {fileID: 6943489743176248935, guid: 0ab173016f0b2644eb421db9bff929d1, type: 3}
+  GameOverScreen: {fileID: 7973900633473582584, guid: f6a76edf7c9eab3438577129ab6b9e6b, type: 3}
+  ImmuFramesOnHit: 60
 --- !u!114 &4485591058771625045
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -106,6 +106,10 @@ public class movement : MonoBehaviour
 
         yield return new WaitForSeconds(duration);
         playerScript.MoveSpeed /= speedMult; //works for now but can be buggy if you have multiple effects affecting your speed (i think)
+        if (playerScript.MoveSpeed < playerScript.InitialMoveSpeed)
+        {
+            playerScript.MoveSpeed = playerScript.InitialMoveSpeed; //this is the minimum tho
+        }
         isDashing = false;
     }
 

@@ -35,7 +35,7 @@ public class PlayerBullet : MonoBehaviour
         {
 
             //Damage the Enemy
-            currObject.GetComponent<Enemy>().TakeDamage(weaponScript.Damage);
+            currObject.GetComponent<Enemy>().TakeDamage((int)(weaponScript.Damage * weaponScript.DamageMult));
             RemainingPierce--; //reduce the pierce
             if (RemainingPierce <= 0) //and if there is no pierce left
             {

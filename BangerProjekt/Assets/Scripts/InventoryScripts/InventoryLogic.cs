@@ -29,12 +29,16 @@ public class InventoryLogic : MonoBehaviour
 
     void Start()
     {
-        
+        for(int i = 0; i < ItemsEquipped.Length; i++)
+        {
+            ItemsEquipped[i] = null;
+            //reset all items, after that we can load them from save (still need to do tho D:)
+        }
         ObtainItem(allItemList.Items[1]); //free dash
         EquipItem(0);
         ObtainItem(allItemList.Items[3]); //free Revolver??
         EquipItem(0);
-        //UnEquipItem(4); if you want to start with fists :)
+        //UnEquipItem(2); //if you want to start with fists :)
     }
     private void OnEnable()
     {
@@ -84,13 +88,11 @@ public class InventoryLogic : MonoBehaviour
     public void EquipItem(int invIDToEquip)
     {
         Enums.SlotTag tagOfItem = InventoryItems[invIDToEquip].itemTag; //we get the ItemTag
-        Debug.Log("The item is: " + InventoryItems[invIDToEquip].name);
         if (ItemsEquipped[(int)tagOfItem]) //if we already have something equipped at that tag
         {
             Item tempItemSave = ItemsEquipped[(int)tagOfItem];
             if (tempItemSave is WeaponItem) //if we have a weapon
             {
-                Debug.Log("We equip a weapon wooooooooooo");
                 WeaponItem tempWeapon = (WeaponItem)ItemsEquipped[(int)tagOfItem]; //hope this works
                 ItemsEquipped[(int)tagOfItem] = InventoryItems[invIDToEquip]; //code dupe is forced sadly because of the events :()
                 InventoryItems[invIDToEquip] = tempItemSave; 
@@ -122,7 +124,6 @@ public class InventoryLogic : MonoBehaviour
         if (itemToEquip is WeaponItem)
         {
             WeaponItem tempWeapon = (WeaponItem)itemToEquip; //hope this works
-            Debug.Log("shotSpeed: " + tempWeapon.ShotSpeed);
             SendNewWeapon?.Invoke(tempWeapon.CorrespondingPrefab); //gets called in player btw
         }
         else
@@ -135,17 +136,18 @@ public class InventoryLogic : MonoBehaviour
     }
     public void UnEquipItem(int tagOfItemInt)
     {
-        Item ItemToUnequip = ItemsEquipped[tagOfItemInt];
-        InventoryItems.Add(ItemToUnequip);
-        ItemsEquipped[tagOfItemInt] = null;
-        if (ItemToUnequip is WeaponItem)
-        {
-            SendNewWeapon?.Invoke(null); //just dont send a new weapon the PlayerScript does the magic :)
-        }
-        else
-        {
-            ChangeItemPlayerStats?.Invoke(ItemsEquipped[tagOfItemInt], false); // false because subtract the stats
-        }
+
+            Item itemToUnequip = ItemsEquipped[tagOfItemInt];
+            InventoryItems.Add(itemToUnequip);
+            ItemsEquipped[tagOfItemInt] = null;
+            if (itemToUnequip is WeaponItem)
+            {
+                SendNewWeapon?.Invoke(null); //just dont send a new weapon the PlayerScript does the magic :)
+            }
+            else
+            {
+                ChangeItemPlayerStats?.Invoke(ItemsEquipped[tagOfItemInt], false); // false because subtract the stats
+            }
 
 
     }

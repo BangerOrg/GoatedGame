@@ -18,6 +18,9 @@ TagManager:
   - Spawnpoint
   - Shop
   - Weapon
+  - LootPoint
+  - CreditsText
+  - GameOver
   layers:
   - Default
   - TransparentFX

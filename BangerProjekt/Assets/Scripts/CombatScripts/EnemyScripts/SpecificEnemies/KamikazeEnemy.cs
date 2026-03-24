@@ -18,8 +18,6 @@ public class KamikazeEnemy : Enemy
 
     private bool isBomboclating = false;
 
-    private bool isInRange = false;
-
     new void Awake()
     {
         base.Awake();
@@ -68,12 +66,9 @@ public class KamikazeEnemy : Enemy
     public void Bomboclat()
     {
         //Explode
-        if (GetComponent<Collider2D>().IsTouching(GameObject.FindWithTag("Player").GetComponent<Collider2D>()))
-       {
-            isInRange = true;
-       }
-        if (isInRange)
+        if (gameObject.transform.GetChild(0).GetComponent<Collider2D>().IsTouching(GameObject.FindWithTag("Player").GetComponent<Collider2D>()))
         {
+            //if Player and our Collider is Touching, big ouch
             playerScript.TakeDamage(Damage);
         }
         enemyDies?.Invoke(gameObject); //counts As Dying

@@ -52,7 +52,7 @@ public class ShopHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
              }
              purchaseItem?.Invoke(Item);
              DestroyChild();//Kill it
-             GameManager.credits -= Item.Cost; //remove the credits for the purchase
+             GameManager.Instance.ChangeCredits(-Item.Cost); //remove the credits for the purchase
              gameObject.SetActive(false); //hide the item from the shop after purchase, because the spots should not be destroyed
          }
          else if (Card != null)
@@ -64,7 +64,7 @@ public class ShopHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
              }
              purchaseCard?.Invoke(Card); //Send out the Event to actually give the player the card
              DestroyChild(); //THE CHILD MUST DIE
-             GameManager.credits -= Card.Cost; //remove the credits for the purchase
+             GameManager.Instance.ChangeCredits(-Card.Cost); //remove the credits for the purchase
              Destroy(gameObject); //remove the card from the shop after purchase
          }
          else
@@ -74,7 +74,7 @@ public class ShopHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
         }
     }
-    private void DestroyChild() //Yetus feetus deletus
+    private void DestroyChild() //Yeetus feetus deletus
     {
         if(Item)GetComponent<Image>().color = Color.white;
         if(DetailView.childCount > 0){

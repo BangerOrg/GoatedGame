@@ -17,7 +17,7 @@ public class BladeBullet : MonoBehaviour
         if (currObject.CompareTag("Enemy")) //if its an enemy (as set by its tag)
         {
             //Damage the Enemy
-            currObject.GetComponent<Enemy>().TakeDamage(weaponScript.Damage);
+            currObject.GetComponent<Enemy>().TakeDamage((int)(weaponScript.Damage * weaponScript.DamageMult));
         }
 
     }

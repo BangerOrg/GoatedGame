@@ -35,12 +35,11 @@ public class XP : MonoBehaviour
 
     public void XPToPlayer()
     {
-        InvokeRepeating("MoveToPlayer",0,0.02f);
+        InvokeRepeating("MoveToPlayer",0,0.02f); //basically fixedUpdate XD
     }
 
     public void MoveToPlayer()
     {
-        Debug.Log("schmovin");
         transform.position = Vector2.MoveTowards(gameObject.transform.position, playerScript.gameObject.transform.position, Time.deltaTime * FLYING_SPEED);
     }
 }

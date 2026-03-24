@@ -23,18 +23,27 @@ public class RoomScript : MonoBehaviour
    [field:SerializeField] private int numOfSpawnpoints = 100; //Can be set via inspector for each room defaults to 100 but since the spacing doesnt allow more in smaller rooms this may be changed
    [field:SerializeField] private float spawnpointSpacingToWall = 2f; //So no enemies spawn in a wall or outside of a room
    private Transform spawnpointContainer; //The container for all the spawn points. (No need to set it for each room since every room should have it, so it gets created)
+    private Transform LootPoint;
     public bool IsReady {get; set;} = false;
 
     private void Awake() // used to prevent accidental overrides by the inspector
     {
         State = Enums.RoomState.Uncleared; //A room can never be cleared from the get go (Except the Start room which gets unlocked after room gen)
         foreach (Transform trans in gameObject.transform)
-      {
-         if (trans.gameObject.CompareTag("Obstacle"))
-         {
-            ObstacleSpots.Add(trans);
-         }
-      }
+        {
+            if (trans.gameObject.CompareTag("Obstacle"))
+            {
+                ObstacleSpots.Add(trans);
+            }
+            else if (trans.gameObject.CompareTag("Door"))
+            {
+                RoomDoors.Add(trans.gameObject);
+            }
+            else if (trans.gameObject.CompareTag("LootPoint"))
+            {
+                LootPoint = trans;
+            }
+        }
         //mainCam = Camera.main;
         spawnpointContainer = new GameObject("GeneratedSpawnpoints").transform; //Create the Gameobject where all the spawnpoints are saved into
         spawnpointContainer.SetParent(this.transform);   //Sets its parent to the current room so it is not a stray GameObject
@@ -68,6 +77,10 @@ public class RoomScript : MonoBehaviour
          {
          //also do all the fun stuff that boss rooms do like nextLayer shit and stuff
          }
+        else if (LootPoint)//normal room gets normal chest while boss gets something cooler ig (except for startroom loser)
+        {
+            GameObject newLootChest = Instantiate(GameManager.Instance.LootChest, LootPoint.position, Quaternion.identity, LootPoint);
+        }
    }
 
  
@@ -166,6 +179,7 @@ public class RoomScript : MonoBehaviour
       }
       return false;
    }
+
 
 }
 
