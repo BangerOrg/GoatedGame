@@ -21,6 +21,8 @@ TagManager:
   - LootPoint
   - CreditsText
   - GameOver
+  - MiniMapCam
+  - MiniMapSquare
   layers:
   - Default
   - TransparentFX
@@ -29,9 +31,9 @@ TagManager:
   - Water
   - UI
   - Background
-  - 
-  - 
-  - 
+  - Invisible
+  - Visible
+  - MinimapOnly
   - 
   - 
   - 

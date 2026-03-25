@@ -179,6 +179,10 @@ public class Player : Unit
         {
             case 0:
                 MoveSpeed /= 1.5f; // removing the speed buff
+                if (MoveSpeed < InitialMoveSpeed)
+                {
+                    MoveSpeed = InitialMoveSpeed;
+                }
                 //print(MoveSpeed);
                  break;
             case 1:

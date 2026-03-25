@@ -45,6 +45,16 @@ public class RoomManager : MonoBehaviour
         GenerateRooms();
     }
 
+    private void OnEnable()
+    {
+        RoomScript.RoomCleared += SetMiniMap;
+    }
+
+    private void OnDisable()
+    {
+        RoomScript.RoomCleared -= SetMiniMap;
+    }
+
     [ContextMenu("Generate Rooms")] //To call GenerateRooms from the inspector (Will probably get obsolete once the Game Manager etc handles when to gen rooms)
     public void GenerateRooms() //Helper methode to be overriden that can be called from the inspector (Since it isn't possible to do so with a methode that has Parameters)
     {
@@ -221,5 +231,13 @@ public class RoomManager : MonoBehaviour
             }
         }
         highestDepthRoom.GetComponent<RoomScript>().IsBossRoom = true;
+    }
+
+    public void SetMiniMap()
+    {
+        foreach(GameObject room in rooms)
+        {
+            room.GetComponent<RoomScript>().SetMiniMap();
+        }
     }
 }

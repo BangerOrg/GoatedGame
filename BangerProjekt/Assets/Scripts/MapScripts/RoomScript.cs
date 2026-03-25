@@ -64,7 +64,6 @@ public class RoomScript : MonoBehaviour
    public void ClearRoom() //This name might change as clear room sounds a bit like it will be emptied but for now it just sets it as Cleared
    {
       State = Enums.RoomState.Cleared;
-      RoomCleared?.Invoke();
       foreach (GameObject door in RoomDoors)
       {
          if(door.GetComponent<DoorScript>().State == Enums.DoorState.Locked) //and unlocks the doors once it is
@@ -72,6 +71,7 @@ public class RoomScript : MonoBehaviour
             door.GetComponent<DoorScript>().OpenDoor();
          }
       }
+        RoomCleared?.Invoke();
         GameManager.roomsCleared++;
         if (IsBossRoom)
          {
@@ -179,6 +179,56 @@ public class RoomScript : MonoBehaviour
       }
       return false;
    }
+
+    public void SetMiniMap()
+    {
+        bool shouldBeVisible = false;
+        foreach (GameObject door in RoomDoors)
+        {
+            if (door.GetComponent<DoorScript>().State == Enums.DoorState.Open)
+            {
+                shouldBeVisible = true;
+            }
+        }
+        foreach(Transform obj in transform)
+        {
+            if (obj.gameObject.layer != 6) //if we even want to change
+            {
+                if (shouldBeVisible)
+                {
+                    obj.gameObject.layer = 8;
+                }
+                else
+                {
+                    obj.gameObject.layer = 7;
+                }
+            }
+
+        }
+        List<GameObject> squares = new List<GameObject>(GameObject.FindGameObjectsWithTag("MiniMapSquare")).FindAll(g => g.transform.IsChildOf(this.transform));
+        foreach (GameObject s in squares)
+        {
+            if (shouldBeVisible)
+            {
+                s.layer = 8;
+            }
+            else
+            {
+                s.layer = 7;
+            }
+            if (IsCleared())
+            {
+                s.GetComponent<SpriteRenderer>().color = new Color(0.035f, 0.566f, 0.16f,1f);
+            }
+            else
+            {
+                s.GetComponent<SpriteRenderer>().color = Color.gray;
+            }
+        }
+
+
+
+    }
 
 
 }
