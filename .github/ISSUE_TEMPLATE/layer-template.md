@@ -23,8 +23,14 @@ assignees: ''
 ***
 
 - [ ] **Items**:
-    - [ ] Placeholder Item
+    - [ ] Weapons:
 
+
+    - [ ] Armor:
+
+    - [ ] Accessories:
+
+    - [ ] Abilities:
 ***
 
 - [ ] **Obstacles**:
