@@ -53,14 +53,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6f2e20db52842c78ae878ad62aaad90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <RoomDoors>k__BackingField:
-  - {fileID: 4429532895284555612}
+  <RoomDoors>k__BackingField: []
   <State>k__BackingField: 1
   <ObstacleSpots>k__BackingField: []
   <AllObstacles>k__BackingField: []
   <IsBossRoom>k__BackingField: 0
   <Depth>k__BackingField: 0
-  <EnemiesInRoom>k__BackingField: []
+  <Budget>k__BackingField: 0
   <SpawnpointSpacingToEachOther>k__BackingField: 2
   <Spawnpoints>k__BackingField: []
   numOfSpawnpoints: 100
@@ -232,6 +231,14 @@ PrefabInstance:
     - target: {fileID: 1707902895904926671, guid: e057c166fea6a5f4e9e3412d10a148e9, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1913339626102321517, guid: e057c166fea6a5f4e9e3412d10a148e9, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1913339626102321517, guid: e057c166fea6a5f4e9e3412d10a148e9, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 4957325958297975698, guid: e057c166fea6a5f4e9e3412d10a148e9, type: 3}
       propertyPath: m_LocalScale.x
@@ -712,11 +719,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d61fb3e44b31fc2059d0248a1516501b, type: 3}
---- !u!1 &4429532895284555612 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5424435919647965535, guid: d61fb3e44b31fc2059d0248a1516501b, type: 3}
-  m_PrefabInstance: {fileID: 8520717078257954307}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8367113736795148932 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 153789333036088455, guid: d61fb3e44b31fc2059d0248a1516501b, type: 3}

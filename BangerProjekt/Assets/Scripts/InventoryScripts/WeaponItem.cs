@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-[CreateAssetMenu]
+[CreateAssetMenu(menuName = "Items/WeaponItem")]
 public class WeaponItem : Item
 {
+    [field: SerializeField] public float DamageMult { get; set; }
     [field:SerializeField] public float ShotDelayOrRange {get; set;}
     [field:SerializeField] public int SpreadAngle {get; set;}
     [field:SerializeField] public int ShotSpeed {get; set;}

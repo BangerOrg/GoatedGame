@@ -27,9 +27,9 @@ public class RoomManager : MonoBehaviour
         startRoom = Instantiate(startRoomPrefab, Vector3.zero, Quaternion.identity); //Make tha start room
         startRoom.GetComponent<RoomScript>().Depth = 0;
         rooms.Add(startRoom); //Yes exactly this room should be added to the rooms list
+        GameManager.currentRoom = startRoom.GetComponent<RoomScript>();
         startRoom.GetComponent<RoomScript>().ClearRoom();
         GameManager.roomsCleared--; //to prevent startroom counting as a cleared room (fuck this)
-        GameManager.currentRoom = startRoom.GetComponent<RoomScript>();
         availableDoors.Add(GameObject.FindWithTag("Door")); //And lets also get the first door.
     }
     private void Start()
@@ -43,6 +43,16 @@ public class RoomManager : MonoBehaviour
         float randomAngle = angles[Random.Range(0, angles.Length)]; //Pick a random start rotation
         startRoom.transform.rotation = Quaternion.Euler(0, 0, randomAngle); // and apply it.
         GenerateRooms();
+    }
+
+    private void OnEnable()
+    {
+        RoomScript.RoomCleared += SetMiniMap;
+    }
+
+    private void OnDisable()
+    {
+        RoomScript.RoomCleared -= SetMiniMap;
     }
 
     [ContextMenu("Generate Rooms")] //To call GenerateRooms from the inspector (Will probably get obsolete once the Game Manager etc handles when to gen rooms)
@@ -221,5 +231,13 @@ public class RoomManager : MonoBehaviour
             }
         }
         highestDepthRoom.GetComponent<RoomScript>().IsBossRoom = true;
+    }
+
+    public void SetMiniMap()
+    {
+        foreach(GameObject room in rooms)
+        {
+            room.GetComponent<RoomScript>().SetMiniMap();
+        }
     }
 }

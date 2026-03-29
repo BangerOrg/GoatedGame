@@ -8,7 +8,7 @@ using System.Text;
 
 
 
-[CreateAssetMenu]
+[CreateAssetMenu(menuName = "Items/Item")]
 public class Item : ScriptableObject // Creating a item class for the standard item
 {   //weapon 
     public float fireRate;
@@ -32,7 +32,7 @@ public class Item : ScriptableObject // Creating a item class for the standard i
     void Awake()
     {
         if (itemName == null) Debug.Log("Item is missing Name!!!");
-        if ((int)itemTag == 5) Debug.Log(itemName + " is missing a Tag!");
+        if (itemTag == Enums.SlotTag.None) Debug.Log(itemName + " is missing a Tag!");
         if (ID < 0) Debug.Log(itemName + " has an invalid ID!");
         if (description == null) Debug.Log(itemName + " is missing a Description!");
         if (icon == null) Debug.Log(itemName + " is missing an Icon!");

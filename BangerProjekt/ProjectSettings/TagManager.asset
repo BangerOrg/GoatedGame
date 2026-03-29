@@ -18,6 +18,15 @@ TagManager:
   - Spawnpoint
   - Shop
   - Weapon
+  - LootPoint
+  - CreditsText
+  - GameOver
+  - MiniMapCam
+  - MiniMapSquare
+  - CooldownIndicator
+  - AbilityImage
+  - Debug
+  - UIManager
   layers:
   - Default
   - TransparentFX
@@ -26,9 +35,9 @@ TagManager:
   - Water
   - UI
   - Background
-  - 
-  - 
-  - 
+  - Invisible
+  - Visible
+  - MinimapOnly
   - 
   - 
   - 

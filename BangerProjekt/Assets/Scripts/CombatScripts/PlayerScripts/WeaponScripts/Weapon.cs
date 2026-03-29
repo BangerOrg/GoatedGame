@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public abstract class Weapon : MonoBehaviour
 {
@@ -18,6 +20,7 @@ public abstract class Weapon : MonoBehaviour
 
  
     [field: SerializeField] public int Damage{get;set;}
+    public float DamageMult { get; set; } = 1f;
 
     [field: SerializeField] public int BulletAmount{get;set;}
     protected int bulletsLeft; //the amount in your magazine
@@ -62,6 +65,7 @@ public abstract class Weapon : MonoBehaviour
         }
         //could maybe be improved (performance wise) if we get a function that only triggers onMouseDown
     }
+
 
 
     public abstract void Shoot(int bulletCount); //we need to specify how many Bullets we shoot

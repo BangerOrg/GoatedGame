@@ -2,13 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using Random = UnityEngine.Random;
+using UnityEngine.UI;
 
 public class Player : Unit
 {
 
     private Weapon weaponScript;
+    private UseAbilities abilityScript;
     [SerializeField] private GameObject fistPrefab;
+    [SerializeField] private GameObject GameOverScreen;
 
     //Start of Card variables --------------------------------
 
@@ -17,21 +21,27 @@ public class Player : Unit
     //Start of level variables ------------------------------
     private int level;
     private int currentExp = 0;
-    private int requiredExp = 10;
+    private int requiredExp = 50;
     //End of level variables -------------------------------
 
     //Start of general Player variables ----------------------
 
     public int KillCount{get;set;}//THIS IS PUBLIC //Public Property bitch
+    public int CurrImmunityFrames {get; private set;} //guess what that is
+    public bool IsImmune { get; set;}
 
+    [field: SerializeField] public int ImmuFramesOnHit; //how many frames of Immunity the player gets on hit (no shit sherlock)
 
     //End of general Player variables -------------------------
 
     //Start of Bonus Stat Variables (for now only Weapon) --------
-    public int BonusDamage {get; set;}
-    public float BonusFireRate {get; set;}
+    public int BonusDamage {get; private set;}
+    public float BonusFireRate {get; private set;}
     //End of Bonus Stat Variables (for now only Weapon) -----------
 
+    //Start of Item Variables -----------
+    public static event Action<AbilityItem> NewAbility;
+    //End of Item Variables ------------
 
     //_______________________________________________________________________________________________________________
     //START OF FUNCTIONS
@@ -40,7 +50,10 @@ public class Player : Unit
     new void Awake()
     {   
         weaponScript = gameObject.GetComponent<Weapon>(); //gameObject with small g = this.GameObject
-        base.Awake();    
+        abilityScript = gameObject.GetComponent<UseAbilities>();
+        base.Awake();
+
+
     }
 
 
@@ -51,12 +64,22 @@ public class Player : Unit
             TakeDamage(collision.gameObject.GetComponent<Enemy>().Damage);
         }
     }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (!IsImmune && collision.gameObject.CompareTag("Enemy")) //IsImmune to not spam check tags
+        {
+            TakeDamage(collision.gameObject.GetComponent<Enemy>().Damage);
+        }
+    }
     private void OnEnable()
     {
         InventoryLogic.ChangeItemPlayerStats += ChangeItemStats;
         InventoryLogic.SendNewWeapon += NewWeapon;
         SaveManager.SavingGame += SaveStats;
         SaveManager.LoadingGame += LoadStats;
+        GameManager.currRoomChanged += RoomChange;
+        RoomScript.RoomCleared += RoomChange;
     }
 
     private void OnDisable()
@@ -65,29 +88,38 @@ public class Player : Unit
         InventoryLogic.SendNewWeapon -= NewWeapon;
         SaveManager.SavingGame -= SaveStats;
         SaveManager.LoadingGame -= LoadStats;
+        GameManager.currRoomChanged -= RoomChange;
+        RoomScript.RoomCleared -= RoomChange;
+
     }
+
     //End of Unity specific functions ----------------------------
 
 
     //Start of HP related functions -----------------------------
     public void TakeDamage(int amount)
     {
+        if (IsImmune) return;
+        if (amount <= 0) return;
         //This damage currently does not involve something like immunity frames or shit like that
         //also every enemy damages you on collision, if you hug them forever, you only take damage once!
         DamageUnit(amount);
-        Debug.Log("took damage!");
+        AddImmunityFrames(ImmuFramesOnHit);
+        PopUp.Create(transform.position + new Vector3(0.3f, 1.5f, 0), amount.ToString(), Color.red);
         //Update the Healthbar if existent
-        if (MaxHealth <= 0)
-        {
-            Debug.Log("you should be dead");
-            //Die
-        }
+        if (CurrentHealth <= 0) Die();
     }
 
     public void Heal(int amount)
     {
         HealUnit(amount);
         //Update the healthbar if existent
+    }
+
+    public void Die()
+    {
+        GameOverScreen.SetActive(true);
+        Time.timeScale = 0;
     }
 
     //End of HP related functions --------------------------------
@@ -110,8 +142,11 @@ public class Player : Unit
     {
         level++;
         requiredExp = (int)(requiredExp * 1.5f);
-        //for now, this is just a number going up and the required exp also going up
-
+        Debug.Log("Level Up!");
+        AddBonusDamage(1); //do 1 extra Damage
+        AddMaxHealth(10); //get 10 max Health
+        AddBonusFireRate(0.1f); //slightly higher fireRate
+        PopUp.Create(transform.position + new Vector3(0.3f, 1.5f, 0), "Level Up!", Color.yellow);
         //stat increase probably
     }
 
@@ -119,7 +154,6 @@ public class Player : Unit
     //start of Pickup related functions ------------------
     public void AddBuff(int pickupType, float pickupDuration) 
     {
-        
             switch (pickupType) // determinate the typ of pickup 
             {
                 case 0: // Speed
@@ -130,7 +164,7 @@ public class Player : Unit
                     break;
                 case 1: // Strength
                 //print(weaponScript.Damage);
-                    weaponScript.Damage *= 2; //multiplying the players weapon dmg for the duration of the buff
+                    weaponScript.DamageMult++; //multiplying the players weapon dmg for the duration of the buff
                     StartCoroutine(EndBuff(pickupType,pickupDuration));
                 //print(weaponScript.Damage);
                     break;
@@ -149,10 +183,14 @@ public class Player : Unit
         {
             case 0:
                 MoveSpeed /= 1.5f; // removing the speed buff
+                if (MoveSpeed < InitialMoveSpeed)
+                {
+                    MoveSpeed = InitialMoveSpeed;
+                }
                 //print(MoveSpeed);
                  break;
             case 1:
-                weaponScript.Damage /= 2; // removing the weapons dmg buff
+                weaponScript.DamageMult--; // removing the weapons dmg buff
                 //print(weaponScript.Damage);
                  break;
             //case 2: doesnt exist because its a one time heal
@@ -164,6 +202,11 @@ public class Player : Unit
     //start of inventory functions -----------------------
     public void ChangeItemStats(Item itemToChangeStats, bool addSub)
     {
+        if (!itemToChangeStats) //to catch errors, see if an item even got sent
+        {
+            Debug.LogError("no item sent!");
+            return;
+        }
         if (addSub)
         {
             BonusDamage += itemToChangeStats.damage;
@@ -179,6 +222,15 @@ public class Player : Unit
             AddMaxHealth(-itemToChangeStats.healthBonus);
             //if equipment adds / subtracts more stats, this has to be added here
         }
+        if (itemToChangeStats is AbilityItem)
+        {
+            AbilityItem tempAbility = itemToChangeStats as AbilityItem;
+            abilityScript.Cooldown = tempAbility.AbilityCooldown;
+            NewAbility?.Invoke(tempAbility);
+
+        }
+
+
 
     }
 
@@ -191,11 +243,24 @@ public class Player : Unit
         Destroy(GameObject.FindWithTag("Weapon")); //the weapon gets fucking blasted
         GameObject newWeaponObject = Instantiate(newWeaponItem, gameObject.transform);
         weaponScript = newWeaponObject.GetComponent<Weapon>();
-        weaponScript.Damage += BonusDamage;
-        weaponScript.FireRate += BonusFireRate;
+        AddBonusDamage(0);
+        AddBonusFireRate(0);
+        //both 0 to just add the extra damage
         //simply adding that shit (might need to get a function later)
         //set new weapon and add stats 
 
+    }
+    public void AddBonusDamage(int amount)
+    {
+        weaponScript.Damage -= BonusDamage; //subtract so we can add everything at the end
+        BonusDamage += amount;
+        weaponScript.Damage += BonusDamage;
+    }
+    public void AddBonusFireRate(float amount)
+    {
+        weaponScript.FireRate -= BonusFireRate; //subtract so we can add everything at the end
+        BonusFireRate += amount;
+        weaponScript.FireRate += BonusFireRate;
     }
     //end of inventory functions
 
@@ -210,4 +275,43 @@ public class Player : Unit
         KillCount = SaveManager.currentSave.EnemiesKilled;
     }
     //End of Saving/Loading Function
+
+    //Start of General Functions
+
+    public void RoomChange() //everything the Player needs to do when the Room changes
+    {
+        if (GameManager.currentRoom.State == Enums.RoomState.Cleared)
+        {
+            MoveSpeed = InitialMoveSpeed * 1.8f; //80% increase
+        }
+        else
+        {
+            MoveSpeed = InitialMoveSpeed; //if its a new room, we fall back to our initial value
+        }
+    }
+
+    public void AddImmunityFrames(int amount)
+    {
+        CurrImmunityFrames += amount;
+        CancelInvoke("CountdownImmunityFrames"); //if it already runs, we dont want double countdown
+        InvokeRepeating("CountdownImmunityFrames", 0, 0.02f); //fixed frames being 50/sec
+    }
+
+    public void CountdownImmunityFrames() //this is better than fixedUpdate because we only do it if it should, no if conditions 50/sec
+    {
+        if (CurrImmunityFrames > 0)
+        {
+            IsImmune = true;
+            CurrImmunityFrames--;
+        }
+        else
+        {
+            IsImmune = false;
+            CurrImmunityFrames = 0; //good measure
+            CancelInvoke("CountdownImmunityFrames");
+        }
+    }
+
+
+    //End of General Functions
 }

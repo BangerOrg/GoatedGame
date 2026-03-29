@@ -16,8 +16,6 @@ public class movement : MonoBehaviour
     private Vector2 moveDirection; //The Vector in which we save the movement direction as a Vector2
 
     private Player playerScript;
-
-    private bool canDash;
     private bool isDashing;
 
     private PlayerControls pc; //playercontrols detects the inputs
@@ -28,7 +26,6 @@ public class movement : MonoBehaviour
         //this is also not possible in inspector because we set the mainCamera to private (to avoid bloating the inspector and we dont need to reference this instance of the MainCamera anywhere
         //playerScript = GameObject.FindWithTag("Player").GetComponent<Player>();
         playerScript = gameObject.GetComponent<Player>();
-        canDash = true;
         isDashing = false;
         pc = new PlayerControls();
     }
@@ -76,36 +73,24 @@ public class movement : MonoBehaviour
         rb.rotation = aimAngle; //and set the rotation of the character to this  new rotation (because the character technically always shoots "up", we just rotate this "up" position)
     }
 
-    public void Dash(float speedMult, float dashDuration, float dashCooldown)
-    {   
-        if (canDash)
-        {
-            playerScript.MoveSpeed *= speedMult;  //the player gets really fast
-            //Debug.Log("new moveSpeed: " + playerScript.MoveSpeed);
-            isDashing = true; 
-            canDash = false;
-            StartCoroutine(EndDash(dashDuration,speedMult));
-            StartCoroutine(DashCooldown(dashCooldown));
-            //start 2 coroutines to end the dash and start the cooldown
-
-
-        }
-
-
+    public void Dash(float speedMult, float dashDuration)
+    {
+        playerScript.MoveSpeed *= speedMult;  //the player gets really fast
+        //Debug.Log("new moveSpeed: " + playerScript.MoveSpeed);
+        isDashing = true; 
+        StartCoroutine(EndDash(dashDuration,speedMult));
     }
     
-    public IEnumerator DashCooldown(float cooldown)
-    {
-        yield return new WaitForSeconds(cooldown);
-        canDash = true;
-        //dash is up again
-    }
 
     public IEnumerator EndDash(float duration, float speedMult)
     {
 
         yield return new WaitForSeconds(duration);
         playerScript.MoveSpeed /= speedMult; //works for now but can be buggy if you have multiple effects affecting your speed (i think)
+        if (playerScript.MoveSpeed < playerScript.InitialMoveSpeed)
+        {
+            playerScript.MoveSpeed = playerScript.InitialMoveSpeed; //this is the minimum tho
+        }
         isDashing = false;
     }
 

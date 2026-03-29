@@ -18,13 +18,14 @@ MonoBehaviour:
   defense: 0
   healthBonus: 0
   ID: 5
-  itemTag: 4
+  itemTag: 2
   itemName: Spear
   icon: {fileID: 0}
   itemClasses: 
   itemRarity: 0
   description: cool Spear
   <Cost>k__BackingField: 0
+  <DamageMult>k__BackingField: 1
   <ShotDelayOrRange>k__BackingField: 2.5
   <SpreadAngle>k__BackingField: 0
   <ShotSpeed>k__BackingField: 2

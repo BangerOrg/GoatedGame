@@ -35,7 +35,7 @@ public class PlayerBullet : MonoBehaviour
         {
 
             //Damage the Enemy
-            currObject.GetComponent<Enemy>().TakeDamage(weaponScript.Damage);
+            currObject.GetComponent<Enemy>().TakeDamage((int)(weaponScript.Damage * weaponScript.DamageMult));
             RemainingPierce--; //reduce the pierce
             if (RemainingPierce <= 0) //and if there is no pierce left
             {
@@ -43,7 +43,7 @@ public class PlayerBullet : MonoBehaviour
             }
 
         }
-        if (currObject.CompareTag("Wall") || currObject.CompareTag("Door")) //if the bullets collide with a wall
+        else if (currObject.CompareTag("Wall") || currObject.CompareTag("Door")) //if the bullets collide with a wall
         {
             Destroy(gameObject); //destroy the bullet
         }

@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: Big Damage
   m_EditorClassIdentifier: 
   fireRate: 0
+  bulletAmount: 0
   damage: 4
   defense: 0
   healthBonus: 0
   ID: 2
-  itemTag: 5
+  itemTag: 3
   itemName: Big Damage
   icon: {fileID: 0}
   itemClasses: 00000000
   itemRarity: 0
   description: Who needs an ability when you can have more stats?
+  <Cost>k__BackingField: 0
