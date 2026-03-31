@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour
         SaveManager.currentSave.RoomsCleared = roomsCleared;
         SaveManager.currentSave.Seed = seed;
         SaveManager.currentSave.IsSeeded = true;
+        SaveManager.currentSave.Credits = credits;
     }
 
     private void LoadGameManager()
@@ -76,7 +77,7 @@ public class GameManager : MonoBehaviour
         roomsCleared = SaveManager.currentSave.RoomsCleared;
         seed = SaveManager.currentSave.Seed;
         isSeeded = SaveManager.currentSave.IsSeeded;
-        credits = SaveManager.currentSave.credits;
+        credits = SaveManager.currentSave.Credits;
     }
 
     public void Save()

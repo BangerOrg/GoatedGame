@@ -23,9 +23,9 @@ public class ShopHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
             GetComponent<Image>().color = Color.gray;
             GameObject itemView = Instantiate(ItemViewPrefab, DetailView, false);
             itemView.transform.Find("NameText").GetComponent<TMP_Text>().SetText(Item.name);
-            itemView.transform.Find("DescriptionText").GetComponent<TMP_Text>().SetText(Item.description);
+            itemView.transform.Find("DescriptionText").GetComponent<TMP_Text>().SetText(Item.Description);
             itemView.transform.Find("StatText").GetComponent<TMP_Text>().SetText(Item.BuildStatString());
-            itemView.transform.Find("ItemImage").GetComponent<Image>().sprite = Item.icon;
+            itemView.transform.Find("ItemImage").GetComponent<Image>().sprite = Item.Icon;
         }
         else
         {
