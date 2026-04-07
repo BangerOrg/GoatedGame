@@ -24,6 +24,8 @@ MonoBehaviour:
   <SpawnableBosses>k__BackingField:
   - {fileID: 8757438703509313758, guid: 177e67783e0a844f58faa437eb700843, type: 3}
   <PossibleLayers>k__BackingField: 010000000200000003000000
+  <PossibleObstacles>k__BackingField:
+  - {fileID: 11400000, guid: c5c95cab66f414e4c986db81c66fe6f5, type: 2}
   <PossibleItems>k__BackingField:
   - {fileID: 11400000, guid: cac2bb0ec71f763d980714860a29b0ee, type: 2}
   - {fileID: 11400000, guid: f181f1f0fce92dc49bde8d6204706418, type: 2}

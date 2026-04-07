@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyBullet : MonoBehaviour
@@ -19,11 +18,13 @@ public class EnemyBullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player")||collision.CompareTag("Obstacle"))
         {
-            collision.gameObject.GetComponent<Player>().TakeDamage(damage);
+            if(collision.gameObject.GetComponent<Unit>())
+            collision.gameObject.GetComponent<Unit>().DamageUnit(damage);
             Destroy(gameObject); //no Pierce or stuff like that necessary since there is only 1 player
-            //so why add pierce
+            //so why add pierce 
+            //maybe some bosses or something want piercing bullets that bounce?
         }
         else if (collision.gameObject.CompareTag("Wall")) //if the bullet hits a wall
         {
@@ -33,7 +34,7 @@ public class EnemyBullet : MonoBehaviour
 
     public IEnumerator KillBulletTimer()
     {
-        yield return new WaitForSeconds(secondsToLive);
+        yield return new WaitForSeconds(secondsToLive); //Time's running out my dear Bullet
         Destroy(gameObject);
     }
 }

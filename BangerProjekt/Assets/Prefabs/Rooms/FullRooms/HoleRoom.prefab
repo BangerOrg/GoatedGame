@@ -620,15 +620,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <RoomDoors>k__BackingField: []
   <State>k__BackingField: 0
-  <ObstacleSpots>k__BackingField: []
-  <AllObstacles>k__BackingField: []
   <IsBossRoom>k__BackingField: 0
   <Depth>k__BackingField: 0
   <Budget>k__BackingField: 0
-  <SpawnpointSpacingToEachOther>k__BackingField: 2
+  <AllObstacles>k__BackingField: []
   <Spawnpoints>k__BackingField: []
   numOfSpawnpoints: 100
+  <SpawnpointSpacingToEachOther>k__BackingField: 2
   spawnpointSpacingToWall: 2
+  numOfObstacles: 100
+  obstaclesSpacingToEachOther: 3
+  obstaclesSpacingToWall: 3
 --- !u!1 &8612277329162620367
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,11 +20,11 @@ public class Unit : MonoBehaviour
 
 
 
-    public void Awake()
+    public virtual void Awake()
     {
         CurrentHealth = MaxHealth;
     }
-    public void DamageUnit(int damageAmount)
+    public virtual void DamageUnit(int damageAmount)
     {
         if (CurrentHealth > 0)
         {
@@ -35,7 +35,7 @@ public class Unit : MonoBehaviour
 
     }
 
-    public void AddMaxHealth(int healthToAdd)
+    public virtual void AddMaxHealth(int healthToAdd)
     {
         MaxHealth = healthToAdd + MaxHealth; //add to MaxHealth
         if (healthToAdd > 0)
@@ -47,7 +47,7 @@ public class Unit : MonoBehaviour
             CurrentHealth = MaxHealth;
         }
     }
-    public void HealUnit(int healAmount)
+    public virtual void HealUnit(int healAmount)
     {
         if (CurrentHealth + healAmount < MaxHealth) //check for overheal before healing
         {
