@@ -63,7 +63,7 @@ public class ObstacleScript : MonoBehaviour
 
     private void Edible()
     {
-        if (InventoryLogic.ItemsEquipped[(int)Enums.SlotTag.Ability].itemName == "Carnivore" || InventoryLogic.ItemsEquipped[(int)Enums.SlotTag.Ability].itemName == "Herbivore")
+        if (InventoryLogic.ItemsEquipped[(int)Enums.SlotTag.Ability].ItemName == "Carnivore" || InventoryLogic.ItemsEquipped[(int)Enums.SlotTag.Ability].ItemName == "Herbivore")
         {
             player.Heal(Obstacle.HP);
             Destroy(this.gameObject);
