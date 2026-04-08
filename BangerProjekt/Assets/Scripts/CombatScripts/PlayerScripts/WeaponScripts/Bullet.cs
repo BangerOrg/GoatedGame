@@ -34,14 +34,32 @@ public class PlayerBullet : MonoBehaviour
         if (currObject.CompareTag("Enemy")) //if its an enemy (as set by its tag)
         {
 
-            //Damage the Enemy
-            currObject.GetComponent<Enemy>().TakeDamage((int)(weaponScript.Damage * weaponScript.DamageMult));
-            RemainingPierce--; //reduce the pierce
-            if (RemainingPierce <= 0) //and if there is no pierce left
+            if (currObject.GetComponent<Unit>())
             {
-                Destroy(gameObject); //and destroy the bullet
+                currObject.GetComponent<Unit>().DamageUnit((int)(weaponScript.Damage * weaponScript.DamageMult));
+                RemainingPierce--; //reduce the pierce
+                if (RemainingPierce <= 0) //and if there is no pierce left
+                {
+                    Destroy(gameObject); //and destroy the bullet
+                }
             }
 
+
+        }
+        else if (currObject.CompareTag("Obstacle"))
+        {
+            if (currObject.GetComponent<Unit>())
+            {
+                currObject.GetComponent<Unit>().DamageUnit((int)(weaponScript.Damage * weaponScript.DamageMult));
+                RemainingPierce--; //reduce the pierce
+                if (RemainingPierce <= 0) //and if there is no pierce left
+                {
+                    Destroy(gameObject); //and destroy the bullet
+                }
+            } else if (!currObject.GetComponent<ObstacleScript>().Obstacle.Passable)
+            {
+                Destroy(gameObject);
+            }
         }
         else if (currObject.CompareTag("Wall") || currObject.CompareTag("Door")) //if the bullets collide with a wall
         {

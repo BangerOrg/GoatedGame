@@ -14,10 +14,10 @@ public class BladeBullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject currObject = collision.gameObject; //the object with which the collision occured
-        if (currObject.CompareTag("Enemy")) //if its an enemy (as set by its tag)
+        if (currObject.CompareTag("Enemy")||currObject.CompareTag("Obstacle")) //if its an enemy (as set by its tag)
         {
             //Damage the Enemy
-            currObject.GetComponent<Enemy>().TakeDamage((int)(weaponScript.Damage * weaponScript.DamageMult));
+            currObject.GetComponent<Unit>().DamageUnit((int)(weaponScript.Damage * weaponScript.DamageMult));
         }
 
     }

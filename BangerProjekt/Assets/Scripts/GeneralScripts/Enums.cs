@@ -45,4 +45,11 @@ public static class Enums
         Uncleared = 0,
         Cleared = 1,
     }
+    public enum ObstacleSize
+    {
+        Small = 0,
+        Medium = 1,
+        Large = 2
+    }
+
 }

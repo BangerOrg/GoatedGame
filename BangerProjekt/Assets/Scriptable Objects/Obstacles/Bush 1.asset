@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b94feb5f7d089a4693bbebd66fbdb4d, type: 3}
+  m_Name: Bush 1
+  m_EditorClassIdentifier: 
+  <Sprite>k__BackingField: {fileID: 629708615517980133, guid: 35f9a615e687d554f9768faf1bd19f61, type: 3}
+  <Passable>k__BackingField: 0
+  <HigherThanPlayer>k__BackingField: 1
+  <SpeedModifier>k__BackingField: 0
+  <Movable>k__BackingField: 0
+  <Destroyable>k__BackingField: 1
+  <Explosive>k__BackingField: 1
+  <ExplodeRange>k__BackingField: 2
+  <ExplodeDamage>k__BackingField: 5
+  <Carnivore>k__BackingField: 0
+  <Herbivore>k__BackingField: 0
+  <HP>k__BackingField: 10
+  <size>k__BackingField: 1
+  <ObstaclePrefab>k__BackingField: {fileID: 7043376445938757636, guid: 679fd999fd3a7b44293e0c5917056b13, type: 3}
+  <ObstacleExplosionPrefab>k__BackingField: {fileID: 5582709537379413422, guid: ce4724440f4513248bb4ccb1e905c420, type: 3}

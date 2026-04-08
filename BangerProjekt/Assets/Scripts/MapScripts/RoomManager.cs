@@ -1,13 +1,12 @@
 using NavMeshPlus.Components;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class RoomManager : MonoBehaviour
 {
+    public static RoomManager Instance;
    [SerializeField] private List<GameObject> roomPrefabs; //List of all room prefabs available. Does not change during runtime (yet?)
    [SerializeField] private List<GameObject> rooms; //List of all rooms in the current layer
    [SerializeField] private List<GameObject> availableDoors; //List of all doors in the current layer
@@ -16,10 +15,9 @@ public class RoomManager : MonoBehaviour
    [SerializeField] private int numOfRoomsInspector = 10; //Number of rooms to generate in the layer set by inspector taken as Default (Might become obsolete due to GenerateRooms being called from outside)
    [SerializeField] private int tries = 0; //Number of current tries (To prevent infinite Loops)
    [SerializeField] private int maxTries = 10000000; //Number of max Tries before the Loop breaks (To prevent infinite Loops)
-   [field:SerializeField] public List<GameObject> Obstacles {get; set;}
-   public static event Action<List<GameObject>> sendObstacles;
    private GameObject startRoom; //The one and only start room instance
-    private NavMeshSurface meshSurface;
+    public static NavMeshSurface meshSurface;
+    
 
     public void Awake()
     {
@@ -38,7 +36,7 @@ public class RoomManager : MonoBehaviour
     }
     public IEnumerator WaitToGenerateRooms()
     {
-        yield return new WaitUntil(() => GameManager.seedSet); //wait until the seed is set
+        yield return new WaitUntil(() => LayerManager.CurrentLayer); //wait until the seed is set
         float[] angles = { 0f, 90f, 180f, 270f }; //Simple array, because its not gonna change
         float randomAngle = angles[Random.Range(0, angles.Length)]; //Pick a random start rotation
         startRoom.transform.rotation = Quaternion.Euler(0, 0, randomAngle); // and apply it.
