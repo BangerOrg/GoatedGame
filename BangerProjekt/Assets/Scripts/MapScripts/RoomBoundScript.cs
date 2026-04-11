@@ -29,11 +29,9 @@ void OnTriggerEnter2D(Collider2D player) //Checks if something enters the collid
         {
             CancelInvoke("ProximityCheck");
         }
-        if (player.gameObject.CompareTag("Untagged"))
+        if (player.gameObject.CompareTag("Untagged")) // Didnt know Untagged would work lol
         {
-            Debug.Log("Destroing");
-            Debug.Log(player);
-            Destroy(player.attachedRigidbody.gameObject);
+            Destroy(player.attachedRigidbody.gameObject); // to fix Bullets Flying thru walls // on further testing *Cough*... open doors are now Bullet "Proof" *Cough* 
         }
         
     }

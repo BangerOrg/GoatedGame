@@ -34,10 +34,6 @@ public class PlayerBullet : MonoBehaviour
         yield return new WaitForSeconds(timeAlive); //wait for the specified time
         Destroy(gameObject); //Destroy the Object
     }
-    public void destroy()
-    {
-        Destroy(gameObject);
-    }
     public float CritCalculate() // starts the Crit roulet
     {
         int temp = Random.Range(1, 101);
