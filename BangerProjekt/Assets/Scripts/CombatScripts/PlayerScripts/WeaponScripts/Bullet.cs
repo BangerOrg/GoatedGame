@@ -34,12 +34,16 @@ public class PlayerBullet : MonoBehaviour
         yield return new WaitForSeconds(timeAlive); //wait for the specified time
         Destroy(gameObject); //Destroy the Object
     }
+    public void destroy()
+    {
+        Destroy(gameObject);
+    }
     public float CritCalculate() // starts the Crit roulet
     {
         int temp = Random.Range(1, 101);
         if (temp <= weaponScript.CritChance)
         {
-            float  CritValue = 1 + weaponScript.CritDamage / 100f; 
+            float CritValue = 1 + weaponScript.CritDamage / 100f;
             return CritValue; // returns the crit damage as a 1.x multiplier
         }
         else return 1;
@@ -52,19 +56,6 @@ public class PlayerBullet : MonoBehaviour
             playerScript.StealALife(); // sends the success of hitting the lifsteal to the player
         }
         else return;
-    }
-    public Vector2 BulletBounceCalculateForEnemies(Rigidbody2D _Rigidbody, GameObject currObject)
-    { // Like a smart man ones said "Einfallswinkel = Ausfallswinkel" but i never thought he meant some bs like this
-            StartCoroutine(IsBouncingcd());
-
-            Vector2 bulletvelocity = _Rigidbody.velocity; // getting the Velocity 
-            Vector2 closestPoint = currObject.GetComponent<CircleCollider2D>().ClosestPoint(bulletPos); // getting the exact collison point
-
-            Vector2 normal = (bulletPos - closestPoint).normalized; // getting a normalized vector of our collsion 
-            Vector2 newVelocity = Vector2.Reflect(bulletvelocity, normal); // Reflecting the bullet "mirroring" it on the normal
-
-            RemainingBulletBounces--; // now we remove a Bounce
-            return newVelocity;
     }
     public Vector2 BulletBounceCalculate(Rigidbody2D _Rigidbody, GameObject currObject)
     { // Like a smart man ones said "Einfallswinkel = Ausfallswinkel" but i never thought he meant some bs like this
@@ -79,7 +70,7 @@ public class PlayerBullet : MonoBehaviour
         RemainingBulletBounces--; // now we remove a Bounce
         return newVelocity;
     }
-    public IEnumerator IsBouncingcd()
+    public IEnumerator IsBouncingcd() // no more bouncing thru walls
     {
         yield return new WaitForSeconds(0.001f);
         isBouncing = false; 
@@ -89,7 +80,6 @@ public class PlayerBullet : MonoBehaviour
         GameObject currObject = collision.gameObject; //the object with which the collision occured
         if (currObject.CompareTag("Enemy")) //if its an enemy (as set by its tag)
         {
-
             //Damage the Enemy
             float CritDamage = CritCalculate();
             currObject.GetComponent<Enemy>().TakeDamage((int)((weaponScript.Damage * weaponScript.DamageMult) * CritDamage), CritDamage);
@@ -103,16 +93,6 @@ public class PlayerBullet : MonoBehaviour
                 {
                     Destroy(gameObject); //and destroy the bullet
                 }
-            }
-            if (RemainingBulletBounces > 0 && !isBouncing)
-            {
-                isBouncing = true;
-                bulletPos = transform.position; // getting current bullet position
-
-                rb.velocity = BulletBounceCalculateForEnemies(rb, currObject); // calculating the new velocity
-                float angle = Mathf.Atan2(rb.velocity.y, rb.velocity.x) * Mathf.Rad2Deg - 90f; // Atan2 converts the velocity to an Angle in degrees // -90f because how the sprite is drawn
-                transform.rotation = Quaternion.Euler(0f, 0f, angle); // Here i apply the Angle to the Rotation Axis (Z) 
-
             }
         }
         else if (currObject.CompareTag("Wall") || currObject.CompareTag("Door")) //if the bullets collide with a wall

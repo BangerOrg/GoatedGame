@@ -29,6 +29,12 @@ void OnTriggerEnter2D(Collider2D player) //Checks if something enters the collid
         {
             CancelInvoke("ProximityCheck");
         }
+        if (player.gameObject.CompareTag("Untagged"))
+        {
+            Debug.Log("Destroing");
+            Debug.Log(player);
+            Destroy(player.attachedRigidbody.gameObject);
+        }
         
     }
 
