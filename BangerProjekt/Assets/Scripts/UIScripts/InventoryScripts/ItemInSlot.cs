@@ -8,10 +8,10 @@ using UnityEngine.UI;
 
 public class ItemInSlot : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler, IPointerClickHandler
 {
-    public Item item;
+    [field:SerializeField]public Item Item{get; set;}
     private Image image;
     private RectTransform rectTransform;
-    private Transform parentAfterDrag;
+    protected Transform parentBeforeDrag;
     private CanvasGroup canvasGroup;
     [field:SerializeField] private Canvas canvas;
 
@@ -24,8 +24,8 @@ public class ItemInSlot : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("BeginDrag");
-        parentAfterDrag = transform.parent;
+        parentBeforeDrag = transform.parent;
+        Debug.Log(parentBeforeDrag.gameObject.name);
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
         canvasGroup.blocksRaycasts = false;
@@ -33,15 +33,19 @@ public class ItemInSlot : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     }
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("EndDrag");
         canvasGroup.blocksRaycasts = true;
         canvasGroup.alpha = 1f;
+        Debug.Log(parentBeforeDrag.gameObject.name);
+        if (!eventData.pointerCurrentRaycast.gameObject || !eventData.pointerCurrentRaycast.gameObject.GetComponent<ItemSlot>())
+        {
+            transform.SetParent(parentBeforeDrag);
+            rectTransform.anchoredPosition = parentBeforeDrag.position;
+        }
+        
     }
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("OnDrag");
          rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
-         
     }
 
 	public void OnPointerClick(PointerEventData eventData)
