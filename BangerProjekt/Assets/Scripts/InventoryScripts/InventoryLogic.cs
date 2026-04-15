@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class InventoryLogic : MonoBehaviour
 {
-    public List<Item> InventoryItems {get; set;} //the acutal items
-    [field:SerializeField] public int MaxInventorySlots {get; set;} //amount of slots in the inv
+    public static List<Item> InventoryItems {get; set;}//the acutal items
+    [field:SerializeField] public static int MaxInventorySlots {get; set;} = 18; //amount of slots in the inv
     public int SelectedItem {get; set;} //the number of the slot we have selected (first one is 0 etc.)
 
     public static Action<Item> SendItem;
@@ -36,8 +36,8 @@ public class InventoryLogic : MonoBehaviour
             //reset all items, after that we can load them from save (still need to do tho D:)
         }
         ObtainItem(allItemList.Items[1]); //free dash
-        EquipItem(0);
-        //ObtainItem(allItemList.Items[3]); //free Revolver??
+        EquipItem(InventoryItems[0]);
+        ObtainItem(allItemList.Items[3]); //free Revolver??
         //EquipItem(0);
         //UnEquipItem(2); //if you want to start with fists :)
     }
@@ -82,28 +82,28 @@ public class InventoryLogic : MonoBehaviour
     
     public void EquipButton() //this should be used by the button that equips something
     {
-        EquipItem(SelectedItem); //we call our equip item : )
+        //EquipItem(SelectedItem); //we call our equip item : )
         //and give the Selected Items slotNumber in the Inventory as an argument
     }
 
-    public void EquipItem(int invIDToEquip)
+    public void EquipItem(Item itemToEquip)
     {
-        Enums.SlotTag tagOfItem = InventoryItems[invIDToEquip].ItemTag; //we get the ItemTag
+        Enums.SlotTag tagOfItem = itemToEquip.ItemTag; //we get the ItemTag
         if (ItemsEquipped[(int)tagOfItem]) //if we already have something equipped at that tag
         {
             Item tempItemSave = ItemsEquipped[(int)tagOfItem];
             if (tempItemSave is WeaponItem) //if we have a weapon
             {
                 WeaponItem tempWeapon = (WeaponItem)ItemsEquipped[(int)tagOfItem]; //hope this works
-                ItemsEquipped[(int)tagOfItem] = InventoryItems[invIDToEquip]; //code dupe is forced sadly because of the events :()
-                InventoryItems[invIDToEquip] = tempItemSave; 
+                ItemsEquipped[(int)tagOfItem] = itemToEquip; //code dupe is forced sadly because of the events :()
+                itemToEquip = tempItemSave; 
                 SendNewWeapon?.Invoke(tempWeapon.CorrespondingPrefab); //gets called in player btw
             }
             else //if we do not have a weapon
             {
                 ChangeItemPlayerStats?.Invoke(ItemsEquipped[(int)tagOfItem], false); // false because we subtract the stats
-                ItemsEquipped[(int)tagOfItem] = InventoryItems[invIDToEquip];
-                InventoryItems[invIDToEquip] = tempItemSave;
+                ItemsEquipped[(int)tagOfItem] = itemToEquip;
+                itemToEquip = tempItemSave;
                 //standard Swap
                 ChangeItemPlayerStats?.Invoke(ItemsEquipped[(int)tagOfItem], true); // true because we add the stats   
             }
@@ -112,7 +112,7 @@ public class InventoryLogic : MonoBehaviour
         }
         else
         {
-            EquipFreshItem(InventoryItems[invIDToEquip]); //if nothing is equipped, we call this method
+            EquipFreshItem(itemToEquip); //if nothing is equipped, we call this method
         }
 
 

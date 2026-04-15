@@ -41,7 +41,7 @@ public class UIManager : MonoBehaviour
         abilityImage = GameObject.FindWithTag("AbilityImage").GetComponent<Image>();
 
         creditsText = GameObject.FindWithTag("CreditsText").GetComponent<TMP_Text>();
-        inventory = GameObject.FindWithTag("Inventory");
+        inventory = GameObject.FindWithTag("MainCanvas").GetComponentInChildren<InventoryScript>(true).gameObject;
 
     }
     private void OnEnable()

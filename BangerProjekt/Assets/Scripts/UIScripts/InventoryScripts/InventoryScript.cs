@@ -11,27 +11,39 @@ public class InventoryScript : MonoBehaviour
     [field: SerializeField] public GameObject ItemInInventoryPrefab { get; set; }
     [field: SerializeField] public GameObject ItemViewPrefab { get; set; }
     [field: SerializeField] public GameObject ItemSlotPrefab { get; set; }
-
     [field: SerializeField] public GameObject[] InventorySlots { get; set; }
+    [field: SerializeField] public InventoryLogic InvLogic { get; set; }
     private Transform content;
 
 
     private void Start()
     {
-        MaxInventorySlots = InventoryLogic.Instance.MaxInventorySlots;
+        MaxInventorySlots = InventoryLogic.MaxInventorySlots;
+        InvLogic = GameObject.FindGameObjectWithTag("InventoryManager").GetComponent<InventoryLogic>();
         content = this.GetComponentInChildren<GridLayoutGroup>().gameObject.transform;
         SetupInventory();
     }
     public void SetupInventory()
     {
         Debug.Log(MaxInventorySlots);
-        InventoryItems = InventoryLogic.Instance.InventoryItems;
-        for (int i = MaxInventorySlots; i > 0 ; i--)
+        InventoryItems = InventoryLogic.InventoryItems;
+        for(int i = 0; i < MaxInventorySlots ; i++)
         {
-            Instantiate(ItemSlotPrefab,content);
+           GameObject IS = Instantiate(ItemSlotPrefab,content);
+           IS.GetComponent<ItemSlot>().SlotId = i;
+        }
+        int itemNum = 0;
+        foreach(Item item in InventoryItems)
+        {
+            GameObject IIS = Instantiate(ItemInInventoryPrefab,content.GetChild(itemNum));
+            IIS.GetComponent<ItemInSlot>().Item = item;
+            IIS.GetComponent<Image>().sprite = item.Icon;
+
         }
         
     }
+
+    
 
 
 }
