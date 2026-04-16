@@ -72,7 +72,7 @@ public class DeckLogic : MonoBehaviour
             cardsInHand.Add(drawPile[0]);  //we draw a card by adding it to our HandList and removing index 0 from the draw List
             drawPile.RemoveAt(0);
         }
-        DebugHand();
+        //DebugHand();
     }
 
     public void RecycleDiscardPile() //to shuffle the discard pile back into the drawPile
