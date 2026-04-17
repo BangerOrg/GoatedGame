@@ -6,6 +6,8 @@ using Random = UnityEngine.Random;
 
 public class LayerManager : MonoBehaviour
 {
+
+    public static LayerManager Instance;
     [field:SerializeField] public static Layer CurrentLayer {get; set;}
     [field: SerializeField] public static int CurrentLayerNumber { get; set; } = 0;
     public static Action newLayer;
@@ -16,6 +18,8 @@ public class LayerManager : MonoBehaviour
     private void Awake()
     {
         AllLayerScript = gameObject.GetComponent<AllLayers>(); //Both is in the LayerManager
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
 
     }
 

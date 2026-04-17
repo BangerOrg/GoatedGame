@@ -14,6 +14,7 @@ public class DeckLogic : MonoBehaviour
     private List<Card> drawPile = new List<Card>();
     private List<Card> cardsInHand = new List<Card>();
     private List<Card> discardPile = new List<Card>();
+    private List<Card> activeCards = new List<Card>();
 
     [SerializeField] private const int MAX_CARDS = 13; //13 is hard cap
     [SerializeField] private int drawAmount;
@@ -118,10 +119,26 @@ public class DeckLogic : MonoBehaviour
                 //cool stuff based on ID
             break;
         }
+        activeCards.Add(card);
         DiscardCard(cardIDinHand);
         if (currencyText) currencyText.SetText("Currency: " + currencyAmount + "/" + roundCurrency);
 
 
+    }
+
+    public void ResetCardEffects()
+    {
+        //reset effects foreach card in the list
+        foreach(Card card in activeCards)
+        {
+            switch(card.ID)
+            {
+                case 0:
+                    //cool stuff based on ID
+                break;
+            }
+            activeCards.Remove(card);
+        }
     }
 
     public void DiscardCard(int IDtoDiscard)
@@ -168,7 +185,9 @@ public class DeckLogic : MonoBehaviour
 
     public void StartTurn()
     {
+        
         currencyAmount = roundCurrency;
+        ResetCardEffects();
         DrawCards(drawAmount); //draw as many cards as
         Time.timeScale = 0; //Scary oooooo
         GameObject newScreen = Instantiate(cardScreen, GameObject.FindWithTag("MainCanvas").transform);
