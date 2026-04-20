@@ -65,7 +65,6 @@ public class DeckLogic : MonoBehaviour
     {
         for (int i = 0; i < amount && cardsInHand.Count < MAX_CARDS && (drawPile.Count > 0 || discardPile.Count > 0); i++) //for every amount, we draw 1 Card. Alternatively, stop if the hand is "full"
         {
-            Debug.Log("Sent" + i);
             if (drawPile.Count <= 0) //if the drawPile is empty
             {
                 RecycleDiscardPile(); //Recycle the Discard Pile
@@ -128,7 +127,7 @@ public class DeckLogic : MonoBehaviour
 
     public void ResetCardEffects()
     {
-        //reset effects foreach card in the list
+		//reset effects foreach card in the list
         foreach(Card card in activeCards)
         {
             switch(card.ID)
@@ -137,8 +136,8 @@ public class DeckLogic : MonoBehaviour
                     //cool stuff based on ID
                 break;
             }
-            activeCards.Remove(card);
         }
+		activeCards.Clear();
     }
 
     public void DiscardCard(int IDtoDiscard)
@@ -174,10 +173,6 @@ public class DeckLogic : MonoBehaviour
         cardsInHand = SaveManager.currentSave.CardsInHand;
         entireDeck = SaveManager.currentSave.EntireDeck;
         drawPile = SaveManager.currentSave.DrawPile;
-        foreach(Card card in drawPile)
-        {
-            Debug.Log("Card!");
-        }
         discardPile = SaveManager.currentSave.DiscardPile;
         if (discardPile.Count <= 0) ShuffleDrawPile(); //if nothing is discarded, its a new game so shuffle (and if its not it doesnt matter anyways)
     }

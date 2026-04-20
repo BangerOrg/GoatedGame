@@ -95,7 +95,6 @@ public class RoomManager : MonoBehaviour
     [ContextMenu("Generate Rooms")] //To call GenerateRooms from the inspector (Will probably get obsolete once the Game Manager etc handles when to gen rooms)
     public void GenerateRooms() //Helper methode to be overriden that can be called from the inspector (Since it isn't possible to do so with a methode that has Parameters)
     {
-        Debug.Log(LayerManager.CurrentLayerNumber);
         if (LayerManager.CurrentLayerNumber <= 1) return;
         meshSurface.BuildNavMesh(); //after everything is generated, build the NavMesh for the Enemies
         GenerateRooms(numOfRoomsInspector); //I use this to be able to default to the number set in the inspector if the call was not from an outside source.
