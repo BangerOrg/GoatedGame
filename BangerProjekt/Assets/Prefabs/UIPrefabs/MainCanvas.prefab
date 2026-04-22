@@ -2671,11 +2671,11 @@ MonoBehaviour:
   <ItemInInventoryPrefab>k__BackingField: {fileID: 2083493111042313314, guid: 7b618bc9123a51ba6ba28d067cddf01c, type: 3}
   <ItemViewPrefab>k__BackingField: {fileID: 4957930218678977338, guid: 4097c9cd4d9a4a74fb2669412c61a741, type: 3}
   <ItemSlotPrefab>k__BackingField: {fileID: 4624526466961097998, guid: f37fb03453f37da3ca11fb3a73a4ec19, type: 3}
-  <InvLogic>k__BackingField: {fileID: 0}
   <ArmorSlot>k__BackingField: {fileID: 7441729086733789770}
   <AccessorySlot>k__BackingField: {fileID: 6555251265419162478}
   <WeaponSlot>k__BackingField: {fileID: 3189218975051414555}
   <AbilitySlot>k__BackingField: {fileID: 2453714773885086747}
+  <ItemViewAnchor>k__BackingField: {fileID: 8591751086270250453}
 --- !u!1 &6118990752592550639
 GameObject:
   m_ObjectHideFlags: 0
@@ -2708,7 +2708,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -501, y: 271}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6130459650606545140

@@ -11,11 +11,11 @@ public class InventoryScript : MonoBehaviour
     [field: SerializeField] public GameObject ItemInInventoryPrefab { get; set; }
     [field: SerializeField] public GameObject ItemViewPrefab { get; set; }
     [field: SerializeField] public GameObject ItemSlotPrefab { get; set; }
-    [field: SerializeField] public InventoryLogic InvLogic { get; set; }
     [field: SerializeField] public GameObject ArmorSlot { get; set; }
     [field: SerializeField] public GameObject AccessorySlot { get; set; }
     [field: SerializeField] public GameObject WeaponSlot { get; set; }
     [field: SerializeField] public GameObject AbilitySlot { get; set; }
+    [field: SerializeField] public Transform ItemViewAnchor { get; set; }
     private Transform content;
 
 
@@ -66,7 +66,6 @@ public class InventoryScript : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(0.1f);
         MaxInventorySlots = InventoryLogic.MaxInventorySlots;
-        InvLogic = GameObject.FindGameObjectWithTag("InventoryManager").GetComponent<InventoryLogic>();
         content = this.GetComponentInChildren<ScrollRect>().GetComponentInChildren<GridLayoutGroup>().gameObject.transform;
         SetupInventory();
     }
