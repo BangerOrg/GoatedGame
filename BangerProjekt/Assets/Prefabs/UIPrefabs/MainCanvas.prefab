@@ -2675,6 +2675,7 @@ MonoBehaviour:
   <AccessorySlot>k__BackingField: {fileID: 6555251265419162478}
   <WeaponSlot>k__BackingField: {fileID: 3189218975051414555}
   <AbilitySlot>k__BackingField: {fileID: 2453714773885086747}
+  <ItemPickupPrefab>k__BackingField: {fileID: 3339757089243310178, guid: 090e6d4892835b5448098f293fce03bd, type: 3}
   <ItemViewAnchor>k__BackingField: {fileID: 8591751086270250453}
 --- !u!1 &6118990752592550639
 GameObject:

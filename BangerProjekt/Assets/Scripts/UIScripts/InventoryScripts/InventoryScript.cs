@@ -15,6 +15,7 @@ public class InventoryScript : MonoBehaviour
     [field: SerializeField] public GameObject AccessorySlot { get; set; }
     [field: SerializeField] public GameObject WeaponSlot { get; set; }
     [field: SerializeField] public GameObject AbilitySlot { get; set; }
+    [field: SerializeField] public GameObject ItemPickupPrefab { get; set; }
     [field: SerializeField] public Transform ItemViewAnchor { get; set; }
     private Transform content;
 
