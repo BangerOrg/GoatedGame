@@ -40,8 +40,10 @@ public class ItemInSlot : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
         Debug.Log(parentBeforeDrag.gameObject.name);
         if (!eventData.pointerCurrentRaycast.gameObject || !eventData.pointerCurrentRaycast.gameObject.GetComponent<ItemSlot>())
         {
-            transform.SetParent(parentBeforeDrag);
-            rectTransform.anchoredPosition = Vector2.zero;
+            int slotId = parentBeforeDrag.GetComponent<ItemSlot>().SlotId;
+            InventoryScript.Instance.DropItem(this.Item,slotId);
+            OnPointerExit(null);
+            Destroy(this.gameObject);
         }
 
     }

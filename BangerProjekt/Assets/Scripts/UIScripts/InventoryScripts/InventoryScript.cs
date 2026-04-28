@@ -17,28 +17,31 @@ public class InventoryScript : MonoBehaviour
     [field: SerializeField] public GameObject AbilitySlot { get; set; }
     [field: SerializeField] public GameObject ItemPickupPrefab { get; set; }
     [field: SerializeField] public Transform ItemViewAnchor { get; set; }
+    public static InventoryScript Instance { get; private set; }
+    private bool firstOpen = true;
+    private GameObject player;
     private Transform content;
 
 
     private void Start()
     {
+        if(Instance == null) Instance = this;
         StartCoroutine(waitUntilItem());
 
     }
     public void SetupInventory()
     {
         //Debug.Log(MaxInventorySlots);
-        inventoryItems = InventoryLogic.InventoryItems;
-        for (int i = 0; i < MaxInventorySlots; i++)
+        for (int i = 0; i < InventoryLogic.ActiveInventory.slots.Length; i++)
         {
             GameObject IS = Instantiate(ItemSlotPrefab, content);
             IS.GetComponent<ItemSlot>().SlotId = i;
+            IS.name = $"Slot {i}";
         }
-        int itemNum = 0;
-        foreach (Item item in inventoryItems)
+        for (int i = 0; i < InventoryLogic.ActiveInventory.slots.Length; i++)
         {
-            InstantiateItem(item, content.GetChild(itemNum));
-            itemNum++;
+            if(InventoryLogic.ActiveInventory.slots[i] == null) continue;
+            InstantiateItem(InventoryLogic.ActiveInventory.slots[i], content.GetChild(i));
         }
         foreach (Item item in InventoryLogic.ItemsEquipped)
         {
@@ -65,12 +68,52 @@ public class InventoryScript : MonoBehaviour
     }
     IEnumerator waitUntilItem()
     {
-        yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitForSecondsRealtime(0.2f);
         MaxInventorySlots = InventoryLogic.InventorySlots;
         content = this.GetComponentInChildren<ScrollRect>().GetComponentInChildren<GridLayoutGroup>().gameObject.transform;
+        player = GameObject.FindGameObjectWithTag("Player");
         SetupInventory();
     }
 
+    public void DropItem(Item itemToDrop, int slotId)
+    {
+        InventoryLogic.ActiveInventory.RemoveItem(slotId);
+        GameObject droppedItem = Instantiate(ItemPickupPrefab, player.transform.position,Quaternion.identity);
+        droppedItem.GetComponent<ItemPickup>().setup(itemToDrop);
+    }
+    public void DropItem(Item itemToDrop)
+    {
+        GameObject droppedItem = Instantiate(ItemPickupPrefab, player.transform.position, Quaternion.identity);
+        droppedItem.GetComponent<ItemPickup>().setup(itemToDrop);
+    }
 
+    public void DropItem(Item itemToDrop, Transform droppedBy)
+    {
+        GameObject droppedItem = Instantiate(ItemPickupPrefab, droppedBy.position, Quaternion.identity);
+        droppedItem.GetComponent<ItemPickup>().setup(itemToDrop);
+    }
 
+    private void UpdateUi()
+    {
+        foreach (Transform child in content)
+        {
+            Destroy(child.gameObject);
+        }
+        for (int i = 0; i < InventoryLogic.ActiveInventory.slots.Length; i++)
+        {
+            GameObject IS = Instantiate(ItemSlotPrefab, content);
+            IS.GetComponent<ItemSlot>().SlotId = i;
+            IS.name = $"Slot {i}";
+        }
+        for (int i = 0; i < InventoryLogic.ActiveInventory.slots.Length; i++)
+        {
+            if(InventoryLogic.ActiveInventory.slots[i] == null) continue;
+            InstantiateItem(InventoryLogic.ActiveInventory.slots[i], content.GetChild(i));
+        }
+    }
+	private void OnEnable()
+	{
+		if(firstOpen){firstOpen = false; return;}
+        UpdateUi();
+	}
 }

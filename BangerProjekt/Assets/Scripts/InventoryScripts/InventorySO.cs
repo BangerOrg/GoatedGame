@@ -41,7 +41,7 @@ public class Inventory : ScriptableObject
     {
         for (int i = 0; i < slots.Length; i++)
         {
-            if (slots[i] == null) // Found an empty 'slot' in data
+            if (slots[i] == null)
             {
                 slots[i] = newItem;
                 return true;

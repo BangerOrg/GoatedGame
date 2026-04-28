@@ -63,7 +63,11 @@ public class InventoryLogic : MonoBehaviour
 
     public static void ObtainItem(Item itemToGet)
     {
-
+        if (!ActiveInventory.TryAddItem(itemToGet))
+        {
+            InventoryScript.Instance.DropItem(itemToGet);
+        }
+        
         if (InventoryItems.Count < InventorySlots) //if there is space
         {
             InventoryItems.Add(itemToGet);
