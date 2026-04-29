@@ -25,11 +25,21 @@ public class InventoryScript : MonoBehaviour
 
     private void Start()
     {
-        if(Instance == null) Instance = this;
+
+        firstOpen = true;
         StartCoroutine(waitUntilItem());
 
     }
-    public void SetupInventory()
+	void Awake()
+	{
+		firstOpen = true;
+        if(Instance == null) Instance = this;
+        else
+        {
+            Destroy(this);
+        }
+	}
+	public void SetupInventory()
     {
         //Debug.Log(MaxInventorySlots);
         for (int i = 0; i < InventoryLogic.ActiveInventory.slots.Length; i++)
@@ -95,10 +105,14 @@ public class InventoryScript : MonoBehaviour
 
     private void UpdateUi()
     {
-        foreach (Transform child in content)
+        if(content.childCount > 0)
         {
-            Destroy(child.gameObject);
+            foreach (Transform child in content)
+            {
+                Destroy(child.gameObject);
+            }
         }
+
         for (int i = 0; i < InventoryLogic.ActiveInventory.slots.Length; i++)
         {
             GameObject IS = Instantiate(ItemSlotPrefab, content);
@@ -113,7 +127,21 @@ public class InventoryScript : MonoBehaviour
     }
 	private void OnEnable()
 	{
-		if(firstOpen){firstOpen = false; return;}
-        UpdateUi();
+		if(firstOpen)
+        {
+            //Debug.Log(firstOpen); 
+            firstOpen = false; 
+            Debug.Log("If is called"); 
+            Debug.Log("Updating from: " + gameObject.name + " | ID: " + GetHashCode());
+            return;
+        }
+        else
+        {
+            Debug.Log("UpdatingFromOnenable");
+            Debug.Log("Updating from: " + gameObject.name + " | ID: " + GetHashCode());
+            UpdateUi();
+            
+        }
+        
 	}
 }
