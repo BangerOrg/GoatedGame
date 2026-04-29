@@ -38,7 +38,7 @@ public class InventoryLogic : MonoBehaviour
         }
         ObtainItem(allItemList.Items[1]); //free dash
         ObtainItem(allItemList.Items[1]); //free dash
-        EquipItem(InventoryItems[0]);
+        EquipItem(ActiveInventory.slots[0]);
         /*ObtainItem(allItemList.Items[3]); //free Revolver??
         ObtainItem(allItemList.Items[3]); //free Revolver??
         ObtainItem(allItemList.Items[2]);
@@ -97,7 +97,6 @@ public class InventoryLogic : MonoBehaviour
     {
         Item itemToUnequip = ItemsEquipped[tagOfItemInt];
         InventoryItems.Add(itemToUnequip);
-        ItemsEquipped[tagOfItemInt] = null;
         if (itemToUnequip is WeaponItem)
         {
             SendNewWeapon?.Invoke(null); //just dont send a new weapon the PlayerScript does the magic :)
@@ -106,6 +105,7 @@ public class InventoryLogic : MonoBehaviour
         {
             ChangeItemPlayerStats?.Invoke(ItemsEquipped[tagOfItemInt], false); // false because subtract the stats
         }
+        ItemsEquipped[tagOfItemInt] = null;
     }
 
     private void SaveInventory()
