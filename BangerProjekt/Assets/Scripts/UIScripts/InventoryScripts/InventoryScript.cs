@@ -18,28 +18,23 @@ public class InventoryScript : MonoBehaviour
     [field: SerializeField] public GameObject ItemPickupPrefab { get; set; }
     [field: SerializeField] public Transform ItemViewAnchor { get; set; }
     public static InventoryScript Instance { get; private set; }
-    private bool firstOpen = true;
     private GameObject player;
     private Transform content;
 
 
     private void Start()
     {
-
-        firstOpen = true;
         StartCoroutine(waitUntilItem());
-
     }
-	void Awake()
-	{
-		firstOpen = true;
-        if(Instance == null) Instance = this;
+    void Awake()
+    {
+        if (Instance == null) Instance = this;
         else
         {
             Destroy(this);
         }
-	}
-	public void SetupInventory()
+    }
+    public void SetupInventory()
     {
         //Debug.Log(MaxInventorySlots);
         for (int i = 0; i < InventoryLogic.ActiveInventory.slots.Length; i++)
@@ -50,20 +45,20 @@ public class InventoryScript : MonoBehaviour
         }
         for (int i = 0; i < InventoryLogic.ActiveInventory.slots.Length; i++)
         {
-            if(InventoryLogic.ActiveInventory.slots[i] == null) continue;
+            if (InventoryLogic.ActiveInventory.slots[i] == null) continue;
             InstantiateItem(InventoryLogic.ActiveInventory.slots[i], content.GetChild(i));
         }
         foreach (Item item in InventoryLogic.ItemsEquipped)
         {
-            if(!item)continue;
+            if (!item) continue;
             Debug.Log(item.ItemName);
             GameObject parent = item.ItemTag switch
             {
                 Enums.SlotTag.Ability => AbilitySlot,
-                Enums.SlotTag.Accessory=> AccessorySlot,
+                Enums.SlotTag.Accessory => AccessorySlot,
                 Enums.SlotTag.Weapon => WeaponSlot,
                 Enums.SlotTag.Armor => ArmorSlot,
-                _=> null
+                _ => null
             };
             InstantiateItem(item, parent.transform);
         }
@@ -85,10 +80,18 @@ public class InventoryScript : MonoBehaviour
         SetupInventory();
     }
 
-    public void DropItem(Item itemToDrop, int slotId)
+    public void DropItem(Item itemToDrop, int slotId, bool draggedFromEquipSlot, GameObject parentBeforeDrag)
     {
-        InventoryLogic.ActiveInventory.RemoveItem(slotId);
-        GameObject droppedItem = Instantiate(ItemPickupPrefab, player.transform.position,Quaternion.identity);
+        if (draggedFromEquipSlot)
+        {
+           InventoryLogic.UnEquipItem((int)parentBeforeDrag.GetComponent<ItemSlot>().SlotTag);
+        }
+        else
+        {
+            InventoryLogic.ActiveInventory.RemoveItem(slotId); 
+        }
+        
+        GameObject droppedItem = Instantiate(ItemPickupPrefab, player.transform.position, Quaternion.identity);
         droppedItem.GetComponent<ItemPickup>().setup(itemToDrop);
     }
     public void DropItem(Item itemToDrop)
@@ -105,43 +108,34 @@ public class InventoryScript : MonoBehaviour
 
     private void UpdateUi()
     {
-        if(content.childCount > 0)
+        if (content != null)
+        {
+
+            for (int i = 0; i < InventoryLogic.ActiveInventory.slots.Length; i++)
+            {
+                GameObject IS = Instantiate(ItemSlotPrefab, content);
+                IS.GetComponent<ItemSlot>().SlotId = i;
+                IS.name = $"Slot {i}";
+            }
+            for (int i = 0; i < InventoryLogic.ActiveInventory.slots.Length; i++)
+            {
+                if (InventoryLogic.ActiveInventory.slots[i] == null) continue;
+                InstantiateItem(InventoryLogic.ActiveInventory.slots[i], content.GetChild(i));
+            }
+        }
+    }
+    private void OnEnable()
+    {
+        UpdateUi();
+    }
+    private void OnDisable()
+    {
+        if (content != null)
         {
             foreach (Transform child in content)
             {
                 Destroy(child.gameObject);
             }
         }
-
-        for (int i = 0; i < InventoryLogic.ActiveInventory.slots.Length; i++)
-        {
-            GameObject IS = Instantiate(ItemSlotPrefab, content);
-            IS.GetComponent<ItemSlot>().SlotId = i;
-            IS.name = $"Slot {i}";
-        }
-        for (int i = 0; i < InventoryLogic.ActiveInventory.slots.Length; i++)
-        {
-            if(InventoryLogic.ActiveInventory.slots[i] == null) continue;
-            InstantiateItem(InventoryLogic.ActiveInventory.slots[i], content.GetChild(i));
-        }
     }
-	private void OnEnable()
-	{
-		if(firstOpen)
-        {
-            //Debug.Log(firstOpen); 
-            firstOpen = false; 
-            Debug.Log("If is called"); 
-            Debug.Log("Updating from: " + gameObject.name + " | ID: " + GetHashCode());
-            return;
-        }
-        else
-        {
-            Debug.Log("UpdatingFromOnenable");
-            Debug.Log("Updating from: " + gameObject.name + " | ID: " + GetHashCode());
-            UpdateUi();
-            
-        }
-        
-	}
 }
