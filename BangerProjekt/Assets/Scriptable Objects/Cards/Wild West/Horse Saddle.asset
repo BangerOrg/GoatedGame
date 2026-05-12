@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b27c9fd9eff6d11d281dbcd47d063780, type: 3}
-  m_Name: cardTest1
+  m_Name: Horse Saddle
   m_EditorClassIdentifier: 
-  <ID>k__BackingField: 1
-  <CardRarity>k__BackingField: 2
-  <Name>k__BackingField: test1
-  <Description>k__BackingField: super op
+  <ID>k__BackingField: 4
+  <CardRarity>k__BackingField: 1
+  <Name>k__BackingField: Horse Saddle
+  <Description>k__BackingField: MoveSpeed up
   <ClassOfCard>k__BackingField: 0
-  <CardImage>k__BackingField: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
-  <Cost>k__BackingField: 20
+  <CardImage>k__BackingField: {fileID: 0}
+  <Cost>k__BackingField: 0
   <LayerOfCard>k__BackingField: {fileID: 11400000, guid: 1df98d14c0ed7544994361b81eb0112f, type: 2}
-  <CurrencyCost>k__BackingField: 3
+  <CurrencyCost>k__BackingField: 1
   <CardEffects>k__BackingField:
-  - <First>k__BackingField: {fileID: 11400000, guid: 3ce7554f29c9b088394f2110340b5cb0, type: 2}
-    <Second>k__BackingField: 20
+  - <First>k__BackingField: {fileID: 11400000, guid: 148f355f79d948848b94f3fe96120e08, type: 2}
+    <Second>k__BackingField: 1

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: High Noon
   m_EditorClassIdentifier: 
   <ID>k__BackingField: 0
-  <CardRarity>k__BackingField: 0
+  <CardRarity>k__BackingField: 1
   <Name>k__BackingField: High Noon
   <Description>k__BackingField: +2 bulletAmount, FireRate way up, damage Way down
   <ClassOfCard>k__BackingField: 0

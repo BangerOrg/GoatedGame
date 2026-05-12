@@ -10,6 +10,8 @@ using UnityEngine.XR;
 
 public class DeckLogic : MonoBehaviour
 {
+	public static DeckLogic Instance;
+
     private List<Card> entireDeck = new List<Card>();
     private List<Card> drawPile = new List<Card>();
     private List<Card> cardsInHand = new List<Card>();
@@ -24,11 +26,15 @@ public class DeckLogic : MonoBehaviour
     [SerializeField] private GameObject cardScreen;
 
     [SerializeField] private int roundCurrency;
-    private int currencyAmount;
+    public int CurrencyAmount { get; set; }
 
     private TMP_Text currencyText;
     private void Awake()
     {
+		if (Instance == null) Instance = this;
+		else Destroy(this);
+
+
         allCardList = gameObject.GetComponent<AllCards>(); // gameObject with small g since this Object holds both
         drawPile.AddRange(entireDeck);
         ShuffleDrawPile();
@@ -110,8 +116,8 @@ public class DeckLogic : MonoBehaviour
 
         //also check for currency and stuff
         Card card = cardsInHand[cardIDinHand];
-        if (currencyAmount < card.CurrencyCost) return;
-        currencyAmount -= card.CurrencyCost;
+        if (CurrencyAmount < card.CurrencyCost) return;
+        CurrencyAmount -= card.CurrencyCost;
         foreach(Pair<CardEffect, string> pair in card.CardEffects)
         {
             Debug.Log(pair.Second);
@@ -119,7 +125,7 @@ public class DeckLogic : MonoBehaviour
         }
         activeCards.Add(card);
         DiscardCard(cardIDinHand);
-        if (currencyText) currencyText.SetText("Currency: " + currencyAmount + "/" + roundCurrency);
+        if (currencyText) currencyText.SetText("Currency: " + CurrencyAmount + "/" + roundCurrency);
 
 
     }
@@ -178,7 +184,7 @@ public class DeckLogic : MonoBehaviour
     public void StartTurn()
     {
         
-        currencyAmount = roundCurrency;
+        CurrencyAmount = roundCurrency;
         ResetCardEffects();
         DrawCards(drawAmount); //draw as many cards as
         Time.timeScale = 0; //Scary oooooo
@@ -188,7 +194,7 @@ public class DeckLogic : MonoBehaviour
         //the script inside the screen handles the rendering? maybe event, maybe do everything here?
         SetCardUI();
         currencyText = GameObject.Find("CurrencyText").GetComponent<TMP_Text>();
-        currencyText.SetText("Currency: " + currencyAmount + "/" + roundCurrency);
+        currencyText.SetText("Currency: " + CurrencyAmount + "/" + roundCurrency);
     }
 
     public void SetCardUI()
