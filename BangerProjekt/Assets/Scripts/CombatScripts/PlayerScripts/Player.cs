@@ -39,15 +39,17 @@ public class Player : Unit
     [field: SerializeField] public int ImmuFramesOnHit; //how many frames of Immunity the player gets on hit (no shit sherlock)
 
     [field: SerializeField] public Class PlayerClass { get; set;}
+
     //End of general Player variables -------------------------
 
-    //Start of Bonus Stat Variables (for now only Weapon) --------
+    //Start of Bonus Stat Variables --------
     public int BonusDamage {get; private set;}
     public float BonusFireRate {get; private set;}
     public int BonusSpreadAngle {get; private set;}
-
     public int BonusBulletAmount {get; private set;}
-    //End of Bonus Stat Variables (for now only Weapon) -----------
+
+	public int BonusZoom { get; private set;}
+    //End of Bonus Stat Variables -----------
 
     //Start of Item Variables -----------
     public static event Action<AbilityItem> NewAbility;
@@ -278,9 +280,6 @@ public class Player : Unit
             NewAbility?.Invoke(tempAbility);
 
         }
-
-
-
     }
 
     public void NewWeapon(GameObject newWeaponItem)
@@ -328,6 +327,7 @@ public class Player : Unit
         weaponScript.SpreadAngle -= BonusSpreadAngle; //subtract so we can add everything at the end
         BonusSpreadAngle += amount;
         weaponScript.SpreadAngle += BonusSpreadAngle;
+		if (weaponScript.SpreadAngle < 0) weaponScript.SpreadAngle = 0;
     }
 
     public void AddBonusBulletAmount(int amount)
@@ -336,6 +336,13 @@ public class Player : Unit
         BonusBulletAmount += amount;
         weaponScript.BulletAmount += BonusBulletAmount;
     }
+
+	public void AddBonusZoom(int amount)
+	{
+		GameObject.FindWithTag("MainCamera").GetComponent<Camera>().orthographicSize -= BonusZoom;
+		BonusZoom += amount;
+		GameObject.FindWithTag("MainCamera").GetComponent<Camera>().orthographicSize += BonusZoom;
+	}
     //end of inventory functions
 
     //Saving/Loading Function
