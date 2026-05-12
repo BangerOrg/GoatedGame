@@ -116,8 +116,8 @@ public class DeckLogic : MonoBehaviour
 
         //also check for currency and stuff
         Card card = cardsInHand[cardIDinHand];
-        if (CurrencyAmount < card.CurrencyCost) return;
-        CurrencyAmount -= card.CurrencyCost;
+        if (CurrencyAmount < card.CostToPlay) return;
+        CurrencyAmount -= card.CostToPlay;
         foreach(Pair<CardEffect, string> pair in card.CardEffects)
         {
             Debug.Log(pair.Second);
@@ -213,7 +213,7 @@ public class DeckLogic : MonoBehaviour
             cardObject.transform.Find("CardBackgroundImage").GetComponent<Image>().sprite = card.LayerOfCard.CardBackground[(int)card.CardRarity + 1];
             cardObject.transform.Find("CardName").GetComponent<TMP_Text>().SetText(card.Name);
             cardObject.transform.Find("CardDescription").GetComponent<TMP_Text>().SetText(card.Description); 
-            cardObject.transform.Find("CurrencyCostImage").GetChild(0).GetComponentInChildren<TMP_Text>().SetText(card.CurrencyCost.ToString()); 
+            cardObject.transform.Find("CurrencyCostImage").GetChild(0).GetComponentInChildren<TMP_Text>().SetText(card.CostToPlay.ToString()); 
             CardInHand cardScript = cardObject.AddComponent<CardInHand>();
             cardScript.CardSO = card;
             cardScript.cardInHandID = counter;

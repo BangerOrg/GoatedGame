@@ -63,14 +63,14 @@ public class ShopHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
          }
          else if (Card != null)
          {
-             if(GameManager.credits < Card.Cost)
+             if(GameManager.credits < ShopManager.rarityCosts[(int)Card.CardRarity])
              {
                 Debug.Log("Not enough credits to purchase " + Card.name); //TODO: this as well
                 return;
              }
              purchaseCard?.Invoke(Card); //Send out the Event to actually give the player the card
              DestroyChild(); //THE CHILD MUST DIE
-             GameManager.Instance.ChangeCredits(-Card.Cost); //remove the credits for the purchase
+             GameManager.Instance.ChangeCredits(-ShopManager.rarityCosts[(int)Card.CardRarity]); //remove the credits for the purchase
              Destroy(gameObject); //remove the card from the shop after purchase
          }
          else

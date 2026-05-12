@@ -14,6 +14,16 @@ public class ShopManager : MonoBehaviour
     [field:SerializeField] private Transform detailView;
     [field:SerializeField] private GameObject cardPrefab;
     [field:SerializeField] private GameObject itemViewPrefab;
+
+	public static readonly List<int> rarityCosts = new List<int>
+	{
+		25, //common
+		50, //uncommon
+		100, //rare
+		200, //Epic
+		400, //Legendary
+		800 //mythic
+	};
     
 
 
@@ -79,7 +89,7 @@ public class ShopManager : MonoBehaviour
             GUIcard.transform.Find("CardEffectImage").GetComponent<Image>().sprite = card.CardImage;
             GUIcard.transform.Find("CardName").GetComponent<TMP_Text>().SetText(card.Name);
             GUIcard.transform.Find("CardDescription").GetComponent<TMP_Text>().SetText(card.Description);
-            GUIcard.transform.Find("CurrencyCostImage").GetChild(0).GetComponent<TMP_Text>().SetText(card.CurrencyCost.ToString());
+			GUIcard.transform.Find("CurrencyCostImage").GetChild(0).GetComponent<TMP_Text>().SetText(rarityCosts[(int)card.CardRarity].ToString());
             GUIcard.transform.AddComponent<ShopHover>();
             GUIcard.GetComponent<ShopHover>().DetailView = detailView;
             GUIcard.GetComponent<ShopHover>().Card = card;
