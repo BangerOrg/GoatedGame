@@ -16,11 +16,9 @@ MonoBehaviour:
   <CardRarity>k__BackingField: 0
   <Name>k__BackingField: Prickly Pear
   <Description>k__BackingField: +1 Currency
-  <ClassOfCard>k__BackingField: 0
   <CardImage>k__BackingField: {fileID: 0}
-  <Cost>k__BackingField: 0
-  <LayerOfCard>k__BackingField: {fileID: 11400000, guid: 1df98d14c0ed7544994361b81eb0112f, type: 2}
-  <CurrencyCost>k__BackingField: 0
+  <LayerOfCard>k__BackingField: {fileID: 11400000, guid: 0fabe26fb7db2b149b44f8d10c84ea67, type: 2}
+  <CostToPlay>k__BackingField: 0
   <CardEffects>k__BackingField:
   - <First>k__BackingField: {fileID: 11400000, guid: eb9ba7b0bec2769469640168036647ec, type: 2}
     <Second>k__BackingField: 1

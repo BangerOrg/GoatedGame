@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 26dc14613e33cd640a9dc7a55bae169b, type: 3}
-  m_Name: TestLayer 1
+  m_Name: WildWestLayer
   m_EditorClassIdentifier: 
   <ID>k__BackingField: 1
-  <Name>k__BackingField: Test Layer1
+  <Name>k__BackingField: Wild West Layer
   <SpawnableEnemies>k__BackingField:
   - {fileID: 437035353976409979, guid: aa7548240ba266c8c873b5599d1b0c05, type: 3}
   - {fileID: 8725753387697175322, guid: 9beefe6043d080d3aa66cd1c14cd42da, type: 3}
@@ -26,3 +26,14 @@ MonoBehaviour:
   <SpawnableBosses>k__BackingField:
   - {fileID: 8757438703509313758, guid: 177e67783e0a844f58faa437eb700843, type: 3}
   <PossibleLayers>k__BackingField: 010000000200000003000000
+  <PossibleObstacles>k__BackingField: []
+  <PossibleItems>k__BackingField: []
+  <PossibleCards>k__BackingField: []
+  <CardBackground>k__BackingField:
+  - {fileID: -2625156432672287234, guid: 45cf077dda240354e81fd1307606cba5, type: 3}
+  - {fileID: -2149933550408779926, guid: 45cf077dda240354e81fd1307606cba5, type: 3}
+  - {fileID: 2143911990976669348, guid: 45cf077dda240354e81fd1307606cba5, type: 3}
+  - {fileID: 1957481343858645088, guid: 45cf077dda240354e81fd1307606cba5, type: 3}
+  - {fileID: -5650413158876187123, guid: 45cf077dda240354e81fd1307606cba5, type: 3}
+  - {fileID: -354134731211678084, guid: 45cf077dda240354e81fd1307606cba5, type: 3}
+  - {fileID: 7177938338217801108, guid: 45cf077dda240354e81fd1307606cba5, type: 3}

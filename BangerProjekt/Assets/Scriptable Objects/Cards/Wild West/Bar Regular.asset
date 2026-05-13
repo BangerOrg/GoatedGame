@@ -16,11 +16,9 @@ MonoBehaviour:
   <CardRarity>k__BackingField: 0
   <Name>k__BackingField: Bar Regular
   <Description>k__BackingField: higher SpreadAngle, fireRate up
-  <ClassOfCard>k__BackingField: 0
-  <CardImage>k__BackingField: {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
-  <Cost>k__BackingField: 20
-  <LayerOfCard>k__BackingField: {fileID: 11400000, guid: 1df98d14c0ed7544994361b81eb0112f, type: 2}
-  <CurrencyCost>k__BackingField: 3
+  <CardImage>k__BackingField: {fileID: -6726841479876748577, guid: 5feef1f279ea214048326105623e47c3, type: 3}
+  <LayerOfCard>k__BackingField: {fileID: 11400000, guid: 0fabe26fb7db2b149b44f8d10c84ea67, type: 2}
+  <CostToPlay>k__BackingField: 0
   <CardEffects>k__BackingField:
   - <First>k__BackingField: {fileID: 11400000, guid: 0aa11106ff5bc1acfa96f70e065bfe06, type: 2}
     <Second>k__BackingField: 1
