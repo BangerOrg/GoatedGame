@@ -15,12 +15,12 @@ MonoBehaviour:
   <ID>k__BackingField: 5
   <CardRarity>k__BackingField: 0
   <Name>k__BackingField: Sandy Breeze
-  <Description>k__BackingField: Zooms you closer but you get cool effect
-  <ClassOfCard>k__BackingField: 0
+  <Description>k__BackingField: Zooms you closer but you get +1 Pierce
   <CardImage>k__BackingField: {fileID: 0}
-  <Cost>k__BackingField: 0
   <LayerOfCard>k__BackingField: {fileID: 11400000, guid: 1df98d14c0ed7544994361b81eb0112f, type: 2}
-  <CurrencyCost>k__BackingField: 1
+  <CostToPlay>k__BackingField: 2
   <CardEffects>k__BackingField:
   - <First>k__BackingField: {fileID: 11400000, guid: 71d7de95d2745114a94df10ebfddf9ab, type: 2}
     <Second>k__BackingField: -1
+  - <First>k__BackingField: {fileID: 11400000, guid: 48f765a32925d50fe85b6c175c7fde67, type: 2}
+    <Second>k__BackingField: 1

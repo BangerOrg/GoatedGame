@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e757891887de4790094baf887b33d543, type: 3}
-  m_Name: AddDamageEffect
+  m_Script: {fileID: 11500000, guid: 18d7fb37a3f8e04479bb7462bb319e83, type: 3}
+  m_Name: AddZoom
   m_EditorClassIdentifier: 
