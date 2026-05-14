@@ -21,23 +21,13 @@ MonoBehaviour:
   <StartingDeck>k__BackingField:
   - {fileID: 11400000, guid: 696e9ce4088adf744af6d765b34910ac, type: 2}
   - {fileID: 11400000, guid: 696e9ce4088adf744af6d765b34910ac, type: 2}
-  - {fileID: 11400000, guid: 696e9ce4088adf744af6d765b34910ac, type: 2}
-  - {fileID: 11400000, guid: 696e9ce4088adf744af6d765b34910ac, type: 2}
-  - {fileID: 11400000, guid: 696e9ce4088adf744af6d765b34910ac, type: 2}
-  - {fileID: 11400000, guid: 9243acba1c7b6fc439130d6a8638bf77, type: 2}
-  - {fileID: 11400000, guid: 9243acba1c7b6fc439130d6a8638bf77, type: 2}
-  - {fileID: 11400000, guid: 9243acba1c7b6fc439130d6a8638bf77, type: 2}
-  - {fileID: 11400000, guid: 9243acba1c7b6fc439130d6a8638bf77, type: 2}
-  - {fileID: 11400000, guid: 9243acba1c7b6fc439130d6a8638bf77, type: 2}
-  - {fileID: 11400000, guid: 9243acba1c7b6fc439130d6a8638bf77, type: 2}
-  - {fileID: 11400000, guid: 9243acba1c7b6fc439130d6a8638bf77, type: 2}
-  - {fileID: 11400000, guid: 9243acba1c7b6fc439130d6a8638bf77, type: 2}
-  - {fileID: 11400000, guid: 9243acba1c7b6fc439130d6a8638bf77, type: 2}
-  - {fileID: 11400000, guid: 9243acba1c7b6fc439130d6a8638bf77, type: 2}
-  - {fileID: 11400000, guid: 9243acba1c7b6fc439130d6a8638bf77, type: 2}
-  - {fileID: 11400000, guid: 9243acba1c7b6fc439130d6a8638bf77, type: 2}
-  - {fileID: 11400000, guid: 9243acba1c7b6fc439130d6a8638bf77, type: 2}
-  - {fileID: 11400000, guid: 9243acba1c7b6fc439130d6a8638bf77, type: 2}
+  - {fileID: 11400000, guid: 010d26f644b01c041b41a002184a3cf7, type: 2}
+  - {fileID: 11400000, guid: 010d26f644b01c041b41a002184a3cf7, type: 2}
+  - {fileID: 11400000, guid: 010d26f644b01c041b41a002184a3cf7, type: 2}
+  - {fileID: 11400000, guid: 0ef33ba827dbaa843812c7c824b08991, type: 2}
+  - {fileID: 11400000, guid: 0ef33ba827dbaa843812c7c824b08991, type: 2}
+  - {fileID: 11400000, guid: 0ef33ba827dbaa843812c7c824b08991, type: 2}
+  - {fileID: 11400000, guid: a970a5f833209e2439fc4d78ba8a415d, type: 2}
   - {fileID: 11400000, guid: 9243acba1c7b6fc439130d6a8638bf77, type: 2}
   <StartingBonusDamage>k__BackingField: 1
   <StartingBonusFireRate>k__BackingField: 0

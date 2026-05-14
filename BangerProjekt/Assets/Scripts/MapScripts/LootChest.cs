@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class LootChest : MonoBehaviour
 {
+	[field: SerializeField] public static int MinCredits { get; set; }
+	[field: SerializeField] public static int MaxCredits { get; set; }
 
 
-
-    private void OnTriggerEnter2D(Collider2D collision)
+	private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            int creditsToGet = Random.Range(5, 21) + (int)((Random.Range(30, 101) / 100f) * GameManager.roomsCleared); 
-            //we take a number between 5 and 20and add to that between 30% and 100% of the rooms cleared
+            int creditsToGet = Random.Range(MinCredits, MaxCredits) + (int)((Random.Range(30, 101) / 100f) * GameManager.roomsCleared); 
+            //we take a number between min and MaxCredits and add to that between 30% and 100% of the rooms cleared
             StartCoroutine(OpenChest(creditsToGet)); //for now 50 credits idk this would scale
         }
     }

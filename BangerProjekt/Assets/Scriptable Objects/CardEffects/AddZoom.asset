@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdacdb0fc26420eeb8144e4c53011aac, type: 3}
-  m_Name: AddBulletAmountEffect
+  m_Script: {fileID: 11500000, guid: 18d7fb37a3f8e04479bb7462bb319e83, type: 3}
+  m_Name: AddZoom
   m_EditorClassIdentifier: 
