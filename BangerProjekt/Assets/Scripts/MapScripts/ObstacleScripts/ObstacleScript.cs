@@ -80,6 +80,10 @@ public class ObstacleScript : MonoBehaviour
             tmpColor.a = 0.5f;
             sr.color = tmpColor;
         }
+		if (collision.gameObject.CompareTag("Player") && Obstacle.DealsContactDamage)
+		{
+			collision.gameObject.GetComponent<Player>().DamageUnit(Obstacle.ContactDamage, 1f);
+		}
     }
     void OnTriggerExit2D(Collider2D collision)
     {
@@ -92,7 +96,18 @@ public class ObstacleScript : MonoBehaviour
             tmpColor.a = 1f;
             sr.color = tmpColor;
         }
-    }
 
+    }
+	void OnCollisionStay2D(Collision2D collision)
+	{
+		//TODO: Maybe deal continous damage if the player stands in an obstacle that deals contact damage
+	}
+	void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (collision.gameObject.CompareTag("Player") && Obstacle.DealsContactDamage)
+		{
+			collision.gameObject.GetComponent<Player>().DamageUnit(Obstacle.ContactDamage, 1f);
+		}
+	}
 
 }
