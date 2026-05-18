@@ -42,7 +42,7 @@ public class Obstacle : ScriptableObject
     public float GetWorldRadius()
     {
         float targetWidth = GetTargetUnitWidth();
-        return (targetWidth / 2f) * 1.414f;
+        return (targetWidth / 3f) * 1.414f;
     }
     private void Reset()
     {
