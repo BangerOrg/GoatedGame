@@ -39,7 +39,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: acb9645663755e74088d6bc61de0de0c, type: 2}
   - {fileID: 11400000, guid: 010d26f644b01c041b41a002184a3cf7, type: 2}
   - {fileID: 11400000, guid: 6b926878258fbbe4e85eadfa788fc696, type: 2}
-  <GroundSprite>k__BackingField: {fileID: 2157025059254536759, guid: 0d5362e297bd51c05b0ef9e5f46d9f2f, type: 3}
+  <GroundSprite>k__BackingField: {fileID: 2800000, guid: fc031a5ad4bdc694fb3873e2d7742a61, type: 3}
   <CardBackground>k__BackingField:
   - {fileID: -2625156432672287234, guid: 45cf077dda240354e81fd1307606cba5, type: 3}
   - {fileID: -2149933550408779926, guid: 45cf077dda240354e81fd1307606cba5, type: 3}

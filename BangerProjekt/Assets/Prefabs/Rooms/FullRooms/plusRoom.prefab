@@ -229,7 +229,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: cd73b3f82baf268489717c6d7c207f09, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -341,15 +341,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <RoomDoors>k__BackingField: []
   <State>k__BackingField: 0
-  <ObstacleSpots>k__BackingField: []
-  <AllObstacles>k__BackingField: []
   <IsBossRoom>k__BackingField: 0
   <Depth>k__BackingField: 0
   <Budget>k__BackingField: 0
-  <SpawnpointSpacingToEachOther>k__BackingField: 2
+  <AllObstacles>k__BackingField: []
   <Spawnpoints>k__BackingField: []
   numOfSpawnpoints: 100
-  spawnpointSpacingToWall: 2
+  <SpawnpointSpacingToEachOther>k__BackingField: 2
 --- !u!1 &8060322455033623814
 GameObject:
   m_ObjectHideFlags: 0

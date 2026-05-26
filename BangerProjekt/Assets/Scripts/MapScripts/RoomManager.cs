@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal.Internal;
 using Random = UnityEngine.Random;
 
 public class RoomManager : MonoBehaviour
@@ -174,7 +175,7 @@ public class RoomManager : MonoBehaviour
 		{
 			foreach (Transform square in ground.transform)
 			{
-				square.GetComponent<SpriteRenderer>().sprite = LayerManager.CurrentLayer.GroundSprite;
+				square.GetComponent<SpriteRenderer>().material.SetTexture("_Texture", LayerManager.CurrentLayer.GroundSprite);
 				square.GetComponent<SpriteRenderer>().color = Color.white;
 			}
 
