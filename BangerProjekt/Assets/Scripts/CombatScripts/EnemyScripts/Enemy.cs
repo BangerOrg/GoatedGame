@@ -31,6 +31,11 @@ public class Enemy : Unit
         RB = gameObject.GetComponent<Rigidbody2D>();
         playerObject = GameObject.FindWithTag("Player");
         playerScript = playerObject.GetComponent<Player>();
+		int totalDamage = playerScript.CalcTotalDamage();
+		if (totalDamage < 0)
+		{
+			this.MaxHealth += Math.Abs(totalDamage);
+		}
     }
 
 
@@ -71,7 +76,7 @@ public class Enemy : Unit
     }
     public bool ShouldPickupDrop() // the name
     {
-        int temp = Random.Range(1, 101); 
+        int temp = Random.Range(1, 101);
         //Debug.Log(temp);
         if (temp <= pickupDropChance) // Here it calculates if the pickup should be dropped
         {
@@ -89,7 +94,7 @@ public class Enemy : Unit
         if (CurrentHealth <= 0)
         {
             Die();
-        } 
+        }
     }
 
     public virtual void Die()
