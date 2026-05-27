@@ -98,9 +98,19 @@ public class ObstacleScript : MonoBehaviour
         }
 
     }
-	void OnCollisionStay2D(Collision2D collision)
+	void OnTriggerStay2D(Collider2D collision)
 	{
-		//TODO: Maybe deal continous damage if the player stands in an obstacle that deals contact damage
+		if (collision.CompareTag("Player") && Obstacle.DealsContactDamage)
+		{
+			collision.gameObject.GetComponent<Player>().DamageUnit(Obstacle.ContactDamage, 1f);
+		}
+	}
+	void OisionStay2D(Collision2D collision)
+	{
+		if (collision.gameObject.CompareTag("Player") && Obstacle.DealsContactDamage)
+		{
+			collision.gameObject.GetComponent<Player>().DamageUnit(Obstacle.ContactDamage, 1f);
+		}
 	}
 	void OnCollisionEnter2D(Collision2D collision)
 	{
