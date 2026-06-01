@@ -479,7 +479,7 @@ PrefabInstance:
     - target: {fileID: 6547559521655480698, guid: 020729efefde2e14aacaf32cf1c4487a, type: 3}
       propertyPath: GameOverScreen
       value: 
-      objectReference: {fileID: 1951270773}
+      objectReference: {fileID: 0}
     - target: {fileID: 6547559521655480698, guid: 020729efefde2e14aacaf32cf1c4487a, type: 3}
       propertyPath: <Defense>k__BackingField
       value: 20

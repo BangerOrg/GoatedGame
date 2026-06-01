@@ -229,7 +229,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: cd73b3f82baf268489717c6d7c207f09, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -337,15 +337,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <RoomDoors>k__BackingField: []
   <State>k__BackingField: 0
-  <ObstacleSpots>k__BackingField: []
-  <AllObstacles>k__BackingField: []
   <IsBossRoom>k__BackingField: 0
   <Depth>k__BackingField: 0
   <Budget>k__BackingField: 0
-  <SpawnpointSpacingToEachOther>k__BackingField: 2
+  <AllObstacles>k__BackingField: []
   <Spawnpoints>k__BackingField: []
   numOfSpawnpoints: 100
-  spawnpointSpacingToWall: 2
+  <SpawnpointSpacingToEachOther>k__BackingField: 2
 --- !u!1 &7942778186820545220
 GameObject:
   m_ObjectHideFlags: 0
@@ -1256,6 +1254,14 @@ PrefabInstance:
     - target: {fileID: 8074655296020938120, guid: e057c166fea6a5f4e9e3412d10a148e9, type: 3}
       propertyPath: m_ColliderPaths.Array.data[4].m_ColliderPaths.Array.data[0].Array.data[3].Y
       value: 7499962
+      objectReference: {fileID: 0}
+    - target: {fileID: 8594732491478567229, guid: e057c166fea6a5f4e9e3412d10a148e9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8594732491478567229, guid: e057c166fea6a5f4e9e3412d10a148e9, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

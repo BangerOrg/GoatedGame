@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal.Internal;
 using Random = UnityEngine.Random;
 
 public class RoomManager : MonoBehaviour
@@ -154,8 +155,32 @@ public class RoomManager : MonoBehaviour
        SetBossRoom();
         startRoom.GetComponent<RoomScript>().ClearRoom();
         GameManager.roomsCleared--; //to prevent startroom counting as a cleared room (fuck this)
+        SetRoomGroundSprite();
     }
 
+	private void SetRoomGroundSprite()
+	{
+		List<GameObject> grounds = new List<GameObject>();
+		foreach (GameObject room in rooms)
+		{
+			foreach (Transform obj in room.transform)
+			{
+				if (obj.gameObject.layer == 6) //background
+				{
+					grounds.Add(obj.gameObject);
+				}
+			}
+		}
+		foreach (GameObject ground in grounds)
+		{
+			foreach (Transform square in ground.transform)
+			{
+				square.GetComponent<SpriteRenderer>().material.SetTexture("_Texture", LayerManager.CurrentLayer.GroundSprite);
+				square.GetComponent<SpriteRenderer>().color = Color.white;
+			}
+
+		}
+	}
    private void AlignRooms(GameObject doorA, GameObject doorB) //Now here comes the neat part
    {
 

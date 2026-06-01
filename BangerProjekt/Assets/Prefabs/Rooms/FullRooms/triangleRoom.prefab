@@ -94,15 +94,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <RoomDoors>k__BackingField: []
   <State>k__BackingField: 0
-  <ObstacleSpots>k__BackingField: []
-  <AllObstacles>k__BackingField: []
   <IsBossRoom>k__BackingField: 0
   <Depth>k__BackingField: 0
   <Budget>k__BackingField: 0
-  <SpawnpointSpacingToEachOther>k__BackingField: 2
+  <AllObstacles>k__BackingField: []
   <Spawnpoints>k__BackingField: []
   numOfSpawnpoints: 100
-  spawnpointSpacingToWall: 2
+  <SpawnpointSpacingToEachOther>k__BackingField: 2
 --- !u!1001 &31955262569137667
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -852,6 +850,10 @@ PrefabInstance:
       value: -79000000
       objectReference: {fileID: 0}
     - target: {fileID: 8594732491478567229, guid: e057c166fea6a5f4e9e3412d10a148e9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
+    - target: {fileID: 8756529436809500085, guid: e057c166fea6a5f4e9e3412d10a148e9, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
