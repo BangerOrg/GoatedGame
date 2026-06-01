@@ -20,7 +20,7 @@ public class RoomManager : MonoBehaviour
     public static NavMeshSurface meshSurface;
 
     [field: SerializeField] public GameObject BossPortal {get; set;}
-    
+
 
     public void Awake()
     {
@@ -58,12 +58,12 @@ public class RoomManager : MonoBehaviour
         GameManager.roomsCleared--; //to prevent startroom counting as a cleared room (fuck this)
         availableDoors.Add(GameObject.FindWithTag("Door")); //And lets also get the first door.
         SetStartRoomAngle();
-               
+
     }
 
     public void SetStartRoomAngle()
-    {   
-        if (LayerManager.CurrentLayerNumber < 1) return;    
+    {
+        if (LayerManager.CurrentLayerNumber < 1) return;
         float[] angles = { 0f, 90f, 180f, 270f }; //Simple array, because its not gonna change
         float randomAngle = angles[Random.Range(0, angles.Length)]; //Pick a random start rotation
         startRoom.transform.rotation = Quaternion.Euler(0, 0, randomAngle); // and apply it.
@@ -87,8 +87,8 @@ public class RoomManager : MonoBehaviour
 
     private void OnDisable()
     {
-        RoomScript.RoomCleared -= SetMiniMap; 
-        LayerManager.newLayer -= SetNewLayer;       
+        RoomScript.RoomCleared -= SetMiniMap;
+        LayerManager.newLayer -= SetNewLayer;
     }
 
 
@@ -107,20 +107,20 @@ public class RoomManager : MonoBehaviour
             tries++;
             if (tries >= maxTries)  //To Prevent infinite Loops (Yes it is a slight bottleneck if you want to create over 10k rooms (Who would do that?))
             {
-                break;   
-            } 
-            
+                break;
+            }
+
             if (availableDoors.Count == 0)break; //This implies that no start room has been generated so no place to start generation. There always has to be at least 1 door.
-            int randomDoorIndex = Random.Range(0, availableDoors.Count); 
+            int randomDoorIndex = Random.Range(0, availableDoors.Count);
             GameObject randomDoor = availableDoors[randomDoorIndex];
- 
+
             int randomIndex = Random.Range(0, roomPrefabs.Count); //Get a random index for the prefab list
             Vector3 spawnPos = new Vector3(50, 50, 0); //spawn it away from the player so the EnemySpawner doesnt immediately trigger
             GameObject newRoom = Instantiate(roomPrefabs[randomIndex], spawnPos, new Quaternion(0,0,0,0)); //Get the prefab with said random index
-           
+
             List<GameObject> roomDoors = newRoom.GetComponent<RoomScript>().RoomDoors; //Gets the doors of the new room that has been instantiated. Rooms may have "infinite" doors.
             GameObject newRoomRandomDoor = roomDoors[Random.Range(0,roomDoors.Count)]; //Get the actual door we try to connect to
-           
+
             if (TryPlaceRoom(randomDoor, newRoomRandomDoor)) //This calls with a random already existing door and the door we just picked returns Bool
             { //Successfully created a room:
                 rooms.Add(newRoom); //Room added to the rooms list
@@ -167,7 +167,7 @@ public class RoomManager : MonoBehaviour
         float angleA = Mathf.Atan2(dirA.y, dirA.x) * Mathf.Rad2Deg; //Some math shit to get Angles
         float angleB = Mathf.Atan2(dirB.y, dirB.x) * Mathf.Rad2Deg;
 
-        float targetRotation = (angleA + 180f) - angleB; //The rotation the room has to take so it aligns its door. 
+        float targetRotation = (angleA + 180f) - angleB; //The rotation the room has to take so it aligns its door.
         // The parentheses stay for my dyscalculate brain (Better explicit than implicit (Looking at you DeadLand and your random "void xxx" methodes))
 
         roomB.transform.rotation = Quaternion.Euler(0,0, targetRotation); //Lets rotate that bitch
@@ -186,13 +186,13 @@ public class RoomManager : MonoBehaviour
 
         Collider2D[] results = new Collider2D[10]; //Max rooms to be overlapped with. This is a magic Literal because it doesn't really matter how big it is but 10 seemed fitting considering how big the rooms are.
         //This sorta limits how many rooms a single room can overlap with so we might or might not need to change this in the future.
-        
+
         ContactFilter2D filter = new ContactFilter2D(); //Now lets filter to only look
         filter.SetLayerMask(LayerMask.GetMask("Background"));//for the specific layer
         filter.useTriggers = true; //and if the colliders are set to trigger. (If you use my Prefabs to build a room this should already be present)
 
         int found = boundsCollider.OverlapCollider(filter, results); //Now here comes the main line. This checks with the filter criteria if the bounds overlap with another and save all overlaps in the result array.
-      
+
       for (int i = 0; i < found; i++) //Lets have a quick look into the array of overlapping rooms just to be sure we don't check the room with itself.
         {
             if (results[i].GetComponentInParent<RoomScript>().gameObject != room.GetComponentInParent<RoomScript>().gameObject) //Prevents to check if the room that is about to be placed is overlapping with itself
@@ -228,13 +228,13 @@ public class RoomManager : MonoBehaviour
             {
                 doorsToRemove.Add(doorA); //Add doors to later remove into the HashSet
                 doorsToRemove.Add(doorB);
-                
+
                 if(!usedDoors.Contains(doorA)) usedDoors.Add(doorA); //if for good measure that doors really not get added twice and are not already present in usedDoors
                 if(!usedDoors.Contains(doorB)) usedDoors.Add(doorB);
 
                 doorA.GetComponent<DoorScript>().LinkDoor(doorB.GetComponent<DoorScript>());
                 doorA.GetComponent<DoorScript>().LockDoor();
-                
+
                 //Debug.Log($"Connected accidental overlap: {doorA.name} and {doorB.name}");
             }
         }
@@ -248,10 +248,16 @@ public class RoomManager : MonoBehaviour
 
     private void SetBossRoom()
     {
-        GameObject highestDepthRoom = startRoom; 
+        GameObject highestDepthRoom = startRoom;
         int highestDepthCount = 0;
         foreach(GameObject room in rooms)
         {
+			foreach(GameObject obs in room.GetComponent<RoomScript>().AllObstacles) //Rotate all obstacles to upright. Why do i do it here?
+			//Because i already itterate over all rooms and thus dont need to do it after the generation again(saves one GameObject fetch)
+			{
+				obs.transform.rotation = Quaternion.identity;
+			}
+
             room.GetComponent<RoomScript>().IsBossRoom = false;
             if (room.GetComponent<RoomScript>().Depth > highestDepthCount && room.GetComponent<RoomScript>().RoomDoors.FindAll((x)=>x.GetComponent<DoorScript>().State != Enums.DoorState.Hidden).Count == 1)
             {
@@ -271,6 +277,13 @@ public class RoomManager : MonoBehaviour
             }
         }
         highestDepthRoom.GetComponent<RoomScript>().IsBossRoom = true;
+		if (highestDepthRoom.GetComponent<RoomScript>().IsBossRoom)
+		{
+			foreach (GameObject obs in highestDepthRoom.GetComponent<RoomScript>().AllObstacles)
+			{
+				obs.SetActive(false);
+			}
+		}
     }
 
     public void SetMiniMap()

@@ -80,6 +80,10 @@ public class ObstacleScript : MonoBehaviour
             tmpColor.a = 0.5f;
             sr.color = tmpColor;
         }
+		if (collision.gameObject.CompareTag("Player") && Obstacle.DealsContactDamage)
+		{
+			collision.gameObject.GetComponent<Player>().DamageUnit(Obstacle.ContactDamage, 1f);
+		}
     }
     void OnTriggerExit2D(Collider2D collision)
     {
@@ -92,7 +96,28 @@ public class ObstacleScript : MonoBehaviour
             tmpColor.a = 1f;
             sr.color = tmpColor;
         }
-    }
 
+    }
+	void OnTriggerStay2D(Collider2D collision)
+	{
+		if (collision.CompareTag("Player") && Obstacle.DealsContactDamage)
+		{
+			collision.gameObject.GetComponent<Player>().DamageUnit(Obstacle.ContactDamage, 1f);
+		}
+	}
+	void OisionStay2D(Collision2D collision)
+	{
+		if (collision.gameObject.CompareTag("Player") && Obstacle.DealsContactDamage)
+		{
+			collision.gameObject.GetComponent<Player>().DamageUnit(Obstacle.ContactDamage, 1f);
+		}
+	}
+	void OnCollisionEnter2D(Collision2D collision)
+	{
+		if (collision.gameObject.CompareTag("Player") && Obstacle.DealsContactDamage)
+		{
+			collision.gameObject.GetComponent<Player>().DamageUnit(Obstacle.ContactDamage, 1f);
+		}
+	}
 
 }

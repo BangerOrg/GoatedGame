@@ -12,7 +12,7 @@ public class RoomScript : MonoBehaviour
     [field:SerializeField] public Enums.RoomState State {get; private set;} = Enums.RoomState.Uncleared; //The state of the room
     [field:SerializeField] public bool IsBossRoom{get; set;} = false; //Gets true when its a boss room
     [field:SerializeField] public int Depth{get; set;} //This counts up with how far  from the start room we are
-    [field:SerializeField] public int Budget {get; set;} 
+    [field:SerializeField] public int Budget {get; set;}
     public static Action<int> StartWaves;
     public static Action SpawnBoss;
     public static Action RoomCleared;
@@ -24,7 +24,7 @@ public class RoomScript : MonoBehaviour
     private float spawnpointSpacingToWall = 2f; //So no enemies spawn in a wall or outside of a room
     private int numOfObstacles = 10; //Can be set via inspector for each room defaults to 100 but since the spacing doesnt allow more in smaller rooms this may be changed
     private float obstaclesSpacingToEachOther = 7f; //Spacing between Obstacles
-    private float obstaclesSpacingToWall = 5f; //Spacing between Obstacle and wall/Door
+    private float obstaclesSpacingToWall = 3f; //Spacing between Obstacle and wall/Door
 
     private Transform spawnpointContainer; //The container for all the spawn points. (No need to set it for each room since every room should have it, so it gets created)
     private Transform obstacleContainer;
@@ -61,7 +61,7 @@ public class RoomScript : MonoBehaviour
         GenerateSpawnPoints(); //Generate the spawnpoints of the room
         //Debug.Log("Awake Called");
     }
-   
+
     public bool IsCleared() //Returns a simple bool to check if the room is cleared. (Self explaining)
    {
       if(State == Enums.RoomState.Cleared)
@@ -94,14 +94,14 @@ public class RoomScript : MonoBehaviour
         }
    }
 
- 
+
     public void OnRoomEnter() //Gets called by RoomBoundScript on each rooms bounds and that checks if the player is inside of the room
     {
       if (!(State == Enums.RoomState.Uncleared && IsReady))
       {
         return;
       }
-      foreach (GameObject door in RoomDoors) //This locks the doors of the room so he may not leave until the room is cleared  
+      foreach (GameObject door in RoomDoors) //This locks the doors of the room so he may not leave until the room is cleared
       {
         if (door.GetComponent<DoorScript>().State == Enums.DoorState.Open)
         {
@@ -128,7 +128,7 @@ public class RoomScript : MonoBehaviour
       int tries = 0; //Helper variable to count up
       CompositeCollider2D roomBounds = GetComponentInChildren<CompositeCollider2D>(); //Get the collider (The only CompositCollider in the room is the one of the floor)
       Bounds bounds = roomBounds.bounds; //Get its bounds to later check the overlap
-      while (tries < numOfSpawnpoints * 20 && numOfSpawnpoints > Spawnpoints.Count) 
+      while (tries < numOfSpawnpoints * 20 && numOfSpawnpoints > Spawnpoints.Count)
       //"tries" prevents an infinite loop if the room is to small to fit 100 Spawnpoints and also checks if the desired number has been reached. The * 20 may change if it takes too long to generate
       {
          tries++; //Count it up real nice
@@ -154,10 +154,43 @@ public class RoomScript : MonoBehaviour
    private void SetObstacles()
    {
     //Debug.Log("SettingObs");
-    int tries = 0; //Helper variable to count up
+	List<Obstacle> smallObs = new List<Obstacle>();
+	List<Obstacle> mediumObs = new List<Obstacle>();
+	List<Obstacle> largeObs = new List<Obstacle>();
+		foreach(Obstacle obs in allAvailableObstacles)
+		{
+        switch (obs.size)
+        {
+            case Enums.ObstacleSize.Large:
+                largeObs.Add(obs);
+                break;
+            case Enums.ObstacleSize.Medium:
+                mediumObs.Add(obs);
+                break;
+            case Enums.ObstacleSize.Small:
+                smallObs.Add(obs);
+                break;
+            default:
+                Debug.LogWarning($"Unbekannte Hindernisgröße bei {obs.name}!");
+                break;
+        }
+
+		}
+		tryPlaceObstacles(largeObs,3); //Magic literals, ik
+		tryPlaceObstacles(mediumObs,5);
+		tryPlaceObstacles(smallObs,8);
+
+      RoomManager.meshSurface.BuildNavMesh();
+   }
+
+   private void tryPlaceObstacles(List<Obstacle> obsList, int maxObsOfSize)
+	{
+	if(obsList.Count < 1) return;
+	int tries = 0; //Helper variable to count up
+	int obsPlacedOfSize = 0;
     CompositeCollider2D roomBounds = GetComponentInChildren<CompositeCollider2D>(); //Get the collider (The only CompositCollider in the room is the one of the floor)
     Bounds bounds = roomBounds.bounds; //Get its bounds to later check the overlap
-        while (tries < numOfObstacles * 20 && numOfObstacles > AllObstacles.Count) 
+        while (tries < numOfObstacles * 20 && numOfObstacles > AllObstacles.Count && obsPlacedOfSize < maxObsOfSize)
       //"tries" prevents an infinite loop if the room is to small to fit 100 Spawnpoints and also checks if the desired number has been reached. The * 20 may change if it takes too long to generate
       {
          tries++; //Count it up real nice
@@ -166,8 +199,7 @@ public class RoomScript : MonoBehaviour
             Random.Range(bounds.min.x, bounds.max.x), //random x
             Random.Range(bounds.min.y, bounds.max.y)  //random y
          );
-         Obstacle newObstacleData = allAvailableObstacles[Random.Range(0, allAvailableObstacles.Count)];
-         
+         Obstacle newObstacleData = obsList[Random.Range(0, obsList.Count)];
          if (!roomBounds.OverlapPoint(possibleSpot)) continue; //Check if the point is on the rooms bounds if not pick a new spot
          if (PointToCloseToForbiddenTag(possibleSpot, obstaclesSpacingToWall + newObstacleData.GetWorldRadius(),true)) continue; //Check if the point is far enough away from a "Wall" or "Door", maybe we will add another tag eventually (Obstacle)
          if (PointToCloseToAnother(possibleSpot, obstaclesSpacingToEachOther + newObstacleData.GetWorldRadius(),true)) continue; //Check if the point is too close to another so they spread more evenly
@@ -176,10 +208,9 @@ public class RoomScript : MonoBehaviour
          newObstacle.GetComponent<ObstacleScript>().Setup();
          newObstacle.transform.localScale = newObstacleData.GetRequiredScale();
          AllObstacles.Add(newObstacle);
-        
+		obsPlacedOfSize++;
       }
-      RoomManager.meshSurface.BuildNavMesh();
-   }
+	}
 
    private bool PointToCloseToAnother(Vector2 position, float distanceToWhatever, bool IsObstacle) //Does exactly that what its named after
    {
@@ -212,7 +243,7 @@ public class RoomScript : MonoBehaviour
             return true;
          }
             }
-        }else{  
+        }else{
         foreach(Collider2D col in hitColliders)
         {
          if(col.CompareTag("Wall") || col.CompareTag("Door") || col.CompareTag("Obstacle"))

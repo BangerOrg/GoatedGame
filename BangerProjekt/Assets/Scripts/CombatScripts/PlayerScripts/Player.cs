@@ -422,5 +422,9 @@ public class Player : Unit
 	{
 		ToggleInventory?.Invoke();
 	}
+	public int CalcTotalDamage()
+	{
+		return weaponScript.Damage;
+	}
 	//End of General Functions
 }
