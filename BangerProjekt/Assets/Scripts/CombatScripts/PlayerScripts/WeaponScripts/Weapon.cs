@@ -56,12 +56,15 @@ public abstract class Weapon : MonoBehaviour
             fire = playerInput.actions.FindAction("Fire");
         }
         CanShoot = true;
-        bulletsLeft = BulletAmount + Player.Instance.BonusBulletAmount;
         ShootingMiddle = GameObject.Find("ShootingMiddle"); //we find by name to not bloat the tags aaaaaaaa help names are so bad aaaaaa
         ShootingPoint = ShootingMiddle.transform.GetChild(0);
         SetItemStats();
     }
 
+	private void Start()
+	{
+		bulletsLeft = BulletAmount + Player.Instance.BonusBulletAmount;
+	}
 	private void OnEnable()
 	{
 		fire.started += FiringStart;

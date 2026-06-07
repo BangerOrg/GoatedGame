@@ -48,6 +48,8 @@ public class Player : Unit
 	[field: SerializeField] public float BonusSpreadAngle { get; set; }
 	[field: SerializeField] public int BonusBulletAmount { get; set; }
 	[field: SerializeField] public float BonusShotSpeed { get; set; }
+	[field:SerializeField] public float BonusMoveSpeed { get; set; }
+
 	private int bonusZoom;
 	public int BonusZoom
 	{
@@ -277,7 +279,6 @@ public class Player : Unit
 			BonusFireRate += itemToChangeStats.FireRate;
 			//defense not implemented
 			AddMaxHealth(itemToChangeStats.HealthBonus);
-			Debug.Log("Bonus DMG (ChangeItemStats): " + BonusDamage);
 		}
 		else
 		{
@@ -336,6 +337,7 @@ public class Player : Unit
 		BonusFireRate += PlayerClass.StartingBonusFireRate;
 		AddMaxHealth(PlayerClass.StartingHealth);
 		BonusShotSpeed += PlayerClass.StartingBonusShotSpeed;
+		BonusMoveSpeed += PlayerClass.StartingBonusMoveSpeed;
 		BonusSpreadAngle = 1f; //standard 100%
 	}
 	//End of Saving/Loading Function

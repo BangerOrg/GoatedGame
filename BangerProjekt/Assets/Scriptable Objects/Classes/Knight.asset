@@ -25,3 +25,4 @@ MonoBehaviour:
   <StartingMoveSpeed>k__BackingField: 5
   <CorrespondingEnum>k__BackingField: 2
   <StartingBonusShotSpeed>k__BackingField: 1
+  <StartingBonusMoveSpeed>k__BackingField: 1

@@ -15,4 +15,5 @@ public class Class : ScriptableObject
     [field: SerializeField] public Enums.Class CorrespondingEnum { get; set; }
 
 	[field:SerializeField] public float StartingBonusShotSpeed {  get; set; }
+	[field:SerializeField] public float StartingBonusMoveSpeed {  get; set; }
 }
