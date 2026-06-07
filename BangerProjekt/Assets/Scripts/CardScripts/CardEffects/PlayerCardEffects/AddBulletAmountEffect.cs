@@ -10,10 +10,10 @@ public class AddBulletAmountEffect : CardEffect
 	public override void ExecuteEffect(string effect)
 	{
 		value = Int32.Parse(effect);
-        Player.Instance.AddBonusBulletAmount(value);
+        Player.Instance.BonusBulletAmount += value;
 	}
 	public override void RevertEffect(string effect)
 	{
-		Player.Instance.AddBonusBulletAmount(-value);
+		Player.Instance.BonusBulletAmount -= value;
 	}
 }

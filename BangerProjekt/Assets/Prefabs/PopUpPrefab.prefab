@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2252283820024816271}
   - component: {fileID: 4697652059792174018}
   - component: {fileID: 5747432348737656046}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PopUpPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}

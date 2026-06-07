@@ -10,12 +10,12 @@ public class AddDamageEffect : CardEffect
 	public override void ExecuteEffect(string effect)
 	{
 		value = Int32.Parse(effect);
-		Player.Instance.AddBonusDamage(value);
+		Player.Instance.BonusDamage += value;
 	}
 
 	public override void RevertEffect(string effect)
 	{
-		Player.Instance.AddBonusDamage(-value);
+		Player.Instance.BonusDamage -= value;
 	}
 
 }

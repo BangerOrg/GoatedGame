@@ -43,13 +43,26 @@ public class Player : Unit
 	//End of general Player variables -------------------------
 
 	//Start of Bonus Stat Variables --------
-	public int BonusDamage { get; private set; }
-	public float BonusFireRate { get; private set; }
-	public int BonusSpreadAngle { get; private set; }
-	public int BonusBulletAmount { get; private set; }
-	public int BonusShotSpeed { get; private set; }
-	public int BonusZoom { get; private set; }
-	public int BonusPierce { get; private set; }
+	[field: SerializeField] public float BonusDamage { get; set; }
+	[field: SerializeField] public float BonusFireRate { get; set; }
+	[field: SerializeField] public float BonusSpreadAngle { get; set; }
+	[field: SerializeField] public int BonusBulletAmount { get; set; }
+	[field: SerializeField] public float BonusShotSpeed { get; set; }
+	private int bonusZoom;
+	public int BonusZoom
+	{
+		get
+		{
+			return bonusZoom;
+		}
+		set
+		{
+			GameObject.FindWithTag("MainCamera").GetComponent<Camera>().orthographicSize -= bonusZoom;
+			bonusZoom += value;
+			GameObject.FindWithTag("MainCamera").GetComponent<Camera>().orthographicSize += bonusZoom;
+		}
+	}
+	[field: SerializeField] public int BonusPierce { get; set; }
 	//End of Bonus Stat Variables -----------
 
 	//Start of Item Variables -----------
@@ -192,11 +205,11 @@ public class Player : Unit
 		requiredExp = (int)(requiredExp * 1.5f);
 		if (level % 2 == 0)
 		{
-			AddBonusDamage(1); //do 1 extra Damage
-			AddBonusFireRate(0.1f); //slightly higher fireRate
+			BonusDamage += 0.1f; //10% bonus dmg
+			BonusFireRate += 0.1f; //10% bonus firerate
 		}
 		AddMaxHealth(10); //get 10 max Health
-		AddBonusFireRate(0.1f); //slightly higher fireRate
+		BonusFireRate += 0.1f; //10% bonus firerate
 		PopUp.Create(transform.position + new Vector3(0.3f, 1.5f, 0), "Level Up!", Color.yellow, 7);
 		//stat increase probably
 	}
@@ -260,16 +273,16 @@ public class Player : Unit
 		}
 		if (addSub)
 		{
-			AddBonusDamage(itemToChangeStats.Damage);
-			AddBonusFireRate(itemToChangeStats.FireRate);
+			BonusDamage += itemToChangeStats.Damage;
+			BonusFireRate += itemToChangeStats.FireRate;
 			//defense not implemented
 			AddMaxHealth(itemToChangeStats.HealthBonus);
 			Debug.Log("Bonus DMG (ChangeItemStats): " + BonusDamage);
 		}
 		else
 		{
-			AddBonusDamage(-itemToChangeStats.Damage);
-			AddBonusFireRate(-itemToChangeStats.FireRate);
+			BonusDamage += itemToChangeStats.Damage;
+			BonusFireRate += itemToChangeStats.FireRate;
 			//defense not implemented
 			AddMaxHealth(-itemToChangeStats.HealthBonus);
 			//if equipment adds / subtracts more stats, this has to be added here
@@ -295,69 +308,12 @@ public class Player : Unit
 		GameObject newWeaponObject = Instantiate(newWeaponItem, gameObject.transform);
 		//Debug.Log("newWeaponObject = " + newWeaponObject.name);
 		weaponScript = newWeaponObject.GetComponent<Weapon>();
-		weaponScript.Damage += BonusDamage;
-		weaponScript.FireRate += BonusFireRate;
 		//both 0 to just add the extra damage
 		//simply adding that shit (might need to get a function later)
 		//set new weapon and add stats
 
 	}
-	public void AddBonusDamage(int amount)
-	{
-		weaponScript.Damage -= BonusDamage; //subtract so we can add everything at the end
-		BonusDamage += amount;
-		weaponScript.Damage += BonusDamage;
-	}
-	public void AddBonusFireRate(float amount)
-	{
-		bool hasShotDelay = false;
-		weaponScript.FireRate -= BonusFireRate; //subtract so we can add everything at the end
-		if (weaponScript.ShotDelay > 0)
-		{
-			weaponScript.ShotDelay -= BonusFireRate / 3;
-			hasShotDelay = true;
-		}
-		BonusFireRate += amount;
-		weaponScript.FireRate += BonusFireRate;
-		if (hasShotDelay) weaponScript.ShotDelay += BonusFireRate / 3;
 
-	}
-
-	public void AddBonusSpreadAngle(int amount)
-	{
-		weaponScript.SpreadAngle -= BonusSpreadAngle; //subtract so we can add everything at the end
-		BonusSpreadAngle += amount;
-		weaponScript.SpreadAngle += BonusSpreadAngle;
-		if (weaponScript.SpreadAngle < 0) weaponScript.SpreadAngle = 0;
-	}
-
-	public void AddBonusBulletAmount(int amount)
-	{
-		weaponScript.BulletAmount -= BonusBulletAmount;
-		BonusBulletAmount += amount;
-		weaponScript.BulletAmount += BonusBulletAmount;
-	}
-
-	public void AddBonusShotSpeed(int amount)
-	{
-		weaponScript.ShotSpeed -= BonusShotSpeed;
-		BonusShotSpeed += amount;
-		weaponScript.ShotSpeed += BonusShotSpeed;
-	}
-
-	public void AddBonusZoom(int amount)
-	{
-		GameObject.FindWithTag("MainCamera").GetComponent<Camera>().orthographicSize -= BonusZoom;
-		BonusZoom += amount;
-		GameObject.FindWithTag("MainCamera").GetComponent<Camera>().orthographicSize += BonusZoom;
-	}
-
-	public void AddBonusPierce(int amount)
-	{
-		weaponScript.BulletPierce -= BonusPierce;
-		BonusPierce += amount;
-		weaponScript.BulletPierce += BonusPierce;
-	}
 	//end of inventory functions
 
 	//Saving/Loading Function
@@ -376,10 +332,11 @@ public class Player : Unit
 		//literally just set everything from the Class
 		InitialMoveSpeed = PlayerClass.StartingMoveSpeed;
 		MoveSpeed += PlayerClass.StartingMoveSpeed;
-		AddBonusDamage(PlayerClass.StartingBonusDamage);
-		AddBonusFireRate(PlayerClass.StartingBonusFireRate);
+		BonusDamage += PlayerClass.StartingBonusDamage;
+		BonusFireRate += PlayerClass.StartingBonusFireRate;
 		AddMaxHealth(PlayerClass.StartingHealth);
-		Debug.Log("Bonus DMG (Loading)" + BonusDamage);
+		BonusShotSpeed += PlayerClass.StartingBonusShotSpeed;
+		BonusSpreadAngle = 1f; //standard 100%
 	}
 	//End of Saving/Loading Function
 
@@ -424,7 +381,7 @@ public class Player : Unit
 	}
 	public int CalcTotalDamage()
 	{
-		return weaponScript.Damage;
+		return (int)Math.Round(weaponScript.Damage * BonusDamage);
 	}
 	//End of General Functions
 }

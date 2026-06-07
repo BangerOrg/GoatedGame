@@ -9,11 +9,11 @@ public class AddBonusZoomEffect : CardEffect
 	public override void ExecuteEffect(string effect)
 	{
 		value = int.Parse(effect);
-		Player.Instance.AddBonusZoom(value);
+		Player.Instance.BonusZoom += value;
 	}
 
 	public override void RevertEffect(string effect)
 	{
-		Player.Instance.AddBonusZoom(-value);
+		Player.Instance.BonusZoom -= value;
 	}
 }

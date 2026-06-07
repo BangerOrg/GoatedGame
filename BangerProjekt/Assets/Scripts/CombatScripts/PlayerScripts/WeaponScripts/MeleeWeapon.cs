@@ -25,7 +25,7 @@ public class MeleeWeapon : Weapon
 
     public void CheckForSwing()
     {
-        float anglePerTick = (2 * SpreadAngle) / ((1f / ShotSpeed) * 50f); // 1 / shotDelay = time for it to swing entirely, and we need 2x spreadAngle because we travel from one end to another
+        float anglePerTick = (2 * (SpreadAngle * Player.Instance.BonusSpreadAngle)) / ((1f / (ShotSpeed * Player.Instance.BonusShotSpeed)) * 50f); // 1 / shotDelay = time for it to swing entirely, and we need 2x spreadAngle because we travel from one end to another
         if (!isSwinging)
         {
             if (bulletsLeft >= 0)
@@ -49,7 +49,7 @@ public class MeleeWeapon : Weapon
     public IEnumerator SwingWeapon(bool rightToLeft, float anglePerTick)
     {
         isSwinging = true;
-        float tickAmount = 2 * (SpreadAngle / anglePerTick);
+        float tickAmount = 2 * ((SpreadAngle * Player.Instance.BonusSpreadAngle) / anglePerTick);
         if (!rightToLeft)
         {
             anglePerTick *= -1; //we change direction if we want to go from left to right

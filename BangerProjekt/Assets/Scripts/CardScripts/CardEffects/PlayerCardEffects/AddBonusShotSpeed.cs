@@ -9,11 +9,11 @@ public class AddBonusShotSpeed : CardEffect
 	public override void ExecuteEffect(string effect)
 	{
 		value = int.Parse(effect);
-		Player.Instance.AddBonusShotSpeed(value);
+		Player.Instance.BonusShotSpeed += value;
 	}
 
 	public override void RevertEffect(string effect)
 	{
-		Player.Instance.AddBonusShotSpeed(-value);
+		Player.Instance.BonusShotSpeed -= value;
 	}
 }
