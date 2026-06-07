@@ -10,11 +10,11 @@ public class AddBonusPierceEffect : CardEffect
 	public override void ExecuteEffect(string effect)
 	{
 		value = int.Parse(effect);
-		Player.Instance.AddBonusPierce(value);
+		Player.Instance.BonusPierce += value;
 	}
 
 	public override void RevertEffect(string effect)
 	{
-		Player.Instance.AddBonusPierce(-value);
+		Player.Instance.BonusPierce -= value;
 	}
 }

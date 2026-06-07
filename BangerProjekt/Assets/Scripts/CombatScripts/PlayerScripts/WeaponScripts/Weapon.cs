@@ -56,12 +56,15 @@ public abstract class Weapon : MonoBehaviour
             fire = playerInput.actions.FindAction("Fire");
         }
         CanShoot = true;
-        bulletsLeft = BulletAmount;
         ShootingMiddle = GameObject.Find("ShootingMiddle"); //we find by name to not bloat the tags aaaaaaaa help names are so bad aaaaaa
         ShootingPoint = ShootingMiddle.transform.GetChild(0);
         SetItemStats();
     }
 
+	private void Start()
+	{
+		bulletsLeft = BulletAmount + Player.Instance.BonusBulletAmount;
+	}
 	private void OnEnable()
 	{
 		fire.started += FiringStart;
@@ -87,7 +90,7 @@ public abstract class Weapon : MonoBehaviour
             }
             else
             {
-                Shoot(BulletAmount);   
+                Shoot(BulletAmount + Player.Instance.BonusBulletAmount);   
             }
 
         }
@@ -119,15 +122,16 @@ public abstract class Weapon : MonoBehaviour
     public IEnumerator StartShotDelayCooldown()
     {
         CanShoot = false;
-        yield return new WaitForSeconds(1f / ShotDelay);
+		float bonusShotDelayIncrease = 1 + ((Player.Instance.BonusFireRate - 1) / 3f);
+        yield return new WaitForSeconds(1f / (ShotDelay * bonusShotDelayIncrease));
         CanShoot = true;
     }
 
     public IEnumerator StartReloadCooldown()
     {
         CanShoot = false;
-        yield return new WaitForSeconds(1f / FireRate);
-        bulletsLeft = BulletAmount;
+        yield return new WaitForSeconds(1f / (FireRate * Player.Instance.BonusFireRate));
+        bulletsLeft = BulletAmount + Player.Instance.BonusBulletAmount;
         CanShoot = true;
     }
 	private void OnDestroy()

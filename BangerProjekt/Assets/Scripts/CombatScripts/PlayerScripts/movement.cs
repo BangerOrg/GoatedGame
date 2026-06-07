@@ -69,7 +69,7 @@ public class movement : MonoBehaviour
     }
     public void Move()
     {
-        rb.velocity = new Vector2(moveDirection.x * playerScript.MoveSpeed, moveDirection.y * playerScript.MoveSpeed); //rb is the Rigidbody, and its velocity is set in Vectors (Vector2 because we only need x and y because its a 2D game)
+        rb.velocity = new Vector2(moveDirection.x * playerScript.MoveSpeed * playerScript.BonusMoveSpeed, moveDirection.y * playerScript.MoveSpeed * playerScript.BonusMoveSpeed); //rb is the Rigidbody, and its velocity is set in Vectors (Vector2 because we only need x and y because its a 2D game)
     }
 
     public void Turn()

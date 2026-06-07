@@ -18,7 +18,7 @@ MonoBehaviour:
   <Description>k__BackingField: MoveSpeed up
   <CardImage>k__BackingField: {fileID: 0}
   <LayerOfCard>k__BackingField: {fileID: 11400000, guid: 0fabe26fb7db2b149b44f8d10c84ea67, type: 2}
-  <CostToPlay>k__BackingField: 0
+  <CostToPlay>k__BackingField: 1
   <CardEffects>k__BackingField:
   - <First>k__BackingField: {fileID: 11400000, guid: 148f355f79d948848b94f3fe96120e08, type: 2}
-    <Second>k__BackingField: 1
+    <Second>k__BackingField: .2

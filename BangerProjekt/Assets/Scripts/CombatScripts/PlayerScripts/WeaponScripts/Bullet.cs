@@ -20,7 +20,7 @@ public class PlayerBullet : MonoBehaviour
 		weaponScript = GameObject.FindWithTag("Weapon").GetComponent<Weapon>();
 		playerScript = GameObject.FindWithTag("Player").GetComponent<Player>();
 		RemainingBulletBounces = weaponScript.BulletBounces;
-		RemainingPierce = weaponScript.BulletPierce;
+		RemainingPierce = weaponScript.BulletPierce + playerScript.BonusPierce;
 		rb = gameObject.GetComponent<Rigidbody2D>();
 	}
 
@@ -108,7 +108,7 @@ public class PlayerBullet : MonoBehaviour
 	{
 		if (isLifestealable) LifeStealCalculate();
 		float CritDamage = CritCalculate();
-		int totalDamage = (int)((weaponScript.Damage * weaponScript.DamageMult) * CritDamage);
+		int totalDamage = (int)((weaponScript.Damage * weaponScript.DamageMult * playerScript.BonusDamage) * CritDamage);
 		if (totalDamage <= 0) totalDamage = 1;
 		currObject.GetComponent<Unit>().DamageUnit(totalDamage, CritDamage);
 		RemainingPierce--; //reduce the pierce

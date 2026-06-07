@@ -10,11 +10,11 @@ public class AddBonusFireRateEffect : CardEffect
 	public override void ExecuteEffect(string effect)
 	{
 		value = float.Parse(effect);
-        Player.Instance.AddBonusFireRate(value);
+        Player.Instance.BonusFireRate += value;
 	}
 
 	public override void RevertEffect(string effect)
 	{
-		Player.Instance.AddBonusFireRate(-value);
+		Player.Instance.BonusFireRate -= value;
 	}
 }

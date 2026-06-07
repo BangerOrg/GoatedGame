@@ -30,7 +30,6 @@ public class UseAbilities : MonoBehaviour
         switch(InventoryLogic.ItemsEquipped[(int)Enums.SlotTag.Ability].ID)
         {
             case 1: //Dash
-                Debug.Log("Dash!");
                 float dashSpeedIncrease = 4f; //hard coding is necessary (can be changed here for balancing)
                 float dashDuration = 0.2f;
                 movementScript.Dash(dashSpeedIncrease,dashDuration);
