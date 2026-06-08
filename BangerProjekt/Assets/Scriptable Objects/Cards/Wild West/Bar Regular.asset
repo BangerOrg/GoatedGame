@@ -21,6 +21,6 @@ MonoBehaviour:
   <CostToPlay>k__BackingField: 0
   <CardEffects>k__BackingField:
   - <First>k__BackingField: {fileID: 11400000, guid: 0aa11106ff5bc1acfa96f70e065bfe06, type: 2}
-    <Second>k__BackingField: 0.15
+    <Second>k__BackingField: 0,15
   - <First>k__BackingField: {fileID: 11400000, guid: d5aeb6dec8946dd01b921c27f5a95366, type: 2}
-    <Second>k__BackingField: 0.15
+    <Second>k__BackingField: 0,15

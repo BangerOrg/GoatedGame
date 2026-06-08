@@ -6,13 +6,13 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "CardEffect/AddSpreadAngleEffect")]
 public class AddSpreadAngleEffect : CardEffect
 {
-    int value;
+	float value;
 
-    public override void ExecuteEffect(string effect)
-    {
-       value = Int32.Parse(effect);
-       Player.Instance.BonusSpreadAngle += value; 
-    }
+	public override void ExecuteEffect(string effect)
+	{
+		value = float.Parse(effect);
+		Player.Instance.BonusSpreadAngle += value;
+	}
 
 	public override void RevertEffect(string effect)
 	{

@@ -5,10 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "CardEffect/AddBonusSpeedEffect")]
 public class AddBonusSpeedEffect : CardEffect
 {
-	int value;
+	float value;
 	public override void ExecuteEffect(string effect)
 	{
-		value = int.Parse(effect);
+		value = float.Parse(effect);
 		Player.Instance.BonusMoveSpeed += value;
 	}
 
