@@ -48,7 +48,7 @@ public class Player : Unit
 	[field: SerializeField] public float BonusSpreadAngle { get; set; }
 	[field: SerializeField] public int BonusBulletAmount { get; set; }
 	[field: SerializeField] public float BonusShotSpeed { get; set; }
-	[field:SerializeField] public float BonusMoveSpeed { get; set; }
+	[field: SerializeField] public float BonusMoveSpeed { get; set; }
 
 	private int bonusZoom;
 	public int BonusZoom
@@ -217,54 +217,7 @@ public class Player : Unit
 	}
 
 	//end of exp related functions -----------------------
-	//start of Pickup related functions ------------------
-	public void AddBuff(int pickupType, float pickupDuration)
-	{
-		switch (pickupType) // determinate the typ of pickup
-		{
-			case 0: // Speed
-					//print(MoveSpeed);
-				MoveSpeed *= 1.5f; //multiplying the players speed for the duration of the buff
-								   //print(MoveSpeed);
-				StartCoroutine(EndBuff(pickupType, pickupDuration));
-				break;
-			case 1: // Strength
-					//print(weaponScript.Damage);
-				weaponScript.DamageMult++; //multiplying the players weapon dmg for the duration of the buff
-				StartCoroutine(EndBuff(pickupType, pickupDuration));
-				//print(weaponScript.Damage);
-				break;
-			case 2: // Hp
-				CurrentHealth += 20; // adding hp
-				break;
 
-		}
-
-	}
-	public IEnumerator EndBuff(int pickupType, float pickupDuration)
-	{
-		yield return new WaitForSeconds(pickupDuration); // removing buff on time over
-
-		switch (pickupType)
-		{
-			case 0:
-				MoveSpeed /= 1.5f; // removing the speed buff
-				if (MoveSpeed < InitialMoveSpeed)
-				{
-					MoveSpeed = InitialMoveSpeed;
-				}
-				//print(MoveSpeed);
-				break;
-			case 1:
-				weaponScript.DamageMult--; // removing the weapons dmg buff
-										   //print(weaponScript.Damage);
-				break;
-				//case 2: doesnt exist because its a one time heal
-
-		}
-	}
-
-	//end of Pickup related functions -------------------
 	//start of inventory functions -----------------------
 	public void ChangeItemStats(Item itemToChangeStats, bool addSub)
 	{
