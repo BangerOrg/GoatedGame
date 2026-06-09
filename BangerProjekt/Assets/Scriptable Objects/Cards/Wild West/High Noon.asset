@@ -23,6 +23,6 @@ MonoBehaviour:
   - <First>k__BackingField: {fileID: 11400000, guid: 118352c403d0c1fd5848c4b563e0e23b, type: 2}
     <Second>k__BackingField: 2
   - <First>k__BackingField: {fileID: 11400000, guid: 0aa11106ff5bc1acfa96f70e065bfe06, type: 2}
-    <Second>k__BackingField: 0,75
+    <Second>k__BackingField: 0.75
   - <First>k__BackingField: {fileID: 11400000, guid: 3ce7554f29c9b088394f2110340b5cb0, type: 2}
-    <Second>k__BackingField: -0,4
+    <Second>k__BackingField: -0.4

@@ -10,7 +10,7 @@ public class AddSpreadAngleEffect : CardEffect
 
 	public override void ExecuteEffect(string effect)
 	{
-		value = float.Parse(effect);
+		value = float.Parse(effect, info.NumberFormat);
 		Player.Instance.BonusSpreadAngle += value;
 	}
 

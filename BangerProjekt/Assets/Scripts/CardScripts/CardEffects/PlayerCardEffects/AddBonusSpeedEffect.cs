@@ -8,7 +8,7 @@ public class AddBonusSpeedEffect : CardEffect
 	float value;
 	public override void ExecuteEffect(string effect)
 	{
-		value = float.Parse(effect);
+		value = float.Parse(effect, info.NumberFormat);
 		Player.Instance.BonusMoveSpeed += value;
 	}
 
