@@ -58,7 +58,7 @@ MonoBehaviour:
   availableDoors: []
   usedDoors: []
   startRoomPrefab: {fileID: 210702645912464137, guid: 76d0d363167ccf806b5b8cb02a2bfdcc, type: 3}
-  numOfRoomsInspector: 10
+  baseRoomCount: 7
   tries: 0
   maxTries: 300
   <BossPortal>k__BackingField: {fileID: 8418496669349777609, guid: d3cdea6cbb297f23aa57be71ff9147a3, type: 3}
