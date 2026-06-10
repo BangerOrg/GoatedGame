@@ -24,7 +24,7 @@ public class ShopManager : MonoBehaviour
 		400, //Legendary
 		800 //mythic
 	};
-    
+
 
 
 
@@ -37,21 +37,9 @@ public class ShopManager : MonoBehaviour
         LayerManager.newLayer -= NewLayerOrRefresh;
     }
 
-    public void ToggleShop()
-    {
-        shopPanel.SetActive(!shopPanel.activeSelf);
-        if (shopPanel.activeSelf)
-        {
-            Time.timeScale = 0;
-        } else
-        {
-            Time.timeScale = 1;
-        }
-    }
-
     public void NewLayerOrRefresh() //This is called on a new layer and if we have shop Rerolls implemented someday
     {
-        
+
         Layer layer = LayerManager.CurrentLayer;
          if (layer == null)
          {

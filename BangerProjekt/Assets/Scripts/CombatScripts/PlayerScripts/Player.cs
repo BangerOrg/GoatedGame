@@ -21,9 +21,9 @@ public class Player : Unit
 	//End of Card variables ---------------------------------
 
 	//Start of level variables ------------------------------
-	private int level;
-	private int currentExp = 0;
-	private int requiredExp = 50;
+	[field: SerializeField] public int Level;
+	[field: SerializeField] public int CurrentExp = 0;
+	[field: SerializeField] public int RequiredExp = 50;
 	//End of level variables -------------------------------
 	//Start of LifeSteal variables
 	private bool IsStealingALife;
@@ -70,6 +70,7 @@ public class Player : Unit
 	//Start of Item Variables -----------
 	public static event Action<AbilityItem> NewAbility;
 	public static event Action ToggleInventory;
+	public static event Action ToggleShop;
 	//End of Item Variables ------------
 
 	//Interaction Event
@@ -192,10 +193,10 @@ public class Player : Unit
 
 	public void AddExp(int amount)
 	{
-		currentExp += amount;
-		while (currentExp >= requiredExp)
+		CurrentExp += amount;
+		while (CurrentExp >= RequiredExp)
 		{
-			currentExp -= requiredExp;
+			CurrentExp -= RequiredExp;
 			LevelUp();
 		}
 		//this while loop is here to make multiple level ups possible
@@ -203,9 +204,9 @@ public class Player : Unit
 
 	public void LevelUp()
 	{
-		level++;
-		requiredExp = (int)(requiredExp * 1.5f);
-		if (level % 2 == 0)
+		Level++;
+		RequiredExp = (int)(RequiredExp * 1.5f);
+		if (Level % 2 == 0)
 		{
 			BonusDamage += 0.1f; //10% bonus dmg
 			BonusFireRate += 0.1f; //10% bonus firerate
@@ -321,14 +322,14 @@ public class Player : Unit
 	private void SaveStats()
 	{
 		SaveManager.currentSave.EnemiesKilled = KillCount;
-		SaveManager.currentSave.Level = level;
+		SaveManager.currentSave.Level = Level;
 		SaveManager.currentSave.PlayerClass = PlayerClass;
 	}
 
 	private void LoadStats()
 	{
 		KillCount = SaveManager.currentSave.EnemiesKilled;
-		level = SaveManager.currentSave.Level;
+		Level = SaveManager.currentSave.Level;
 		PlayerClass = SaveManager.currentSave.PlayerClass;
 		//literally just set everything from the Class
 		InitialMoveSpeed = PlayerClass.StartingMoveSpeed;
@@ -377,10 +378,8 @@ public class Player : Unit
 			CancelInvoke("CountdownImmunityFrames");
 		}
 	}
-	public void toggleInventory()
-	{
-		ToggleInventory?.Invoke();
-	}
+	public void toggleInventory() { ToggleInventory?.Invoke(); }
+	public void toggleShop() { ToggleShop?.Invoke(); }
 	public int CalcTotalDamage()
 	{
 		return (int)Math.Round(weaponScript.Damage * BonusDamage);
