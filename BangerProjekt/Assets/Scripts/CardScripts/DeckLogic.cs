@@ -136,7 +136,7 @@ public class DeckLogic : MonoBehaviour
 		{
 			foreach (Pair<CardEffect, string> pair in card.CardEffects)
 			{
-				pair.First.RevertEffect(pair.Second);
+				pair.First.RevertEffect();
 			}
 		}
 		activeCards.Clear();

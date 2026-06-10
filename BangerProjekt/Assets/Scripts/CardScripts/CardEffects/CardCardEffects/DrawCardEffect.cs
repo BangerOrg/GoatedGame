@@ -13,7 +13,7 @@ public class DrawCardEffect : CardEffect
 		DeckLogic.Instance.DrawCards(value);
 	}
 
-	public override void RevertEffect(string effect)
+	public override void RevertEffect()
 	{
 		//literally nothing
 	}

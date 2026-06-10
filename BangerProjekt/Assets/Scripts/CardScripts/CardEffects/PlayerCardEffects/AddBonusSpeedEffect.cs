@@ -12,7 +12,7 @@ public class AddBonusSpeedEffect : CardEffect
 		Player.Instance.BonusMoveSpeed += value;
 	}
 
-	public override void RevertEffect(string effect)
+	public override void RevertEffect()
 	{
 		Player.Instance.BonusMoveSpeed -= value;
 	}
