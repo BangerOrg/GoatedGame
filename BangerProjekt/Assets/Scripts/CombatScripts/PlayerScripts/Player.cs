@@ -48,7 +48,7 @@ public class Player : Unit
 	[field: SerializeField] public float BonusSpreadAngle { get; set; }
 	[field: SerializeField] public int BonusBulletAmount { get; set; }
 	[field: SerializeField] public float BonusShotSpeed { get; set; }
-	[field:SerializeField] public float BonusMoveSpeed { get; set; }
+	[field: SerializeField] public float BonusMoveSpeed { get; set; }
 
 	private int bonusZoom;
 	public int BonusZoom

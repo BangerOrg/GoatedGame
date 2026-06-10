@@ -14,7 +14,7 @@ public class AddBonusFireRateEffect : CardEffect
 		Player.Instance.BonusFireRate += value;
 	}
 
-	public override void RevertEffect(string effect)
+	public override void RevertEffect()
 	{
 		Player.Instance.BonusFireRate -= value;
 	}
