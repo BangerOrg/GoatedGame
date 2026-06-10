@@ -60,7 +60,7 @@ public class Player : Unit
 		set
 		{
 			GameObject.FindWithTag("MainCamera").GetComponent<Camera>().orthographicSize -= bonusZoom;
-			bonusZoom += value;
+			bonusZoom = value;
 			GameObject.FindWithTag("MainCamera").GetComponent<Camera>().orthographicSize += bonusZoom;
 		}
 	}
