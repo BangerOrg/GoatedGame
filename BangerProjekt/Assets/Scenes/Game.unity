@@ -501,7 +501,7 @@ PrefabInstance:
     - target: {fileID: 6547559521655480698, guid: 020729efefde2e14aacaf32cf1c4487a, type: 3}
       propertyPath: GameOverScreen
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2053040890}
     - target: {fileID: 6547559521655480698, guid: 020729efefde2e14aacaf32cf1c4487a, type: 3}
       propertyPath: <Defense>k__BackingField
       value: 20
@@ -2341,6 +2341,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9242dc747c6b344e841658bffe2f45e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2053040890 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5494744559334295845, guid: b1c7e591a4957044b861184c7a73b88d, type: 3}
+  m_PrefabInstance: {fileID: 1821868797}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

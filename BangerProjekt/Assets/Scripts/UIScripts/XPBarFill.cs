@@ -17,6 +17,6 @@ public class XPBarFill : MonoBehaviour
 	void Update()
 	{
 		image.fillAmount = (float)Player.Instance.CurrentExp / Player.Instance.RequiredExp;
-		text.SetText($"{Player.Instance.CurrentExp}/{Player.Instance.RequiredExp}");
+		text.SetText("{0}/{1}", Player.Instance.CurrentExp,Player.Instance.RequiredExp);
 	}
 }

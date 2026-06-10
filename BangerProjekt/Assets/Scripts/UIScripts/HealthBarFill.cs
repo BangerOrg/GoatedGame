@@ -17,6 +17,6 @@ public class HealthBarFill : MonoBehaviour
 	void Update()
 	{
 		image.fillAmount = (float)Player.Instance.CurrentHealth / Player.Instance.MaxHealth;
-		text.SetText($"{Player.Instance.CurrentHealth}/{Player.Instance.MaxHealth}");
+		text.SetText("{0}/{1}", Player.Instance.CurrentHealth,Player.Instance.MaxHealth);
 	}
 }
