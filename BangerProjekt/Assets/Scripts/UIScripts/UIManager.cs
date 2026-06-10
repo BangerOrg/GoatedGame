@@ -133,12 +133,14 @@ public class UIManager : MonoBehaviour
         {
             Player.playerInput.actions.FindAction("Fire").Disable();
             Player.playerInput.actions.FindAction("Interact").Disable();
+			Player.playerInput.actions.FindAction("Toggle Shop").Disable();
 			shopButton.SetActive(false);
         }
         else
         {
             Player.playerInput.actions.FindAction("Fire").Enable();
             Player.playerInput.actions.FindAction("Interact").Enable();
+			Player.playerInput.actions.FindAction("Toggle Shop").Enable();
 			shopButton.SetActive(true);
         }
     }
