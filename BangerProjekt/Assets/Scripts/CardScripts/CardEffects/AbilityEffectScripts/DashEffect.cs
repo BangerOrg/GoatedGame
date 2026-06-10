@@ -21,7 +21,6 @@ public class DashEffect : CardEffect
 	{
 		Player.Instance.BonusMoveSpeed += speedMult;  //the player gets really fast
 		movement.Instance.pc.Disable();
-		Debug.Log(movement.Instance.rb.velocity);
 
 	}
 

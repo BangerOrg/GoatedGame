@@ -476,14 +476,6 @@ PrefabInstance:
       propertyPath: <BulletAmount>k__BackingField
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 6547559521655480698, guid: 020729efefde2e14aacaf32cf1c4487a, type: 3}
-      propertyPath: GameOverScreen
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6547559521655480698, guid: 020729efefde2e14aacaf32cf1c4487a, type: 3}
-      propertyPath: <Defense>k__BackingField
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 8078823533307354333, guid: 020729efefde2e14aacaf32cf1c4487a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1491,6 +1483,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5427750881102361716, guid: b1c7e591a4957044b861184c7a73b88d, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5494744559334295845, guid: b1c7e591a4957044b861184c7a73b88d, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5973758130518571472, guid: b1c7e591a4957044b861184c7a73b88d, type: 3}

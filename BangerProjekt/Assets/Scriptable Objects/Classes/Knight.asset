@@ -19,10 +19,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e643f4846bcbd1b44a9288ff56c58627, type: 2}
   - {fileID: 0}
   <StartingDeck>k__BackingField: []
-  <StartingBonusDamage>k__BackingField: 1
+  <StartingBonusDamage>k__BackingField: 1.1
   <StartingBonusFireRate>k__BackingField: 1
-  <StartingHealth>k__BackingField: 100
+  <StartingHealth>k__BackingField: 120
   <StartingMoveSpeed>k__BackingField: 5
-  <CorrespondingEnum>k__BackingField: 2
-  <StartingBonusShotSpeed>k__BackingField: 1
-  <StartingBonusMoveSpeed>k__BackingField: 1
+  <StartingBonusShotSpeed>k__BackingField: 0.9
+  <StartingBonusMoveSpeed>k__BackingField: 0.9
