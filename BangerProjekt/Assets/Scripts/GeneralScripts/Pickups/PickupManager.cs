@@ -42,7 +42,7 @@ public class PickupManager : MonoBehaviour
 		yield return new WaitForSeconds(duration);
 		foreach (Pair<CardEffect, string> pair in effectsToRevert)
 		{
-			pair.First.RevertEffect(pair.Second);
+			pair.First.RevertEffect();
 		}
 	}
 }
