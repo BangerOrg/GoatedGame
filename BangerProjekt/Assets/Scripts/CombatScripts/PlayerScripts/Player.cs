@@ -49,6 +49,8 @@ public class Player : Unit
 	[field: SerializeField] public int BonusBulletAmount { get; set; }
 	[field: SerializeField] public float BonusShotSpeed { get; set; }
 	[field: SerializeField] public float BonusMoveSpeed { get; set; }
+	[field: SerializeField] public float BonusCritChance { get; set; }
+	[field: SerializeField] public float BonusCritDamage { get; set; }
 
 	private int bonusZoom;
 	public int BonusZoom
@@ -230,13 +232,19 @@ public class Player : Unit
 		{
 			BonusDamage += itemToChangeStats.Damage;
 			BonusFireRate += itemToChangeStats.FireRate;
+			BonusBulletAmount += itemToChangeStats.BulletAmount;
+			BonusCritChance += itemToChangeStats.CritChance;
+			BonusCritDamage += itemToChangeStats.CritDamage;
 			//defense not implemented
 			AddMaxHealth(itemToChangeStats.HealthBonus);
 		}
 		else
 		{
-			BonusDamage += itemToChangeStats.Damage;
-			BonusFireRate += itemToChangeStats.FireRate;
+			BonusDamage -= itemToChangeStats.Damage;
+			BonusFireRate -= itemToChangeStats.FireRate;
+			BonusBulletAmount -= itemToChangeStats.BulletAmount;
+			BonusCritChance -= itemToChangeStats.CritChance;
+			BonusCritDamage -= itemToChangeStats.CritDamage;
 			//defense not implemented
 			AddMaxHealth(-itemToChangeStats.HealthBonus);
 			//if equipment adds / subtracts more stats, this has to be added here
@@ -292,6 +300,8 @@ public class Player : Unit
 		BonusShotSpeed += PlayerClass.StartingBonusShotSpeed;
 		BonusMoveSpeed += PlayerClass.StartingBonusMoveSpeed;
 		BonusSpreadAngle = 1f; //standard 100%
+		BonusCritChance += PlayerClass.StartingBonusCritChance;
+		BonusCritDamage += PlayerClass.StartingBonusCritDamage;
 	}
 	//End of Saving/Loading Function
 
