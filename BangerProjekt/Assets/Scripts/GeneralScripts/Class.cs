@@ -15,4 +15,7 @@ public class Class : ScriptableObject
 
 	[field: SerializeField] public float StartingBonusShotSpeed { get; set; }
 	[field: SerializeField] public float StartingBonusMoveSpeed { get; set; }
+	[field: SerializeField] public float StartingBonusCritChance { get; set; }
+	[field: SerializeField] public float StartingBonusCritDamage { get; set; }
+
 }

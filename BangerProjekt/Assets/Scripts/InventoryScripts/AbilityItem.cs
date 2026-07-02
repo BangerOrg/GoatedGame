@@ -13,11 +13,11 @@ public class AbilityItem : Item
 	public override string BuildStatString()
 	{
 		StringBuilder sb = new StringBuilder();
-		AddStat(sb, "Damage", Damage);
-		AddStat(sb, "Fire Rate", FireRate);
-		AddStat(sb, "Defense", Defense);
-		AddStat(sb, "Health Bonus", HealthBonus);
-		AddStat(sb, "Seconds Cooldown", AbilityCooldown); //how scuffed can it be
+		AddStat(sb, "% Damage", Damage * 100);
+		AddStat(sb, "% Fire Rate", FireRate * 100);
+		AddStat(sb, " Defense", Defense);
+		AddStat(sb, " Health Bonus", HealthBonus);
+		AddStat(sb, " Seconds Cooldown", AbilityCooldown); //how scuffed can it be
 		return sb.ToString();
 	}
 
@@ -26,7 +26,7 @@ public class AbilityItem : Item
 		if (value != 0)
 		{
 			string prefix = "";
-			if (label != "Seconds Cooldown")
+			if (label != " Seconds Cooldown")
 			{
 				prefix = value > 0 ? "+" : ""; //Add a + sign for positive values, - is implied for negative values
 			}
@@ -34,7 +34,7 @@ public class AbilityItem : Item
 			{
 				prefix = "";
 			}
-			sb.AppendLine($"{prefix}{value}{suffix} {label}"); //append to the string builder
+			sb.AppendLine($"{prefix}{value}{suffix}{label}"); //append to the string builder
 		}
 	}
 }

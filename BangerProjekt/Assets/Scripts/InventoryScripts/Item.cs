@@ -14,11 +14,13 @@ public class Item : ScriptableObject // Creating a item class for the standard i
 	[field: SerializeField] public float FireRate { get; set; }
 	[field: SerializeField] public int BulletAmount { get; set; }
 
-	[field: SerializeField] public int Damage { get; set; }
+	[field: SerializeField] public float Damage { get; set; }
 	//armour
 	[field: SerializeField] public float Defense { get; set; }
 
 	[field: SerializeField] public int HealthBonus { get; set; }
+	[field: SerializeField] public float CritChance { get; set; }
+	[field: SerializeField] public float CritDamage { get; set; }
 	//item
 	[field: SerializeField] public int ID { get; set; }
 	[field: SerializeField] public Enums.SlotTag ItemTag { get; set; }
@@ -39,10 +41,10 @@ public class Item : ScriptableObject // Creating a item class for the standard i
 	public virtual string BuildStatString()
 	{
 		StringBuilder sb = new StringBuilder();
-		AddStat(sb, "Damage", Damage);
-		AddStat(sb, "Fire Rate", FireRate);
-		AddStat(sb, "Defense", Defense);
-		AddStat(sb, "Health Bonus", HealthBonus);
+		AddStat(sb, "% Damage", Damage * 100);
+		AddStat(sb, "% Fire Rate", FireRate * 100);
+		AddStat(sb, " Defense", Defense);
+		AddStat(sb, " Health Bonus", HealthBonus);
 		return sb.ToString();
 	}
 	protected virtual void AddStat(StringBuilder sb, string label, float value, string suffix = "")
@@ -50,7 +52,7 @@ public class Item : ScriptableObject // Creating a item class for the standard i
 		if (value != 0)
 		{
 			string prefix = value > 0 ? "+" : ""; //Add a + sign for positive values, - is implied for negative values
-			sb.AppendLine($"{prefix}{value}{suffix} {label}"); //append to the string builder
+			sb.AppendLine($"{prefix}{value}{suffix}{label}"); //append to the string builder
 		}
 	}
 }
