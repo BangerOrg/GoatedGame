@@ -69,13 +69,19 @@ public class LayerManager : MonoBehaviour
         {
             CurrentLayer = AllLayerScript.Layers[0]; //if nothing is found, default to the first in the allLayerScript
         }
-
+		SetNewLayerChest();
         if (CurrentLayerNumber > 1) {GenerateNewLayer();}
         newLayer?.Invoke();
 
         //Debug.Log("Layer sent?");
     }
 
+	public static void SetNewLayerChest()
+	{
+		LootChest.MinCredits = 0; //formula
+		LootChest.MaxCredits = 0; //formula but more
+		//maybe set the chance to drop stuff?
+	}
     public static List<GameObject> GetEnemyListFromLayer()
     {
         return CurrentLayer.SpawnableEnemies;
