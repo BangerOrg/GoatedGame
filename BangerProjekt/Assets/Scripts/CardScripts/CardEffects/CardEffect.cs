@@ -10,7 +10,7 @@ public abstract class CardEffect : ScriptableObject
 	public abstract void ExecuteEffect(string effect);
 	public abstract void RevertEffect();
 
-	public virtual void OnRoomClear(string effect)
+	public virtual void OnRoomClear()
 	{
 
 	}
