@@ -9,7 +9,7 @@ public class HealEffect : CardEffect
 	public override void ExecuteEffect(string effect)
 	{
 		value = int.Parse(effect, info.NumberFormat);
-		Player.Instance.Heal(value);
+		Player.Instance.HealUnit(value);
 	}
 
 	public override void RevertEffect()

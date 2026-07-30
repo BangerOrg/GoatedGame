@@ -11,13 +11,13 @@ public class InventoryLogic : MonoBehaviour
 	public static Action<Item, bool> ChangeItemPlayerStats;
 	public static Action<GameObject> SendNewWeapon;
 	public static InventoryLogic Instance;
-	private AllItems allItemList;
+	public AllItems AllItemList { get; private set; }
 
 
 	private void Awake()
 	{
 		ActiveInventory = Instantiate(InventoryBlueprint);
-		allItemList = gameObject.GetComponent<AllItems>();
+		AllItemList = gameObject.GetComponent<AllItems>();
 	}
 
 	void Start()
@@ -28,9 +28,11 @@ public class InventoryLogic : MonoBehaviour
 			ItemsEquipped[i] = null;
 			//reset all items, after that we can load them from save
 		}
-		ObtainItem(allItemList.Items[1]); //free dash
-		ObtainItem(allItemList.Items[1]); //free dash
+		/*
+		ObtainItem(AllItemList.Items[1]); //free dash
+		ObtainItem(AllItemList.Items[1]); //free dash
 		EquipItem(ActiveInventory.slots[0]); // This is the only line that matters if you start with a save file (so if you start from Title Screen)
+		*/
 		/*ObtainItem(allItemList.Items[3]); //free Revolver??
         ObtainItem(allItemList.Items[3]); //free Revolver??
         ObtainItem(allItemList.Items[2]);

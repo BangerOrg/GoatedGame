@@ -14,20 +14,21 @@ public class Player : Unit
 	private Weapon weaponScript;
 	private UseAbilities abilityScript;
 	[SerializeField] private GameObject fistPrefab;
-	[SerializeField] private GameObject GameOverScreen;
+	[field:SerializeField] public GameObject GameOverScreen { get; set; }
 
 	//Start of Card variables --------------------------------
 
 	//End of Card variables ---------------------------------
 
 	//Start of level variables ------------------------------
-	private int level;
-	private int currentExp = 0;
-	private int requiredExp = 50;
+	public int Level { get; private set; } = 1;
+	public int CurrentExp { get; private set; } = 0;
+	public int RequiredExp { get; private set; } = 50;
 	//End of level variables -------------------------------
 	//Start of LifeSteal variables
 	private bool IsStealingALife;
 	private int LifeStealAmount = 1;
+	private float lifeStealCooldown = 0.1f;
 	//End of LifeSteal variables
 
 	//Start of general Player variables ----------------------
@@ -150,8 +151,6 @@ public class Player : Unit
 	{
 		if (IsImmune) return;
 		if (amount <= 0) return;
-		//This damage currently does not involve something like immunity frames or shit like that
-		//also every enemy damages you on collision, if you hug them forever, you only take damage once!
 		base.DamageUnit(amount, crit);
 		AddImmunityFrames(ImmuFramesOnHit);
 		PopUp.Create(transform.position + new Vector3(0.3f, 1.5f, 0), amount.ToString(), Color.red, 5);
@@ -159,9 +158,9 @@ public class Player : Unit
 		if (CurrentHealth <= 0) Die();
 	}
 
-	public void Heal(int amount)
+	public override void HealUnit(int amount)
 	{
-		HealUnit(amount);
+		base.HealUnit(amount);
 		//Update the healthbar if existent
 	}
 
@@ -176,9 +175,9 @@ public class Player : Unit
 		}
 	}
 
-	public IEnumerator StartLifestealCooldown() // Starting the 0.1 Secound Cooldown
+	public IEnumerator StartLifestealCooldown() // Starting the Cooldown
 	{
-		yield return new WaitForSeconds(0.1f);
+		yield return new WaitForSeconds(lifeStealCooldown);
 		IsStealingALife = false; // removing the LifeStealCD
 	}
 	public void Die()
@@ -194,10 +193,10 @@ public class Player : Unit
 
 	public void AddExp(int amount)
 	{
-		currentExp += amount;
-		while (currentExp >= requiredExp)
+		CurrentExp += amount;
+		while (CurrentExp >= RequiredExp)
 		{
-			currentExp -= requiredExp;
+			CurrentExp -= RequiredExp;
 			LevelUp();
 		}
 		//this while loop is here to make multiple level ups possible
@@ -205,9 +204,9 @@ public class Player : Unit
 
 	public void LevelUp()
 	{
-		level++;
-		requiredExp = (int)(requiredExp * 1.5f);
-		if (level % 2 == 0)
+		Level++;
+		RequiredExp = (int)(RequiredExp * 1.5f);
+		if (Level % 2 == 0)
 		{
 			BonusDamage += 0.1f; //10% bonus dmg
 			BonusFireRate += 0.1f; //10% bonus firerate
@@ -235,7 +234,7 @@ public class Player : Unit
 			BonusBulletAmount += itemToChangeStats.BulletAmount;
 			BonusCritChance += itemToChangeStats.CritChance;
 			BonusCritDamage += itemToChangeStats.CritDamage;
-			//defense not implemented
+			Defense += itemToChangeStats.Defense;
 			AddMaxHealth(itemToChangeStats.HealthBonus);
 		}
 		else
@@ -245,7 +244,7 @@ public class Player : Unit
 			BonusBulletAmount -= itemToChangeStats.BulletAmount;
 			BonusCritChance -= itemToChangeStats.CritChance;
 			BonusCritDamage -= itemToChangeStats.CritDamage;
-			//defense not implemented
+			Defense -= itemToChangeStats.Defense;
 			AddMaxHealth(-itemToChangeStats.HealthBonus);
 			//if equipment adds / subtracts more stats, this has to be added here
 		}
@@ -260,15 +259,12 @@ public class Player : Unit
 
 	public void NewWeapon(GameObject newWeaponItem)
 	{
-		//Debug.Log("NewWeapon called");
 		if (!newWeaponItem)
 		{
 			newWeaponItem = fistPrefab;
 		}
-		//Debug.Log("Destroying: " +GameObject.FindWithTag("Weapon").name);
 		Destroy(GameObject.FindWithTag("Weapon")); //the weapon gets fucking blasted
 		GameObject newWeaponObject = Instantiate(newWeaponItem, gameObject.transform);
-		//Debug.Log("newWeaponObject = " + newWeaponObject.name);
 		weaponScript = newWeaponObject.GetComponent<Weapon>();
 		//both 0 to just add the extra damage
 		//simply adding that shit (might need to get a function later)
@@ -282,14 +278,14 @@ public class Player : Unit
 	private void SaveStats()
 	{
 		SaveManager.currentSave.EnemiesKilled = KillCount;
-		SaveManager.currentSave.Level = level;
+		SaveManager.currentSave.Level = Level;
 		SaveManager.currentSave.PlayerClass = PlayerClass;
 	}
 
 	private void LoadStats()
 	{
 		KillCount = SaveManager.currentSave.EnemiesKilled;
-		level = SaveManager.currentSave.Level;
+		Level = SaveManager.currentSave.Level;
 		PlayerClass = SaveManager.currentSave.PlayerClass;
 		//literally just set everything from the Class
 		InitialMoveSpeed = PlayerClass.StartingMoveSpeed;
@@ -322,6 +318,7 @@ public class Player : Unit
 	public void AddImmunityFrames(int amount)
 	{
 		CurrImmunityFrames += amount;
+		IsImmune = true; //we prevent same frame hits with this
 		CancelInvoke("CountdownImmunityFrames"); //if it already runs, we dont want double countdown
 		InvokeRepeating("CountdownImmunityFrames", 0, 0.02f); //fixed frames being 50/sec
 	}
