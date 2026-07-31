@@ -28,7 +28,7 @@ public class RoomScript : MonoBehaviour
 
     private Transform spawnpointContainer; //The container for all the spawn points. (No need to set it for each room since every room should have it, so it gets created)
     private Transform obstacleContainer;
-    private Transform LootPoint;
+    public Transform LootPoint { get; set; }
     private List<Obstacle> allAvailableObstacles;
     public bool IsReady {get; set;} = false;
 

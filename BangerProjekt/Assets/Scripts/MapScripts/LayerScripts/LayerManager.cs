@@ -11,9 +11,9 @@ public class LayerManager : MonoBehaviour
     [field:SerializeField] public static Layer CurrentLayer {get; set;}
     [field: SerializeField] public static int CurrentLayerNumber { get; set; } = 0;
     public static Action newLayer;
-    private AllLayers AllLayerScript;
+    public AllLayers AllLayerScript { get; set; }
 
-    [SerializeField] private List<String> permanentObjects;
+    [field: SerializeField] public List<String> PermanentObjects { get; set; }
 
     private void Awake()
     {
@@ -112,7 +112,7 @@ public class LayerManager : MonoBehaviour
         bool isSaved = false;
         foreach(GameObject obj in allRootObjects)
         {
-            foreach(string objName in permanentObjects)
+            foreach(string objName in PermanentObjects)
             {
                 if (obj.name == objName)
                 {
@@ -123,7 +123,7 @@ public class LayerManager : MonoBehaviour
             if (!isSaved)
             {
                 obj.SetActive(false); //to prevent navmesh being shit
-                Destroy(obj);
+                DestroyImmediate(obj);
             }
             isSaved = false;
         }

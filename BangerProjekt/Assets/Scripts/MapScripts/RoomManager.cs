@@ -10,15 +10,15 @@ using Random = UnityEngine.Random;
 public class RoomManager : MonoBehaviour
 {
 	public static RoomManager Instance;
-	[SerializeField] private List<GameObject> roomPrefabs; //List of all room prefabs available. Does not change during runtime (yet?)
-	[SerializeField] private List<GameObject> rooms; //List of all rooms in the current layer
-	[SerializeField] private List<GameObject> availableDoors; //List of all doors in the current layer
-	[SerializeField] private List<GameObject> usedDoors; //List of all doors who have a valid room aligned
-	[SerializeField] private GameObject startRoomPrefab; //The starting room prefab (Open for changes if necessary)
+	[field: SerializeField] public List<GameObject> RoomPrefabs { get; set; } //List of all room prefabs available. Does not change during runtime (yet?)
+	[field: SerializeField] public List<GameObject> Rooms { get; set; } //List of all rooms in the current layer
+	[SerializeField] public List<GameObject> AvailableDoors { get; set; } //List of all doors in the current layer
+	[SerializeField] public List<GameObject> UsedDoors { get; set; } //List of all doors who have a valid room aligned
+	[SerializeField] public GameObject StartRoomPrefab { get; set; } //The starting room prefab (Open for changes if necessary)
 	[SerializeField] private int baseRoomCount = 10; //Base amount of rooms (we use this for our formula)
 	[SerializeField] private int tries = 0; //Number of current tries (To prevent infinite Loops)
-	[SerializeField] private int maxTries = 10000000; //Number of max Tries before the Loop breaks (To prevent infinite Loops)
-	private GameObject startRoom; //The one and only start room instance
+	[field: SerializeField] public int MaxTries { get; set; } = 10000000; //Number of max Tries before the Loop breaks (To prevent infinite Loops)
+	public GameObject StartRoom { get; set; } //The one and only start room instance
 	public static NavMeshSurface meshSurface;
 
 	[field: SerializeField] public GameObject BossPortal { get; set; }
@@ -52,13 +52,13 @@ public class RoomManager : MonoBehaviour
 	public void GenerateStartRoom()
 	{
 		if (LayerManager.CurrentLayerNumber == 1) return;
-		startRoom = Instantiate(startRoomPrefab, Vector3.zero, Quaternion.identity); //Make tha start room
-		startRoom.GetComponent<RoomScript>().Depth = 0;
-		rooms.Add(startRoom); //Yes exactly this room should be added to the rooms list
-		GameManager.currentRoom = startRoom.GetComponent<RoomScript>();
-		startRoom.GetComponent<RoomScript>().ClearRoom();
+		StartRoom = Instantiate(StartRoomPrefab, Vector3.zero, Quaternion.identity); //Make tha start room
+		StartRoom.GetComponent<RoomScript>().Depth = 0;
+		Rooms.Add(StartRoom); //Yes exactly this room should be added to the rooms list
+		GameManager.currentRoom = StartRoom.GetComponent<RoomScript>();
+		StartRoom.GetComponent<RoomScript>().ClearRoom();
 		GameManager.roomsCleared--; //to prevent startroom counting as a cleared room (fuck this)
-		availableDoors.Add(GameObject.FindWithTag("Door")); //And lets also get the first door.
+		AvailableDoors.Add(GameObject.FindWithTag("Door")); //And lets also get the first door.
 		SetStartRoomAngle();
 
 	}
@@ -68,15 +68,15 @@ public class RoomManager : MonoBehaviour
 		if (LayerManager.CurrentLayerNumber < 1) return;
 		float[] angles = { 0f, 90f, 180f, 270f }; //Simple array, because its not gonna change
 		float randomAngle = angles[Random.Range(0, angles.Length)]; //Pick a random start rotation
-		startRoom.transform.rotation = Quaternion.Euler(0, 0, randomAngle); // and apply it.
+		StartRoom.transform.rotation = Quaternion.Euler(0, 0, randomAngle); // and apply it.
 	}
 
 	public void SetNewLayer()
 	{
 		if (LayerManager.CurrentLayerNumber <= 1) return;
-		availableDoors.Clear();
-		rooms.Clear();
-		usedDoors.Clear();
+		AvailableDoors.Clear();
+		Rooms.Clear();
+		UsedDoors.Clear();
 		GenerateStartRoom();
 		GenerateRooms();
 	}
@@ -108,35 +108,35 @@ public class RoomManager : MonoBehaviour
 		for (int i = 0; i < numOfRooms; i++) //iterrate over how many rooms should be generated
 		{
 			tries++;
-			if (tries >= maxTries)  //To Prevent infinite Loops (Yes it is a slight bottleneck if you want to create over 10k rooms (Who would do that?))
+			if (tries >= MaxTries)  //To Prevent infinite Loops (Yes it is a slight bottleneck if you want to create over 10k rooms (Who would do that?))
 			{
 				break;
 			}
 
-			if (availableDoors.Count == 0) break; //This implies that no start room has been generated so no place to start generation. There always has to be at least 1 door.
-			int randomDoorIndex = Random.Range(0, availableDoors.Count);
-			GameObject randomDoor = availableDoors[randomDoorIndex];
+			if (AvailableDoors.Count == 0) break; //This implies that no start room has been generated so no place to start generation. There always has to be at least 1 door.
+			int randomDoorIndex = Random.Range(0, AvailableDoors.Count);
+			GameObject randomDoor = AvailableDoors[randomDoorIndex];
 
-			int randomIndex = Random.Range(0, roomPrefabs.Count); //Get a random index for the prefab list
+			int randomIndex = Random.Range(0, RoomPrefabs.Count); //Get a random index for the prefab list
 			Vector3 spawnPos = new Vector3(50, 50, 0); //spawn it away from the player so the EnemySpawner doesnt immediately trigger
-			GameObject newRoom = Instantiate(roomPrefabs[randomIndex], spawnPos, new Quaternion(0, 0, 0, 0)); //Get the prefab with said random index
+			GameObject newRoom = Instantiate(RoomPrefabs[randomIndex], spawnPos, new Quaternion(0, 0, 0, 0)); //Get the prefab with said random index
 
 			List<GameObject> roomDoors = newRoom.GetComponent<RoomScript>().RoomDoors; //Gets the doors of the new room that has been instantiated. Rooms may have "infinite" doors.
 			GameObject newRoomRandomDoor = roomDoors[Random.Range(0, roomDoors.Count)]; //Get the actual door we try to connect to
 
 			if (TryPlaceRoom(randomDoor, newRoomRandomDoor)) //This calls with a random already existing door and the door we just picked returns Bool
 			{ //Successfully created a room:
-				rooms.Add(newRoom); //Room added to the rooms list
-				usedDoors.Add(availableDoors[randomDoorIndex]); //the doors that were used in the process. These shouldn't be used again
-				usedDoors.Add(newRoomRandomDoor); //2. door =""=
-				newRoomRandomDoor.GetComponent<DoorScript>().LinkDoor(availableDoors[randomDoorIndex].GetComponent<DoorScript>());
+				Rooms.Add(newRoom); //Room added to the rooms list
+				UsedDoors.Add(AvailableDoors[randomDoorIndex]); //the doors that were used in the process. These shouldn't be used again
+				UsedDoors.Add(newRoomRandomDoor); //2. door =""=
+				newRoomRandomDoor.GetComponent<DoorScript>().LinkDoor(AvailableDoors[randomDoorIndex].GetComponent<DoorScript>());
 				newRoomRandomDoor.GetComponent<DoorScript>().LockDoor();
-				availableDoors.RemoveAt(randomDoorIndex); //Remove the used door that already existed from the Available doors
+				AvailableDoors.RemoveAt(randomDoorIndex); //Remove the used door that already existed from the Available doors
 				foreach (GameObject door in roomDoors) //Iterate over all new doors that were added with the room
 				{
 					if (door != newRoomRandomDoor) //to not add the already used door
 					{
-						availableDoors.Add(door);//and add them to the available doors
+						AvailableDoors.Add(door);//and add them to the available doors
 					}
 				}
 				newRoom.GetComponent<RoomScript>().Depth = randomDoor.GetComponentInParent<RoomScript>().Depth + 1;
@@ -155,7 +155,7 @@ public class RoomManager : MonoBehaviour
 		meshSurface.BuildNavMesh(); //after everything is generated, build the NavMesh for the Enemies
 									//needs to get recalculated if new obstacles appear
 		SetBossRoom();
-		startRoom.GetComponent<RoomScript>().ClearRoom();
+		StartRoom.GetComponent<RoomScript>().ClearRoom();
 		GameManager.roomsCleared--; //to prevent startroom counting as a cleared room (fuck this)
 		SetRoomGroundSprite();
 	}
@@ -163,7 +163,7 @@ public class RoomManager : MonoBehaviour
 	private void SetRoomGroundSprite()
 	{
 		List<GameObject> grounds = new List<GameObject>();
-		foreach (GameObject room in rooms)
+		foreach (GameObject room in Rooms)
 		{
 			foreach (Transform obj in room.transform)
 			{
@@ -188,6 +188,7 @@ public class RoomManager : MonoBehaviour
 
 		GameObject roomB = doorB.transform.parent.gameObject; //We only need the new room, the already existing room doesn't really matter
 
+		Debug.Log(doorB.name);
 		Vector2 dirA = (doorA.GetComponent<DoorScript>().DoorFacing.position - doorA.GetComponent<DoorScript>().DoorMiddle.position).normalized; //We get the vectors of the doors middle to their facing points
 		Vector2 dirB = (doorB.GetComponent<DoorScript>().DoorFacing.position - doorB.GetComponent<DoorScript>().DoorMiddle.position).normalized;
 
@@ -244,20 +245,20 @@ public class RoomManager : MonoBehaviour
 	{
 		HashSet<GameObject> doorsToRemove = new HashSet<GameObject>(); //HashSet to not have Duplicate doors
 
-		for (int i = 0; i < availableDoors.Count; i++) //Iterate over Still available doors
+		for (int i = 0; i < AvailableDoors.Count; i++) //Iterate over Still available doors
 		{
-			for (int j = i + 1; j < availableDoors.Count; j++) // i+1 to prevent checking the door with itself
+			for (int j = i + 1; j < AvailableDoors.Count; j++) // i+1 to prevent checking the door with itself
 			{
-				GameObject doorA = availableDoors[i]; //Get the doors
-				GameObject doorB = availableDoors[j];
+				GameObject doorA = AvailableDoors[i]; //Get the doors
+				GameObject doorB = AvailableDoors[j];
 
 				if (Vector3.Distance(doorA.transform.position, doorB.transform.position) < 0.08f) //Check distance between doors if they are really close/overlap
 				{
 					doorsToRemove.Add(doorA); //Add doors to later remove into the HashSet
 					doorsToRemove.Add(doorB);
 
-					if (!usedDoors.Contains(doorA)) usedDoors.Add(doorA); //if for good measure that doors really not get added twice and are not already present in usedDoors
-					if (!usedDoors.Contains(doorB)) usedDoors.Add(doorB);
+					if (!UsedDoors.Contains(doorA)) UsedDoors.Add(doorA); //if for good measure that doors really not get added twice and are not already present in usedDoors
+					if (!UsedDoors.Contains(doorB)) UsedDoors.Add(doorB);
 
 					doorA.GetComponent<DoorScript>().LinkDoor(doorB.GetComponent<DoorScript>());
 					doorA.GetComponent<DoorScript>().LockDoor();
@@ -269,15 +270,15 @@ public class RoomManager : MonoBehaviour
 
 		foreach (GameObject door in doorsToRemove) //Iterating over all doors in the HashSet
 		{
-			availableDoors.Remove(door); //remove doors fr fr
+			AvailableDoors.Remove(door); //remove doors fr fr
 		}
 	}
 
 	private void SetBossRoom()
 	{
-		GameObject highestDepthRoom = startRoom;
+		GameObject highestDepthRoom = StartRoom;
 		int highestDepthCount = 0;
-		foreach (GameObject room in rooms)
+		foreach (GameObject room in Rooms)
 		{
 			foreach (GameObject obs in room.GetComponent<RoomScript>().AllObstacles) //Rotate all obstacles to upright. Why do i do it here?
 																					 //Because i already itterate over all rooms and thus dont need to do it after the generation again(saves one GameObject fetch)
@@ -292,9 +293,9 @@ public class RoomManager : MonoBehaviour
 				highestDepthCount = room.GetComponent<RoomScript>().Depth;
 			}
 		}
-		if (highestDepthRoom == startRoom)
+		if (highestDepthRoom == StartRoom)
 		{
-			foreach (GameObject room in rooms)
+			foreach (GameObject room in Rooms)
 			{
 				if (room.GetComponent<RoomScript>().Depth > highestDepthCount)
 				{
@@ -315,7 +316,7 @@ public class RoomManager : MonoBehaviour
 
 	public void SetMiniMap()
 	{
-		foreach (GameObject room in rooms)
+		foreach (GameObject room in Rooms)
 		{
 			room.GetComponent<RoomScript>().SetMiniMap();
 		}
