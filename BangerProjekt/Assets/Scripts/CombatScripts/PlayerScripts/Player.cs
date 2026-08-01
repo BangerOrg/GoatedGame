@@ -98,6 +98,7 @@ public class Player : Unit
 		weaponScript = GameObject.FindWithTag("Weapon").GetComponent<Weapon>(); //gameObject with small g = this.GameObject
 		abilityScript = gameObject.GetComponent<UseAbilities>();
 		playerInput = this.GetComponent<PlayerInput>();
+		GameOverScreen.SetActive(false);
 		base.Awake();
 	}
 
@@ -143,6 +144,12 @@ public class Player : Unit
 		InteractEvent?.Invoke();
 	}
 
+	public void OnDestroy()
+	{
+		Instance = null;
+		playerInput = null;
+	}
+
 	//End of Unity specific functions ----------------------------
 
 
@@ -151,7 +158,11 @@ public class Player : Unit
 	{
 		if (IsImmune) return;
 		if (amount <= 0) return;
-		base.DamageUnit(amount, crit);
+		if (CurrentHealth > 0)
+		{
+			amount = Mathf.RoundToInt(amount * (1 - DamageReduction)); // calculates damage ammount based on Damage Reduction
+			CurrentHealth -= amount;
+		}
 		AddImmunityFrames(ImmuFramesOnHit);
 		PopUp.Create(transform.position + new Vector3(0.3f, 1.5f, 0), amount.ToString(), Color.red, 5);
 		//Update the Healthbar if existent

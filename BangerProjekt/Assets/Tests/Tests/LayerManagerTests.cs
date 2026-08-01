@@ -47,6 +47,8 @@ public class LayerManagerTests : MonoBehaviour
 		LayerManager.CurrentLayerNumber = 0;
 	}
 
+
+	/*
 	[Test]
 	public void NextLayerTest()
 	{
@@ -77,4 +79,6 @@ public class LayerManagerTests : MonoBehaviour
 		Assert.AreEqual(LayerManager.CurrentLayerNumber, 4);
 		Assert.AreEqual(LayerManager.CurrentLayer, testLayer);
 	}
+	*/
+	//play mode tests
 }

@@ -40,7 +40,15 @@ public class LayerManager : MonoBehaviour
         SaveManager.LoadingGame += LoadLayer;
     }
 
-    private void OnDisable()
+	public void OnDestroy()
+	{
+		Instance = null;
+		CurrentLayer = null;
+		CurrentLayerNumber = 0;
+
+	}
+
+	private void OnDisable()
     {
         SaveManager.SavingGame -= SaveLayer;
         SaveManager.LoadingGame -= LoadLayer;
@@ -78,8 +86,8 @@ public class LayerManager : MonoBehaviour
 
 	public static void SetNewLayerChest()
 	{
-		LootChest.MinCredits = 0; //formula
-		LootChest.MaxCredits = 0; //formula but more
+		LootChest.MinCredits = GameManager.START_MIN_CREDITS; //formula
+		LootChest.MaxCredits = GameManager.START_MAX_CREDITS; //formula but more
 		//maybe set the chance to drop stuff?
 	}
     public static List<GameObject> GetEnemyListFromLayer()
@@ -123,7 +131,7 @@ public class LayerManager : MonoBehaviour
             if (!isSaved)
             {
                 obj.SetActive(false); //to prevent navmesh being shit
-                DestroyImmediate(obj);
+                Destroy(obj);
             }
             isSaved = false;
         }

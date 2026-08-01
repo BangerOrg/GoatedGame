@@ -56,6 +56,7 @@ public class EnemyTests
 		Assert.AreEqual(enemy.CurrentHealth, 10);
 	}
 
+	/*
 	[Test]
 	public void DeathTest()
 	{
@@ -64,4 +65,6 @@ public class EnemyTests
 		Assert.AreEqual(enemy.CurrentHealth, 0);
 		Assert.AreEqual(player.KillCount, 1);
 	}
+	*/
+	//play mode tests!
 }

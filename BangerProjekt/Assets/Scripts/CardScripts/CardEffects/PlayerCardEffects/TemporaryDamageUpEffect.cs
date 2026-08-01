@@ -11,8 +11,8 @@ public class TemporaryDamageUpEffect : CardEffect
 	public override void ExecuteEffect(string effect)
 	{
 		string[] strings = effect.Split(";");
-		value = float.Parse(strings[0], info.NumberFormat);
-		downPerRoom = float.Parse(strings[1], info.NumberFormat);
+		value += float.Parse(strings[0], info.NumberFormat);
+		downPerRoom += float.Parse(strings[1], info.NumberFormat);
 		Player.Instance.BonusDamage += value;
 	}
 
@@ -22,7 +22,7 @@ public class TemporaryDamageUpEffect : CardEffect
 		value -= downPerRoom;
 	}
 
-	public override void RevertEffect()
+	public override void RevertEffect(string effect)
 	{
 		Player.Instance.BonusDamage -= value;
 		//uhhhhhhh set damage to normal type shit

@@ -96,6 +96,6 @@ public class Enemy : Unit
 			xpObject.GetComponent<XP>().Amount = xpValue;  //Edit the XP amount of the Created XP object instance
 		}
 		enemyDies?.Invoke(gameObject);
-		DestroyImmediate(gameObject); //for testing purposes, this is immediate
+		Destroy(gameObject); //for testing purposes, this is immediate
 	}
 }

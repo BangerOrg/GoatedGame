@@ -62,6 +62,11 @@ public class DeckLogic : MonoBehaviour
 		RoomScript.RoomCleared -= OnRoomClearCardEffects;
 	}
 
+	public void OnDestroy()
+	{
+		Instance = null;
+	}
+
 	public void AddCard(Card newCard)
 	{
 		EntireDeck.Add(newCard);
@@ -149,7 +154,7 @@ public class DeckLogic : MonoBehaviour
 		{
 			foreach (Pair<CardEffect, string> pair in card.CardEffects)
 			{
-				pair.First.RevertEffect();
+				pair.First.RevertEffect(pair.Second);
 			}
 		}
 		activeCards.Clear();

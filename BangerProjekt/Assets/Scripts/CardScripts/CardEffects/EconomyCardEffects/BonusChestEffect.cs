@@ -14,7 +14,7 @@ public class BonusChestEffect : CardEffect
 		LootChest.MaxCredits += value;
 	}
 
-	public override void RevertEffect()
+	public override void RevertEffect(string effect)
 	{
 		LootChest.MinCredits -= value;
 		LootChest.MaxCredits -= value;

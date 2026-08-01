@@ -12,7 +12,7 @@ public class HealEffect : CardEffect
 		Player.Instance.HealUnit(value);
 	}
 
-	public override void RevertEffect()
+	public override void RevertEffect(string effect)
 	{
 		//no revert
 	}

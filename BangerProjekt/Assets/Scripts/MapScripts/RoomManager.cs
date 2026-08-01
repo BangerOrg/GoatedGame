@@ -12,9 +12,9 @@ public class RoomManager : MonoBehaviour
 	public static RoomManager Instance;
 	[field: SerializeField] public List<GameObject> RoomPrefabs { get; set; } //List of all room prefabs available. Does not change during runtime (yet?)
 	[field: SerializeField] public List<GameObject> Rooms { get; set; } //List of all rooms in the current layer
-	[SerializeField] public List<GameObject> AvailableDoors { get; set; } //List of all doors in the current layer
-	[SerializeField] public List<GameObject> UsedDoors { get; set; } //List of all doors who have a valid room aligned
-	[SerializeField] public GameObject StartRoomPrefab { get; set; } //The starting room prefab (Open for changes if necessary)
+	[field: SerializeField] public List<GameObject> AvailableDoors { get; set; } //List of all doors in the current layer
+	[field:SerializeField] public List<GameObject> UsedDoors { get; set; } //List of all doors who have a valid room aligned
+	[field:SerializeField] public GameObject StartRoomPrefab { get; set; } //The starting room prefab (Open for changes if necessary)
 	[SerializeField] private int baseRoomCount = 10; //Base amount of rooms (we use this for our formula)
 	[SerializeField] private int tries = 0; //Number of current tries (To prevent infinite Loops)
 	[field: SerializeField] public int MaxTries { get; set; } = 10000000; //Number of max Tries before the Loop breaks (To prevent infinite Loops)
@@ -91,6 +91,12 @@ public class RoomManager : MonoBehaviour
 	{
 		RoomScript.RoomCleared -= SetMiniMap;
 		LayerManager.newLayer -= SetNewLayer;
+	}
+
+	public void OnDestroy()
+	{
+		Instance = null;
+		meshSurface = null;
 	}
 
 
@@ -188,7 +194,6 @@ public class RoomManager : MonoBehaviour
 
 		GameObject roomB = doorB.transform.parent.gameObject; //We only need the new room, the already existing room doesn't really matter
 
-		Debug.Log(doorB.name);
 		Vector2 dirA = (doorA.GetComponent<DoorScript>().DoorFacing.position - doorA.GetComponent<DoorScript>().DoorMiddle.position).normalized; //We get the vectors of the doors middle to their facing points
 		Vector2 dirB = (doorB.GetComponent<DoorScript>().DoorFacing.position - doorB.GetComponent<DoorScript>().DoorMiddle.position).normalized;
 

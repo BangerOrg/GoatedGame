@@ -116,6 +116,7 @@ public abstract class Weapon : MonoBehaviour
 		LifeSteal += CorrespondingItem.LifeSteal;
 		//we add everywhere in case the player shit gets called first to add the fucking stats (i dont think it could happen and even if, the stats would affect the old weapon, but fuck it)
 		BulletBounces += CorrespondingItem.BulletBounces;
+		BulletPierce += CorrespondingItem.BulletPierce;
 	}
 
 

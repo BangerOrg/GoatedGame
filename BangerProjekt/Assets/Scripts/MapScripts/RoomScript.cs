@@ -90,7 +90,7 @@ public class RoomScript : MonoBehaviour
         }
         else if (LootPoint)//normal room gets normal chest while boss gets something cooler ig (except for startroom loser)
         {
-            GameObject newLootChest = Instantiate(GameManager.Instance.LootChest, LootPoint.position, Quaternion.identity, LootPoint);
+            GameObject newLootChest = Instantiate(GameManager.Instance.LootChestPrefab, LootPoint.position, Quaternion.identity, LootPoint);
         }
    }
 

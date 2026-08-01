@@ -39,15 +39,15 @@ public class UseAbilities : MonoBehaviour
 		StartCoroutine(AbilityCooldown(Cooldown));
 	}
 
-	public void AbilityDuration(CardEffect effect, float duration)
+	public void AbilityDuration(CardEffect effect, float duration, string effectString)
 	{
-		StartCoroutine(AbilityDurationCountdown(effect, duration));
+		StartCoroutine(AbilityDurationCountdown(effect, duration, effectString));
 	}
 
-	public IEnumerator AbilityDurationCountdown(CardEffect effect, float duration)
+	public IEnumerator AbilityDurationCountdown(CardEffect effect, float duration, string effectString)
 	{
 		yield return new WaitForSeconds(duration);
-		effect.RevertEffect();
+		effect.RevertEffect(effectString);
 	}
 
 	public IEnumerator AbilityCooldown(float time) //call by value yessss

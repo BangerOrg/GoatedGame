@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
+using Random = UnityEngine.Random;
 public class PickupScript : MonoBehaviour
 {
+	public static event Action<float, List<Pair<CardEffect, string>>> PickedUp;
 	private Pickup pickupType;
 	void Awake()
 	{
@@ -21,7 +23,7 @@ public class PickupScript : MonoBehaviour
 				pair.First.ExecuteEffect(pair.Second);
 
 			}
-			if (pickupType.doesRevert) StartCoroutine(PickupManager.WaitForRevert(pickupType.durationInSeconds, pickupType.PickupEffects));
+			if (pickupType.doesRevert) PickedUp?.Invoke(pickupType.durationInSeconds, pickupType.PickupEffects);
 			Destroy(gameObject);
 		}
 	}

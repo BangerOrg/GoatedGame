@@ -19,13 +19,19 @@ public class PickupManager : MonoBehaviour
 	void OnEnable()
 	{
 		Enemy.enemyDies += CheckForPickupDrop;
+		PickupScript.PickedUp += RevertEffect;
 	}
 
 	void OnDisable()
 	{
 		Enemy.enemyDies -= CheckForPickupDrop;
+		PickupScript.PickedUp -= RevertEffect;
 	}
 
+	public void OnDestroy()
+	{
+		Instance = null;
+	}
 
 	void CheckForPickupDrop(GameObject droppingEnemy)
 	{
@@ -37,12 +43,21 @@ public class PickupManager : MonoBehaviour
 		}
 	}
 
-	public static IEnumerator WaitForRevert(float duration, List<Pair<CardEffect, string>> effectsToRevert)
+	public void RevertEffect(float duration, List<Pair<CardEffect, string>> effectsToRevert)
 	{
+		StartCoroutine(WaitForRevert(duration, effectsToRevert));
+	}
+
+	public IEnumerator WaitForRevert(float duration, List<Pair<CardEffect, string>> effectsToRevert)
+	{
+		Debug.Log("reverting now...");
+		Debug.Log("effects To Revert count: " + effectsToRevert.Count);
+		Debug.Log("we will be waiting for " + duration + " seconds");
 		yield return new WaitForSeconds(duration);
+		Debug.Log("time is up, effect is gone");
 		foreach (Pair<CardEffect, string> pair in effectsToRevert)
 		{
-			pair.First.RevertEffect();
+			pair.First.RevertEffect(pair.Second);
 		}
 	}
 }
