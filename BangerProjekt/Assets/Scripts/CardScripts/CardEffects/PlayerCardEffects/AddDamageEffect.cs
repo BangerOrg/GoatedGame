@@ -14,8 +14,10 @@ public class AddDamageEffect : CardEffect
 		Player.Instance.BonusDamage += value;
 	}
 
-	public override void RevertEffect()
+	public override void RevertEffect(string effect)
 	{
+		value = float.Parse(effect, info.NumberFormat);
+
 		Player.Instance.BonusDamage -= value;
 	}
 

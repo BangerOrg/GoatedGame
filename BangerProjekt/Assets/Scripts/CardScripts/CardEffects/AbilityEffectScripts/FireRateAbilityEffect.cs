@@ -12,10 +12,10 @@ public class FireRateAbilityEffect : CardEffect
 		duration = float.Parse(strings[0], info.NumberFormat);
 		fireRateMult = float.Parse(strings[1], info.NumberFormat);
 		Player.Instance.BonusFireRate += fireRateMult;
-		UseAbilities.Instance.AbilityDuration(this, duration);
+		UseAbilities.Instance.AbilityDuration(this, duration,effect);
 	}
 
-	public override void RevertEffect()
+	public override void RevertEffect(string effect)
 	{
 		Player.Instance.BonusFireRate -= fireRateMult;
 		movement.Instance.pc.Enable();

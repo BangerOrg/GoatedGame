@@ -12,8 +12,9 @@ public class AddBulletAmountEffect : CardEffect
 		value = Int32.Parse(effect);
 		Player.Instance.BonusBulletAmount += value;
 	}
-	public override void RevertEffect()
+	public override void RevertEffect(string effect)
 	{
+		value = Int32.Parse(effect);
 		Player.Instance.BonusBulletAmount -= value;
 	}
 }

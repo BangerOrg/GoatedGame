@@ -46,21 +46,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d922c3ed170067369b0a48165ca2c5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomPrefabs:
-  - {fileID: 7034089278888224272, guid: 7900ebf5f95e0204e92ebaea3d5a0fe9, type: 3}
-  - {fileID: 7034089278888224272, guid: a0d743504c5d6a9469c2397f50bf5d93, type: 3}
+  <RoomPrefabs>k__BackingField:
+  - {fileID: 7034089278888224272, guid: de80075cbb11ee6448707a59c3656abc, type: 3}
   - {fileID: 7034089278888224272, guid: 6337a499b5218cf47a42d5d28a6a05a0, type: 3}
+  - {fileID: 7034089278888224272, guid: a0d743504c5d6a9469c2397f50bf5d93, type: 3}
   - {fileID: 7034089278888224272, guid: 4642a45c63e49b14f90f2bd30a645247, type: 3}
+  - {fileID: 7034089278888224272, guid: 7900ebf5f95e0204e92ebaea3d5a0fe9, type: 3}
   - {fileID: 7034089278888224272, guid: 6bdfe4312428fd347b5387e3f4a553d6, type: 3}
   - {fileID: 7034089278888224272, guid: 90071d0fdbd860248955fbefb2ccbd21, type: 3}
-  - {fileID: 7034089278888224272, guid: de80075cbb11ee6448707a59c3656abc, type: 3}
-  rooms: []
-  availableDoors: []
-  usedDoors: []
-  startRoomPrefab: {fileID: 210702645912464137, guid: 76d0d363167ccf806b5b8cb02a2bfdcc, type: 3}
+  <Rooms>k__BackingField: []
+  <AvailableDoors>k__BackingField: []
+  <UsedDoors>k__BackingField: []
+  <StartRoomPrefab>k__BackingField: {fileID: 210702645912464137, guid: 76d0d363167ccf806b5b8cb02a2bfdcc, type: 3}
   baseRoomCount: 7
   tries: 0
-  maxTries: 300
+  <MaxTries>k__BackingField: 10000000
   <BossPortal>k__BackingField: {fileID: 8418496669349777609, guid: d3cdea6cbb297f23aa57be71ff9147a3, type: 3}
 --- !u!114 &6513762326970411520
 MonoBehaviour:
@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35a62141f4c891d44957642cfb08734f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  permanentObjects:
+  <PermanentObjects>k__BackingField:
   - Player
   - GameManager
   - PopUpPrefab
@@ -548,4 +548,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <GameFont>k__BackingField: {fileID: 11400000, guid: e3a99922838e77649a024f1543af470c, type: 2}
-  <LootChest>k__BackingField: {fileID: 7365225781240671842, guid: e59f07af595f6c04181197bf8e1f224f, type: 3}
+  <LootChestPrefab>k__BackingField: {fileID: 7365225781240671842, guid: e59f07af595f6c04181197bf8e1f224f, type: 3}

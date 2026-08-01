@@ -13,8 +13,9 @@ public class AddBonusPierceEffect : CardEffect
 		Player.Instance.BonusPierce += value;
 	}
 
-	public override void RevertEffect()
+	public override void RevertEffect(string effect)
 	{
+		value = int.Parse(effect);
 		Player.Instance.BonusPierce -= value;
 	}
 }

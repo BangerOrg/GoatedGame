@@ -8,6 +8,8 @@ using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
+	public const int START_MIN_CREDITS = 10;
+	public const int START_MAX_CREDITS = 20;
 	public static RoomScript currentRoom;
 	public static Action currRoomChanged;
 	public static int roomsCleared;
@@ -18,7 +20,7 @@ public class GameManager : MonoBehaviour
 	public static GameManager Instance = null;
 	public static Action CreditsChanged;
 	[field: SerializeField] public TMP_FontAsset GameFont { get; set; }
-	[field: SerializeField] public GameObject LootChest { get; set; }
+	[field: SerializeField] public GameObject LootChestPrefab { get; set; }
 
 	void Awake()
 	{
@@ -64,6 +66,17 @@ public class GameManager : MonoBehaviour
 	{
 		SaveManager.SavingGame -= SaveGameManager;
 		SaveManager.LoadingGame -= LoadGameManager;
+	}
+
+	public void OnDestroy()
+	{
+		Instance = null;
+		currentRoom = null;
+		roomsCleared = 0;
+		seed = 0;
+		isSeeded = false;
+		seedSet = false;
+		credits = 0;
 	}
 	private void SaveGameManager()
 	{

@@ -14,7 +14,7 @@ public class DashEffect : CardEffect
 		duration = float.Parse(strings[0], info.NumberFormat);
 		speedMult = float.Parse(strings[1], info.NumberFormat);
 		Dash();
-		UseAbilities.Instance.AbilityDuration(this, duration);
+		UseAbilities.Instance.AbilityDuration(this, duration,effect);
 	}
 
 	public void Dash()
@@ -25,8 +25,11 @@ public class DashEffect : CardEffect
 
 	}
 
-	public override void RevertEffect()
+	public override void RevertEffect(string effect)
 	{
+		string[] strings = effect.Split(";");
+		duration = float.Parse(strings[0], info.NumberFormat);
+		speedMult = float.Parse(strings[1], info.NumberFormat);
 		Player.Instance.BonusMoveSpeed -= speedMult;
 		movement.Instance.pc.Enable();
 	}

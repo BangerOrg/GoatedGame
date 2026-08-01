@@ -13,7 +13,7 @@ public class BonusCurrencyEffect : CardEffect
 		DeckLogic.Instance.CurrencyAmount += value;
 	}
 
-	public override void RevertEffect()
+	public override void RevertEffect(string effect)
 	{
 		//literally nothing
 	}

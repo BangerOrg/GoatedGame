@@ -13,7 +13,7 @@ public class Enemy : Unit
 	[SerializeField] private GameObject pickup;
 	[SerializeField] private float pickupDropChance; // setting the probabilty of dropping a pickup
 	public float Distance { get; set; }
-	protected GameObject playerObject;
+	public GameObject playerObject { get; set; }
 	[field: SerializeField] public int Damage { get; set; }
 	public Rigidbody2D RB { get; set; }
 	protected Vector2 direction;
@@ -27,6 +27,7 @@ public class Enemy : Unit
 	public new void Awake()
 	{
 		base.Awake();
+		AddMaxHealth((int)((EnemySpawner.EnemyHealthModifier - 1) * MaxHealth));
 		pathToPlayer = new NavMeshPath();
 		RB = gameObject.GetComponent<Rigidbody2D>();
 		playerObject = GameObject.FindWithTag("Player");
@@ -95,6 +96,6 @@ public class Enemy : Unit
 			xpObject.GetComponent<XP>().Amount = xpValue;  //Edit the XP amount of the Created XP object instance
 		}
 		enemyDies?.Invoke(gameObject);
-		Destroy(gameObject);
+		Destroy(gameObject); //for testing purposes, this is immediate
 	}
 }

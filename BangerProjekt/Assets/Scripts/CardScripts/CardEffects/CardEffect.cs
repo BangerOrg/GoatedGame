@@ -8,9 +8,9 @@ using UnityEngine;
 public abstract class CardEffect : ScriptableObject
 {
 	public abstract void ExecuteEffect(string effect);
-	public abstract void RevertEffect();
+	public abstract void RevertEffect(string effect);
 
-	public virtual void OnRoomClear(string effect)
+	public virtual void OnRoomClear()
 	{
 
 	}
