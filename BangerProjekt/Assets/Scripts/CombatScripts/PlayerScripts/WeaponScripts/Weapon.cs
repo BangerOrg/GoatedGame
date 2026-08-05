@@ -30,7 +30,7 @@ public abstract class Weapon : MonoBehaviour
 
 	public bool CanShoot { get; set; }
 	private PlayerInput playerInput;
-	private InputAction fire;
+	public InputAction Fire { get; set; }
 	private bool holdingTrigger = false;
 
 	[field: SerializeField] public int SpreadAngle { get; set; }
@@ -48,32 +48,33 @@ public abstract class Weapon : MonoBehaviour
 	[field: SerializeField] public float CritDamage { get; set; } // crit Damage
 
 	[field: SerializeField] public WeaponItem CorrespondingItem { get; set; }
+
 	private void Awake()
 	{
 		playerInput = GameObject.FindWithTag("Player").GetComponent<PlayerInput>();
 		if (playerInput != null)
 		{
-			fire = playerInput.actions.FindAction("Fire");
+			Fire = playerInput.actions.FindAction("Fire");
 		}
 		CanShoot = true;
 		ShootingMiddle = GameObject.Find("ShootingMiddle"); //we find by name to not bloat the tags aaaaaaaa help names are so bad aaaaaa
 		ShootingPoint = ShootingMiddle.transform.GetChild(0);
-		SetItemStats();
 	}
 
 	private void Start()
 	{
+		SetItemStats();
 		bulletsLeft = BulletAmount + Player.Instance.BonusBulletAmount;
 	}
 	private void OnEnable()
 	{
-		fire.started += FiringStart;
-		fire.canceled += FiringStopped;
+		Fire.started += FiringStart;
+		Fire.canceled += FiringStopped;
 	}
 	void OnDisable()
 	{
-		fire.started -= FiringStart;
-		fire.canceled -= FiringStopped;
+		Fire.started -= FiringStart;
+		Fire.canceled -= FiringStopped;
 	}
 
 	private void FiringStart(InputAction.CallbackContext context) { holdingTrigger = true; }

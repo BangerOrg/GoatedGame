@@ -14,7 +14,7 @@ public class Player : Unit
 	private Weapon weaponScript;
 	private UseAbilities abilityScript;
 	[SerializeField] private GameObject fistPrefab;
-	[field:SerializeField] public GameObject GameOverScreen { get; set; }
+	[field: SerializeField] public GameObject GameOverScreen { get; set; }
 
 	//Start of Card variables --------------------------------
 
@@ -98,6 +98,7 @@ public class Player : Unit
 		weaponScript = GameObject.FindWithTag("Weapon").GetComponent<Weapon>(); //gameObject with small g = this.GameObject
 		abilityScript = gameObject.GetComponent<UseAbilities>();
 		playerInput = this.GetComponent<PlayerInput>();
+		GameOverScreen = GameObject.FindWithTag("GameOver");
 		GameOverScreen.SetActive(false);
 		base.Awake();
 	}
