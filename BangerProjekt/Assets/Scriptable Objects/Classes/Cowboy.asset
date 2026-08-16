@@ -16,7 +16,7 @@ MonoBehaviour:
   <StartingItems>k__BackingField:
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 11400000, guid: f181f1f0fce92dc49bde8d6204706418, type: 2}
+  - {fileID: 11400000, guid: 653eb243122a2724fa53c5e41d71efd1, type: 2}
   - {fileID: 0}
   <StartingDeck>k__BackingField:
   - {fileID: 11400000, guid: 696e9ce4088adf744af6d765b34910ac, type: 2}
@@ -33,6 +33,7 @@ MonoBehaviour:
   <StartingBonusFireRate>k__BackingField: 1
   <StartingHealth>k__BackingField: 60
   <StartingMoveSpeed>k__BackingField: 6
-  <CorrespondingEnum>k__BackingField: 1
   <StartingBonusShotSpeed>k__BackingField: 1
   <StartingBonusMoveSpeed>k__BackingField: 1
+  <StartingBonusCritChance>k__BackingField: 0
+  <StartingBonusCritDamage>k__BackingField: 0
