@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -12,6 +13,9 @@ public class Enemy : Unit
 	[SerializeField] private int xpValue;
 	[SerializeField] private GameObject pickup;
 	[SerializeField] private float pickupDropChance; // setting the probabilty of dropping a pickup
+    [SerializeField] protected Color hitColor = new Color(1f, 0.3f, 0.3f, 1f); // helles, aber nicht komplett grelles Rot
+    [SerializeField] protected float hitColorDuration = 0.07f;
+
 	public float Distance { get; set; }
 	public GameObject playerObject { get; set; }
 	[field: SerializeField] public int Damage { get; set; }
@@ -23,6 +27,9 @@ public class Enemy : Unit
 
 	protected NavMeshPath pathToPlayer; //the NavMeshPath to calculate said path
 	protected List<Vector3> nextMovePoint = new List<Vector3>(); //the points to move to saved in a List
+
+	protected new SpriteRenderer renderer;
+	protected Color originalColor;
 
 	public new void Awake()
 	{
@@ -44,6 +51,8 @@ public class Enemy : Unit
 	{
 		InvokeRepeating("TurnToPlayer", 0, 0.2f);
 		InvokeRepeating("MoveToPlayer", 0, 0.2f);
+		renderer = gameObject.GetComponent<SpriteRenderer>(); // enemie sprite renderer
+		originalColor = renderer.color;
 	}
 	public void TurnToPlayer()
 	{
@@ -77,6 +86,7 @@ public class Enemy : Unit
 	}
 	public override void DamageUnit(int amount, float crit)
 	{
+		StartCoroutine(ShowHit()); //
 		base.DamageUnit(amount, crit);
 
 		//Create a damage pop up (via the static function in the popup script)
@@ -97,5 +107,29 @@ public class Enemy : Unit
 		}
 		enemyDies?.Invoke(gameObject);
 		Destroy(gameObject); //for testing purposes, this is immediate
+	}
+
+	public virtual IEnumerator ShowHit(){
+
+		float halfDuration = hitColorDuration / 2f;
+        float t = 0f;
+
+        while (t < halfDuration)
+        {
+            t += Time.deltaTime;
+            renderer.color = Color.Lerp(originalColor, hitColor, t / halfDuration);
+            yield return null;
+        }
+
+        t = 0f;
+
+        while (t < halfDuration)
+        {
+            t += Time.deltaTime;
+            renderer.color = Color.Lerp(hitColor, originalColor, t / halfDuration);
+            yield return null;
+        }
+
+        renderer.color = originalColor;
 	}
 }

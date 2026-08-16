@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cae3bbd55f72021c0b0879140b32ff88, type: 3}
+  m_Name: Rocket_Launcher
+  m_EditorClassIdentifier: 
+  <FireRate>k__BackingField: 2
+  <BulletAmount>k__BackingField: 1
+  <Damage>k__BackingField: 15
+  <Defense>k__BackingField: 0
+  <HealthBonus>k__BackingField: 0
+  <CritChance>k__BackingField: 5
+  <CritDamage>k__BackingField: 20
+  <ID>k__BackingField: 8
+  <ItemTag>k__BackingField: 2
+  <ItemName>k__BackingField: Rocket Launcher
+  <Icon>k__BackingField: {fileID: 0}
+  <ItemRarity>k__BackingField: 2
+  <Description>k__BackingField: boom boom motherfucker
+  <Cost>k__BackingField: 0
+  <DamageMult>k__BackingField: 1
+  <ShotDelayOrRange>k__BackingField: 3
+  <SpreadAngle>k__BackingField: 0
+  <ShotSpeed>k__BackingField: 10
+  <LifeSteal>k__BackingField: 0
+  <BulletPierce>k__BackingField: 1
+  <BulletBounces>k__BackingField: 0
+  <defense>k__BackingField: 0
+  <healthBonus>k__BackingField: 0
+  <BulletPrefab>k__BackingField: {fileID: 6976884190793721426, guid: 9207bb5817044a342a82d445c0c0cd84, type: 3}
+  <CorrespondingPrefab>k__BackingField: {fileID: 3651837970762543083, guid: f917745bd765caa49ba04c39a0973751, type: 3}

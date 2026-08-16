@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e57f669310c11074682cb367f611a336, type: 3}
+  m_Name: Maniac
+  m_EditorClassIdentifier: 
+  <Name>k__BackingField: 
+  <StartingItems>k__BackingField:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 653eb243122a2724fa53c5e41d71efd1, type: 2}
+  - {fileID: 0}
+  <StartingDeck>k__BackingField:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  <StartingBonusDamage>k__BackingField: 1
+  <StartingBonusFireRate>k__BackingField: 1
+  <StartingHealth>k__BackingField: 100
+  <StartingMoveSpeed>k__BackingField: 5
+  <StartingBonusShotSpeed>k__BackingField: 1
+  <StartingBonusMoveSpeed>k__BackingField: 1
+  <StartingBonusCritChance>k__BackingField: 0
+  <StartingBonusCritDamage>k__BackingField: 0
