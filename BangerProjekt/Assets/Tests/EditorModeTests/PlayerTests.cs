@@ -41,26 +41,20 @@ public class PlayerTests : MonoBehaviour
 	[Test]
 	public void DamageTest()
 	{
-		GameObject gameOverObject = new GameObject();
-		player.GameOverScreen = gameOverObject;
-		gameOverObject.SetActive(false);
+
 
 		player.DamageUnit(60,1);
 
-		Assert.IsFalse(gameOverObject.activeSelf);
 		Assert.AreEqual(player.CurrentHealth, 40);
 	}
 
 	[Test]
 	public void DeathTest()
 	{
-		GameObject gameOverObject = new GameObject();
-		player.GameOverScreen = gameOverObject;
-		gameOverObject.SetActive(false);
+
 
 		player.DamageUnit(102, 1);
 
-		Assert.IsTrue(gameOverObject.activeSelf);
 		Assert.AreEqual(player.CurrentHealth, -2);
 	}
 

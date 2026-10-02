@@ -46,6 +46,5 @@ public static class SaveManager
         {
             currentSave = new SaveState(); //if no save exists, our constructor got us
         }
-        LoadingGame?.Invoke();
     }
 }

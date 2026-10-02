@@ -104,6 +104,7 @@ public class GameManager : MonoBehaviour
 		{
 			SaveManager.currentSave.PlayerClass = backupClass;
 		}
+		SaveManager.LoadingGame?.Invoke();
 	}
 
 	public void ChangeCredits(int amount)
