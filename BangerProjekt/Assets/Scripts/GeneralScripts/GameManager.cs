@@ -17,10 +17,14 @@ public class GameManager : MonoBehaviour
 	public static bool isSeeded = false;
 	public static bool seedSet = false;
 	public static int credits = 0; // Yay Money. WOOOOOO. (Name pending)
+
+	[SerializeField] private Class backupClass; //class that gets loaded if no save is found
 	public static GameManager Instance = null;
 	public static Action CreditsChanged;
 	[field: SerializeField] public TMP_FontAsset GameFont { get; set; }
 	[field: SerializeField] public GameObject LootChestPrefab { get; set; }
+
+	public static float EnemyHealthModifier = 1.0f;
 
 	void Awake()
 	{
@@ -39,14 +43,7 @@ public class GameManager : MonoBehaviour
 	{
 		//the gameManager Start is loaded after everything else so if something depends on the seed or other things being already loaded from the save in start, it needs to wait via coroutine
 		Load();
-		if (!isSeeded)
-		{
-			seed = Random.Range(0, 1000000000); //get a random seed
-		}
-		else //if seeded
-		{
-			seed = SaveManager.currentSave.Seed; //load that shit (is also loaded in LoadGameManager so not necessary)
-		}
+		seed = SaveManager.currentSave.Seed; //load that shit (is also loaded in LoadGameManager so not necessary)
 		Random.InitState(seed); //to actually set the seed
 		seedSet = true;
 		ChangeCredits(0); //to set the text
@@ -77,6 +74,7 @@ public class GameManager : MonoBehaviour
 		isSeeded = false;
 		seedSet = false;
 		credits = 0;
+		EnemyHealthModifier = 1.0f;
 	}
 	private void SaveGameManager()
 	{
@@ -102,6 +100,10 @@ public class GameManager : MonoBehaviour
 	public void Load()
 	{
 		SaveManager.LoadGame();
+		if (!SaveManager.currentSave.PlayerClass)
+		{
+			SaveManager.currentSave.PlayerClass = backupClass;
+		}
 	}
 
 	public void ChangeCredits(int amount)

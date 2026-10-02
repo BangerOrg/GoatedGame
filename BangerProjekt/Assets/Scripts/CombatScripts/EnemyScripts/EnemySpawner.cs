@@ -16,13 +16,11 @@ public class EnemySpawner : MonoBehaviour
 
     private List<GameObject> spawnPoints = new List<GameObject>();
 
-    private List<GameObject> currentEnemyList = new List<GameObject>();
+    public List<GameObject> CurrentEnemyList { get; set; } = new List<GameObject>();
 
     public static event Action<int> NewEnemiesRemaining;
     public static event Action<int, int> NewWaveText;
     public static event Action LastWave;
-
-	public static float EnemyHealthModifier = 1.0f;
     void Start()
     {
         InvokeRepeating("CheckForNextWave",1,0.2f); //checks for next wave / end of room every .2 seconds
@@ -46,7 +44,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void NewEnemyList()
     {
-        currentEnemyList = LayerManager.GetEnemyListFromLayer(); //call by reference!
+        CurrentEnemyList = LayerManager.GetEnemyListFromLayer(); //call by reference!
     }
 
     public void CheckForNextWave()
@@ -70,7 +68,7 @@ public class EnemySpawner : MonoBehaviour
             currentWave = 0; //reset waves as this gets called every new room via an event (0 because nextWave does currentwave++)
             enemiesToSpawn.Clear(); //clear previous possible EnemySpawns
             List<Enemy> enemyScriptList = new List<Enemy>();
-            foreach (GameObject enemy in currentEnemyList)
+            foreach (GameObject enemy in CurrentEnemyList)
             {
                 enemyScriptList.Add(enemy.GetComponent<Enemy>()); //get every enemy component from the GameObjects
             }
@@ -84,7 +82,7 @@ public class EnemySpawner : MonoBehaviour
             for (int i = 1; i <= waveAmount; i++) //for every wave
             {
                 enemiesToSpawn.Add(new List<GameObject>());
-                List<GameObject> possibleEnemies = new List<GameObject>(currentEnemyList); //fuck you call by reference (we need to set this as a new list with the old one as a parameter to prevent call by reference)
+                List<GameObject> possibleEnemies = new List<GameObject>(CurrentEnemyList); //fuck you call by reference (we need to set this as a new list with the old one as a parameter to prevent call by reference)
                 int currentWaveBudget = budget / waveAmount; //if there is a remainder, it just gets killed
                 while (possibleEnemies.Count > 0)
                 {
