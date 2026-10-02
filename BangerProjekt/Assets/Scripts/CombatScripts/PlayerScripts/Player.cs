@@ -67,7 +67,7 @@ public class Player : Unit
 	//End of Bonus Stat Variables -----------
 
 	//Start of Item Variables and Actions -----------
-	public static event Action<AbilityItem> NewAbility;
+	public static event Action NewAbility;
 	public static event Action ToggleInventory;
 	public static event Action ToggleShop;
 	public static event Action TogglePauseMenu;
@@ -118,23 +118,26 @@ public class Player : Unit
 	}
 	private void OnEnable()
 	{
-		InventoryLogic.ChangeItemPlayerStats += ChangeItemStats;
-		InventoryLogic.SendNewWeapon += NewWeapon;
+		//InventoryLogic.ChangeItemPlayerStats += ChangeItemStats;
+		//InventoryLogic.SendNewWeapon += NewWeapon;
 		SaveManager.SavingGame += SaveStats;
 		SaveManager.LoadingGame += LoadStats;
 		GameManager.currRoomChanged += RoomChange;
 		RoomScript.RoomCleared += RoomChange;
+		Inventory.SendNewWeapon += NewWeapon;
+		Inventory.ChangeItemPlayerStats += ChangeItemStats;
 	}
 
 	private void OnDisable()
 	{
-		InventoryLogic.ChangeItemPlayerStats -= ChangeItemStats;
-		InventoryLogic.SendNewWeapon -= NewWeapon;
+		//InventoryLogic.ChangeItemPlayerStats -= ChangeItemStats;
+		//InventoryLogic.SendNewWeapon -= NewWeapon;
 		SaveManager.SavingGame -= SaveStats;
 		SaveManager.LoadingGame -= LoadStats;
 		GameManager.currRoomChanged -= RoomChange;
 		RoomScript.RoomCleared -= RoomChange;
-
+		Inventory.SendNewWeapon -= NewWeapon;
+		Inventory.ChangeItemPlayerStats -= ChangeItemStats;
 	}
 
 	public void Interact()
@@ -226,6 +229,7 @@ public class Player : Unit
 	//start of inventory functions -----------------------
 	public void ChangeItemStats(Item itemToChangeStats, bool addSub)
 	{
+		Debug.Log("Changing Item");
 		if (!itemToChangeStats) //to catch errors, see if an item even got sent
 		{
 			Debug.LogError("no item sent!");
@@ -254,10 +258,9 @@ public class Player : Unit
 		}
 		if (itemToChangeStats is AbilityItem)
 		{
+			Debug.Log("Changing Ability item");
 			AbilityItem tempAbility = itemToChangeStats as AbilityItem;
 			abilityScript.Cooldown = tempAbility.AbilityCooldown;
-			NewAbility?.Invoke(tempAbility);
-
 		}
 	}
 
@@ -267,6 +270,7 @@ public class Player : Unit
 		{
 			newWeaponItem = fistPrefab;
 		}
+		Debug.Log("Swaping Weapon in player");
 		Destroy(GameObject.FindWithTag("Weapon")); //the weapon gets fucking blasted
 		GameObject newWeaponObject = Instantiate(newWeaponItem, gameObject.transform);
 		weaponScript = newWeaponObject.GetComponent<Weapon>();

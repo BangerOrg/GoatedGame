@@ -6,59 +6,61 @@ using UnityEngine.UI;
 
 public class ItemSlot : MonoBehaviour, IDropHandler
 {
-    // [field: SerializeField] public Item Item { get; set; }
-    [field: SerializeField] public int SlotId { get; set; }
-    [field: SerializeField] public bool equipSlot { get; set; } = false;
-    [field: SerializeField] public Enums.SlotTag SlotTag { get; set; }
+	// [field: SerializeField] public Item Item { get; set; }
+	[field: SerializeField] public int SlotId { get; set; }
+	[field: SerializeField] public bool equipSlot { get; set; } = false;
+	[field: SerializeField] public Enums.SlotTag SlotTag { get; set; }
 
 
-    public void OnDrop(PointerEventData eventData)
-    {
-        GameObject droppedObject = eventData.pointerDrag;
-        if (droppedObject == null) return;
-        ItemInSlot draggedItem = droppedObject.GetComponent<ItemInSlot>();
-        if (draggedItem == null) return;
-        ItemSlot sourceSlot = draggedItem.parentBeforeDrag.GetComponent<ItemSlot>();
-        if (sourceSlot != null && sourceSlot.equipSlot && !equipSlot)
-        {
-            InventoryLogic.UnEquipItem((int)draggedItem.Item.ItemTag);
-            InventoryLogic.ActiveInventory.AddItemToSlot(draggedItem.Item, SlotId);
-        }
-        if (equipSlot && draggedItem.Item.ItemTag != SlotTag)
-        {
-            draggedItem.transform.SetParent(draggedItem.parentBeforeDrag);
-            draggedItem.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-            return;
-        }
-        if (equipSlot && draggedItem.Item.ItemTag == SlotTag && !sourceSlot.equipSlot)
-        {
-            InventoryLogic.ActiveInventory.RemoveItem(sourceSlot.SlotId);
-            if (transform.childCount > 0)
-            {
-                InventoryLogic.UnEquipItem((int)SlotTag);
-                InventoryLogic.ActiveInventory.AddItemToSlot(transform.GetChild(0).GetComponent<ItemInSlot>().Item, sourceSlot.SlotId);
-            }
-            StartCoroutine(waitForFrame(draggedItem.Item));
-               
-            
-        }
-        if (transform.childCount > 0)
-        {
-            Transform currentItemInSlot = transform.GetChild(0);
-            currentItemInSlot.SetParent(eventData.pointerDrag.GetComponent<ItemInSlot>().parentBeforeDrag);
-            currentItemInSlot.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-        }
-        draggedItem.parentBeforeDrag = transform;
-        droppedObject.transform.SetParent(transform);
-        droppedObject.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-        if(!sourceSlot.equipSlot && !equipSlot)
-        InventoryLogic.ActiveInventory.SwapSlots(SlotId, sourceSlot.SlotId);
-    }
+	public void OnDrop(PointerEventData eventData)
+	{
+		GameObject droppedObject = eventData.pointerDrag;
+		if (droppedObject == null) return;
+		ItemInSlot draggedItem = droppedObject.GetComponent<ItemInSlot>();
+		if (draggedItem == null) return;
+		ItemSlot sourceSlot = draggedItem.parentBeforeDrag.GetComponent<ItemSlot>();
+		if (sourceSlot != null && sourceSlot.equipSlot && !equipSlot) //Dragging from equip slot to inventory slot
+		{
+			//InventoryLogic.UnEquipItem((int)draggedItem.Item.ItemTag);
+			InventoryLogic.ActiveInventory.SwapEquippedItem(SlotId, sourceSlot.SlotTag);
+		}
+		if (equipSlot && draggedItem.Item.ItemTag != SlotTag) //Dragging from inventory to equip but tag mismatch
+		{
+			draggedItem.transform.SetParent(draggedItem.parentBeforeDrag);
+			draggedItem.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+			return;
+		}
+		if (equipSlot && draggedItem.Item.ItemTag == SlotTag && !sourceSlot.equipSlot) //Dragging from inventory to Equip slot
+		{
+			//InventoryLogic.ActiveInventory.RemoveItem(sourceSlot.SlotId);
+			InventoryLogic.ActiveInventory.SwapEquippedItem(sourceSlot.SlotId, SlotTag);
 
-    IEnumerator waitForFrame(Item draggedItem)
-    {
-        yield return new WaitForEndOfFrame();
-        InventoryLogic.EquipItem(draggedItem);
-    }
+			//if (transform.childCount > 0)
+			//{
+			//	InventoryLogic.UnEquipItem((int)SlotTag);
+			//	InventoryLogic.ActiveInventory.AddItemToSlot(transform.GetChild(0).GetComponent<ItemInSlot>().Item, sourceSlot.SlotId);
+			//}
+			//StartCoroutine(waitForFrame(draggedItem.Item));
+
+
+		}
+		if (transform.childCount > 0)
+		{
+			Transform currentItemInSlot = transform.GetChild(0);
+			currentItemInSlot.SetParent(eventData.pointerDrag.GetComponent<ItemInSlot>().parentBeforeDrag);
+			currentItemInSlot.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+		}
+		draggedItem.parentBeforeDrag = transform;
+		droppedObject.transform.SetParent(transform);
+		droppedObject.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+		if (!sourceSlot.equipSlot && !equipSlot)
+			InventoryLogic.ActiveInventory.SwapSlots(SlotId, sourceSlot.SlotId);
+	}
+
+	IEnumerator waitForFrame(Item draggedItem)
+	{
+		yield return new WaitForEndOfFrame();
+
+	}
 
 }

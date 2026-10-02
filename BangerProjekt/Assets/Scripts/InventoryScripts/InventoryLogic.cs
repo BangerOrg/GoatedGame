@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class InventoryLogic : MonoBehaviour
 {
-	[field: SerializeField] public static Item[] ItemsEquipped { get; set; } = new Item[(int)Enums.SlotTag.None]; //Serialized for testing
+	//[field: SerializeField] public static Item[] ItemsEquipped { get; set; } = new Item[(int)Enums.SlotTag.None]; //Serialized for testing
 	public const int STANDARD_INVENTORY_SLOTS = 18;
 	[field: SerializeField] public static int InventorySlots { get; set; } = STANDARD_INVENTORY_SLOTS; //amount of slots in the inv
 	[field: SerializeField] public Inventory InventoryBlueprint { get; set; }
@@ -24,21 +24,11 @@ public class InventoryLogic : MonoBehaviour
 	void Start()
 	{
 		ActiveInventory.Init(InventorySlots);
-		for (int i = 0; i < ItemsEquipped.Length; i++)
+		/*for (int i = 0; i < ItemsEquipped.Length; i++)
 		{
 			ItemsEquipped[i] = null;
 			//reset all items, after that we can load them from save
-		}
-		
-		ObtainItem(AllItemList.Items[1]); //free dash
-		ObtainItem(AllItemList.Items[1]); //free dash
-		EquipItem(ActiveInventory.slots[0]); // This is the only line that matters if you start with a save file (so if you start from Title Screen)
-		/*ObtainItem(allItemList.Items[3]); //free Revolver??
-        ObtainItem(allItemList.Items[3]); //free Revolver??
-        ObtainItem(allItemList.Items[2]);
-        ObtainItem(allItemList.Items[4]);*/
-		//EquipItem(0);
-		//UnEquipItem(2); //if you want to start with fists :)
+		}*/
 	}
 	private void OnEnable()
 	{
@@ -57,7 +47,7 @@ public class InventoryLogic : MonoBehaviour
 	public void OnDestroy()
 	{
 		Instance = null;
-		ItemsEquipped = new Item[(int)Enums.SlotTag.None];
+		//ItemsEquipped = new Item[(int)Enums.SlotTag.None];
 		InventorySlots = STANDARD_INVENTORY_SLOTS;
 		ActiveInventory = null;
 	}
@@ -70,15 +60,7 @@ public class InventoryLogic : MonoBehaviour
 		}
 	}
 
-
-	public void EquipButton() //this should be used by the button that equips something
-	{
-		//EquipItem(SelectedItem); //we call our equip item : )
-		//and give the Selected Items slotNumber in the Inventory as an argument
-	}
-
-
-	public static void EquipItem(Item itemToEquip)
+	/*public static void EquipItem(Item itemToEquip)
 	{
 		ItemsEquipped[(int)itemToEquip.ItemTag] = itemToEquip;
 		if (itemToEquip is WeaponItem)
@@ -106,23 +88,23 @@ public class InventoryLogic : MonoBehaviour
 			ChangeItemPlayerStats?.Invoke(ItemsEquipped[tagOfItemInt], false); // false because subtract the stats
 		}
 		ItemsEquipped[tagOfItemInt] = null;
-	}
+	}*/
 
 	private void SaveInventory()
 	{
-		SaveManager.currentSave.InventoryItems = ActiveInventory.slots;
-		SaveManager.currentSave.EquippedItems = ItemsEquipped;
+		SaveManager.currentSave.InventoryItems = ActiveInventory.Slots;
+		SaveManager.currentSave.EquippedItems = ActiveInventory.EquippedItems;
 	}
 
 	private void LoadInventory()
 	{
-		ActiveInventory.slots = SaveManager.currentSave.InventoryItems;
+		ActiveInventory.Slots = SaveManager.currentSave.InventoryItems;
 
 		foreach (Item item in SaveManager.currentSave.EquippedItems)
 		{
 			if (item != null)
 			{
-				EquipItem(item);
+				ActiveInventory.EquipItem(item, item.ItemTag);
 			}
 
 		}

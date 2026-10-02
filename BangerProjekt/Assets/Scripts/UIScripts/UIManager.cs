@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
 	//ABILITY RELATED
 	private Image abilityFill;
 	private Image abilityImage;
+	[field: SerializeField] private Sprite noAbility;
 	//END OF ABILITY RELATED
 
 	//INVENTORY RELATED
@@ -84,7 +85,7 @@ public class UIManager : MonoBehaviour
 		EnemySpawner.NewEnemiesRemaining += SetEnemiesAliveText;
 		EnemySpawner.LastWave += DisableButton;
 		UseAbilities.SetAbilityUI += SetAbilityFill;
-		Player.NewAbility += SetAbilityImage;
+		Inventory.NewAbility += SetAbilityImage;
 		GameManager.CreditsChanged += SetCreditText;
 		Player.ToggleInventory += ToggleInventory;
 		Player.ToggleShop += ToggleShop;
@@ -135,9 +136,19 @@ public class UIManager : MonoBehaviour
 
 	}
 
-	public void SetAbilityImage(AbilityItem item)
+	public void SetAbilityImage()
 	{
-		abilityImage.sprite = item.Icon;
+		Debug.Log("Changing ability item");
+		Item item = InventoryLogic.ActiveInventory.EquippedItems[(int)Enums.SlotTag.Ability];
+		if (item != null)
+		{
+			abilityImage.sprite = item.Icon;
+		}
+		else
+		{
+			Debug.Log("No Item in change");
+			abilityImage.sprite = noAbility;
+		}
 	}
 
 	public void SetCreditText()

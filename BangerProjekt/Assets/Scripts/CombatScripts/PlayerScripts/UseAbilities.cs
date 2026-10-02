@@ -8,9 +8,6 @@ public class UseAbilities : MonoBehaviour
 {
 
 	public static UseAbilities Instance;
-	private Player playerScript;
-	private movement movementScript;
-	private Weapon weaponScript;
 
 	[field: SerializeField] public float Cooldown { get; set; } //doesnt need a serializeField but its there to see if everything works (debugging basically)
 	private bool isReady = true;
@@ -21,16 +18,13 @@ public class UseAbilities : MonoBehaviour
 	{
 		if (Instance == null) Instance = this;
 		else Destroy(this);
-		playerScript = gameObject.GetComponent<Player>();
-		movementScript = gameObject.GetComponent<movement>();
-		weaponScript = gameObject.GetComponent<Weapon>();
 	}
 
 	public void UseAbility()
 	{
 		if (!isReady) return;
-		if (InventoryLogic.ItemsEquipped[(int)Enums.SlotTag.Ability] == null) return;
-		AbilityItem currItem = InventoryLogic.ItemsEquipped[(int)Enums.SlotTag.Ability] as AbilityItem;
+		if (InventoryLogic.ActiveInventory.EquippedItems[(int)Enums.SlotTag.Ability] == null) return;
+		AbilityItem currItem = InventoryLogic.ActiveInventory.EquippedItems[(int)Enums.SlotTag.Ability] as AbilityItem;
 		foreach (Pair<CardEffect, string> p in currItem.AbilityEffectList)
 		{
 			p.First.ExecuteEffect(p.Second);

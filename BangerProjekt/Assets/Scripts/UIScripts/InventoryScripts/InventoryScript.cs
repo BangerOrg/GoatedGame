@@ -34,7 +34,7 @@ public class InventoryScript : MonoBehaviour
 	public void SetupInventory() //The magic happenes here. For the first time at least.
 	{
 		UpdateUi();
-		foreach (Item item in InventoryLogic.ItemsEquipped) //looks at all the equpped items
+		foreach (Item item in InventoryLogic.ActiveInventory.EquippedItems) //looks at all the equpped items
 		{
 			if (!item) continue;
 			//Debug.Log(item.ItemName);
@@ -69,7 +69,7 @@ public class InventoryScript : MonoBehaviour
 	{
 		if (draggedFromEquipSlot)
 		{
-			InventoryLogic.UnEquipItem((int)parentBeforeDrag.GetComponent<ItemSlot>().SlotTag);
+			InventoryLogic.ActiveInventory.UnEquipItem(parentBeforeDrag.GetComponent<ItemSlot>().SlotTag);
 		}
 		else
 		{
@@ -95,16 +95,16 @@ public class InventoryScript : MonoBehaviour
 	{
 		if (content != null)
 		{
-			for (int i = 0; i < InventoryLogic.ActiveInventory.slots.Length; i++)
+			for (int i = 0; i < InventoryLogic.ActiveInventory.Slots.Length; i++)
 			{
 				GameObject IS = Instantiate(ItemSlotPrefab, content);
 				IS.GetComponent<ItemSlot>().SlotId = i;
 				IS.name = $"Slot {i}";
 			}
-			for (int i = 0; i < InventoryLogic.ActiveInventory.slots.Length; i++)
+			for (int i = 0; i < InventoryLogic.ActiveInventory.Slots.Length; i++)
 			{
-				if (InventoryLogic.ActiveInventory.slots[i] == null) continue;
-				InstantiateItem(InventoryLogic.ActiveInventory.slots[i], content.GetChild(i));
+				if (InventoryLogic.ActiveInventory.Slots[i] == null) continue;
+				InstantiateItem(InventoryLogic.ActiveInventory.Slots[i], content.GetChild(i));
 			}
 		}
 	}
