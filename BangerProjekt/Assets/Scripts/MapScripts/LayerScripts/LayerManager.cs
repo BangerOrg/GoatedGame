@@ -32,8 +32,12 @@ public class LayerManager : MonoBehaviour
     private IEnumerator WaitForNextLayer()
     {
         yield return new WaitUntil(() => GameManager.seedSet); //wait until the seed is set
-        NextLayer(); //after the seed is set, generate the first layer
-    }
+		if (CurrentLayerNumber < 1)
+		{
+			NextLayer(); //after the seed is set, generate the first layer
+
+		}
+	}
 
     private void OnEnable()
     {

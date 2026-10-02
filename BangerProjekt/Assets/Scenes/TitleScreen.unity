@@ -239,7 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 049c1c8556ea4da4b8cac48f6608e3a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charSelectObject: {fileID: 457783879}
+  <CharSelectObject>k__BackingField: {fileID: 457783879}
 --- !u!1 &60883788
 GameObject:
   m_ObjectHideFlags: 0

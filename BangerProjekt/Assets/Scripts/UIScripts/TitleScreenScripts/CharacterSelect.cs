@@ -1,3 +1,4 @@
+using Codice.CM.Common;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -72,6 +73,10 @@ public class CharacterSelect : MonoBehaviour
             newSaveState.Seed = seedSelected;
             newSaveState.IsSeeded = true;
         }
+		else
+		{
+			newSaveState.Seed = Random.Range(0, 1000000000); //get a random seed
+		}
         StartCoroutine(SaveManager.SaveGame());
 
 

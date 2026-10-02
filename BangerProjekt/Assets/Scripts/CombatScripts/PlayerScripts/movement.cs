@@ -66,7 +66,6 @@ public class movement : MonoBehaviour
 		if (pc.Player.enabled)
 		{
 			moveDirection = pc.Player.Move.ReadValue<Vector2>(); //new input system
-
 		}
 	}
 	public void Move()
