@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -31,7 +32,7 @@ public abstract class Weapon : MonoBehaviour
 	public bool CanShoot { get; set; }
 	private PlayerInput playerInput;
 	public InputAction Fire { get; set; }
-	private bool holdingTrigger = false;
+	public bool HoldingTrigger { get; set; } = false;
 
 	[field: SerializeField] public int SpreadAngle { get; set; }
 	//if you shoot more than 1 bullet at a time (like at the same time), this decides how high the spread for a bullet is (its not random but exact)
@@ -49,18 +50,30 @@ public abstract class Weapon : MonoBehaviour
 
 	[field: SerializeField] public WeaponItem CorrespondingItem { get; set; }
 
+	public event Action OnTriggerReleased;
+
 	private void Awake()
 	{
-		playerInput = GameObject.FindWithTag("Player").GetComponent<PlayerInput>();
-		if (playerInput != null)
-		{
-			Fire = playerInput.actions.FindAction("Fire");
-		}
+		InitInput();
 		CanShoot = true;
 		ShootingMiddle = GameObject.Find("ShootingMiddle"); //we find by name to not bloat the tags aaaaaaaa help names are so bad aaaaaa
 		ShootingPoint = ShootingMiddle.transform.GetChild(0);
 	}
 
+	private void InitInput()
+	{
+		if (Fire != null) return; // Bereits initialisiert
+
+		GameObject playerObj = GameObject.FindWithTag("Player");
+		if (playerObj != null)
+		{
+			playerInput = playerObj.GetComponent<PlayerInput>();
+			if (playerInput != null)
+			{
+				Fire = playerInput.actions.FindAction("Fire");
+			}
+		}
+	}
 	private void Start()
 	{
 		SetItemStats();
@@ -68,6 +81,7 @@ public abstract class Weapon : MonoBehaviour
 	}
 	private void OnEnable()
 	{
+		InitInput();
 		Fire.started += FiringStart;
 		Fire.canceled += FiringStopped;
 	}
@@ -77,13 +91,13 @@ public abstract class Weapon : MonoBehaviour
 		Fire.canceled -= FiringStopped;
 	}
 
-	private void FiringStart(InputAction.CallbackContext context) { holdingTrigger = true; }
-	private void FiringStopped(InputAction.CallbackContext context) { holdingTrigger = false; }
+	protected void FiringStart(InputAction.CallbackContext context) { HoldingTrigger = true; }
+	protected void FiringStopped(InputAction.CallbackContext context) { HoldingTrigger = false; OnTriggerReleased?.Invoke(); }
 
 
 	private void Update() //we check for the shooting in Update because we need to register clicks (depends on frames)
 	{
-		if (CanShoot && holdingTrigger)
+		if (CanShoot && HoldingTrigger)
 		{
 			if (ShotDelay > 0)
 			{
@@ -138,7 +152,7 @@ public abstract class Weapon : MonoBehaviour
 	}
 	private void OnDestroy()
 	{
-		holdingTrigger = false;
+		HoldingTrigger = false;
 	}
 
 }

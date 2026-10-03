@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using UnityEngine;
 using Unity.VisualScripting;
-public class PlayerBullet : MonoBehaviour
+public class PlayerBullet : MonoBehaviour, IProjectile
 {
 	private float timeAlive; //the max time alive before spontaneously imploding
 	protected Weapon weaponScript;
@@ -13,6 +13,10 @@ public class PlayerBullet : MonoBehaviour
 	private int RemainingBulletBounces;
 	private Vector2 bulletPos;
 	private bool isBouncing;
+
+	public Unit Unit { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+	public Rigidbody2D Rb { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+	public int Pierce { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
 	private void Awake()
 	{

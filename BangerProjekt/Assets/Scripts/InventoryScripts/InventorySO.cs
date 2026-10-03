@@ -99,8 +99,8 @@ public class Inventory : ScriptableObject
 
 		Item itemFromSlot = Slots[slot];
 		if (itemFromSlot != null)
-			Debug.Log("Equipping" + itemFromSlot.name);
-		EquippedItems[(int)tag] = itemFromSlot;
+			//Debug.Log("Equipping" + itemFromSlot.name);
+			EquippedItems[(int)tag] = itemFromSlot;
 		if (itemFromSlot is WeaponItem)
 		{
 			WeaponItem tempWeapon = Slots[slot] as WeaponItem; //this works man this is scuffed

@@ -67,7 +67,6 @@ public class Player : Unit
 	//End of Bonus Stat Variables -----------
 
 	//Start of Item Variables and Actions -----------
-	public static event Action NewAbility;
 	public static event Action ToggleInventory;
 	public static event Action ToggleShop;
 	public static event Action TogglePauseMenu;
@@ -229,7 +228,7 @@ public class Player : Unit
 	//start of inventory functions -----------------------
 	public void ChangeItemStats(Item itemToChangeStats, bool addSub)
 	{
-		Debug.Log("Changing Item");
+		//Debug.Log("Changing Item");
 		if (!itemToChangeStats) //to catch errors, see if an item even got sent
 		{
 			Debug.LogError("no item sent!");
@@ -258,7 +257,7 @@ public class Player : Unit
 		}
 		if (itemToChangeStats is AbilityItem)
 		{
-			Debug.Log("Changing Ability item");
+			//Debug.Log("Changing Ability item");
 			AbilityItem tempAbility = itemToChangeStats as AbilityItem;
 			abilityScript.Cooldown = tempAbility.AbilityCooldown;
 		}
@@ -270,8 +269,8 @@ public class Player : Unit
 		{
 			newWeaponItem = fistPrefab;
 		}
-		Debug.Log("Swaping Weapon in player");
-		Destroy(GameObject.FindWithTag("Weapon")); //the weapon gets fucking blasted
+		//Debug.Log("Swaping Weapon in player");
+		DestroyImmediate(GameObject.FindWithTag("Weapon")); //the weapon gets fucking blasted
 		GameObject newWeaponObject = Instantiate(newWeaponItem, gameObject.transform);
 		weaponScript = newWeaponObject.GetComponent<Weapon>();
 		//both 0 to just add the extra damage
