@@ -17,6 +17,7 @@ public class MainCanvasReferenceSheet : MonoBehaviour
 	[field: SerializeField] public GameObject ShopButtonInShop { get; set; }
 	[field: SerializeField] public GameObject GameOverScreen { get; set; }
 	[field: SerializeField] public GameObject PauseMenu { get; set; }
+	[field: SerializeField] public GameObject CheatMenu { get; set; }
 
 
 	[field: Header("In Scene References")]

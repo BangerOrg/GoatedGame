@@ -70,6 +70,7 @@ public class Player : Unit
 	public static event Action ToggleInventory;
 	public static event Action ToggleShop;
 	public static event Action TogglePauseMenu;
+	public static event Action ToggleCheatConsole;
 	public static event Action Die;
 	//End of Item Variables and Actions ------------
 
@@ -117,8 +118,6 @@ public class Player : Unit
 	}
 	private void OnEnable()
 	{
-		//InventoryLogic.ChangeItemPlayerStats += ChangeItemStats;
-		//InventoryLogic.SendNewWeapon += NewWeapon;
 		SaveManager.SavingGame += SaveStats;
 		SaveManager.LoadingGame += LoadStats;
 		GameManager.currRoomChanged += RoomChange;
@@ -129,8 +128,6 @@ public class Player : Unit
 
 	private void OnDisable()
 	{
-		//InventoryLogic.ChangeItemPlayerStats -= ChangeItemStats;
-		//InventoryLogic.SendNewWeapon -= NewWeapon;
 		SaveManager.SavingGame -= SaveStats;
 		SaveManager.LoadingGame -= LoadStats;
 		GameManager.currRoomChanged -= RoomChange;
@@ -353,6 +350,7 @@ public class Player : Unit
 	public void toggleInventory() { ToggleInventory?.Invoke(); }
 	public void toggleShop() { ToggleShop?.Invoke(); }
 	public void togglePauseMenu() { TogglePauseMenu?.Invoke(); }
+	public void toggleCheatConsole() { ToggleCheatConsole?.Invoke(); }
 	public int CalcTotalDamage()
 	{
 		return (int)Math.Round(weaponScript.Damage * BonusDamage);

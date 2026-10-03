@@ -39,6 +39,10 @@ public class UIManager : MonoBehaviour
 	private GameObject pause;
 	private GameObject gameOver;
 
+	//CHEAT CONSOLE RELATED
+	private GameObject cheatConsole;
+	//END OF CHEAT CONSOLE RELATED
+
 	//Credits Text
 	private TMP_Text creditsText;
 	//End of Credits Text
@@ -67,6 +71,8 @@ public class UIManager : MonoBehaviour
 		pause = referenceSheet.PauseMenu;
 		gameOver = referenceSheet.GameOverScreen;
 
+		cheatConsole = referenceSheet.CheatMenu;
+
 		pauseAction = Player.playerInput.actions.FindAction("TogglePause");
 #if UNITY_EDITOR
 		if (pauseAction != null)
@@ -90,6 +96,7 @@ public class UIManager : MonoBehaviour
 		Player.ToggleInventory += ToggleInventory;
 		Player.ToggleShop += ToggleShop;
 		Player.TogglePauseMenu += TogglePause;
+		Player.ToggleCheatConsole += ToggleCheat;
 		Player.Die += PlayerDied;
 	}
 	public void SetWaveText(int currWave, int maxWave)
@@ -218,6 +225,25 @@ public class UIManager : MonoBehaviour
 			Player.playerInput.actions.FindAction("Fire").Enable();
 			Player.playerInput.actions.FindAction("Interact").Enable();
 			Player.playerInput.actions.FindAction("Open Inventory").Enable();
+		}
+	}
+
+	public void ToggleCheat()
+	{
+		cheatConsole.SetActive(!cheatConsole.activeSelf);
+		if (cheatConsole.activeSelf)
+		{
+			Player.playerInput.actions.FindAction("Fire").Disable();
+			Player.playerInput.actions.FindAction("Interact").Disable();
+			Player.playerInput.actions.FindAction("Open Inventory").Disable();
+			Player.playerInput.actions.FindAction("Toggle Shop").Disable();
+		}
+		else
+		{
+			Player.playerInput.actions.FindAction("Fire").Enable();
+			Player.playerInput.actions.FindAction("Interact").Enable();
+			Player.playerInput.actions.FindAction("Open Inventory").Enable();
+			Player.playerInput.actions.FindAction("Toggle Shop").Enable();
 		}
 	}
 

@@ -16,7 +16,7 @@ MonoBehaviour:
   <StartingItems>k__BackingField:
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 11400000, guid: a59373271350cd74091453afbe27c042, type: 2}
+  - {fileID: 11400000, guid: f181f1f0fce92dc49bde8d6204706418, type: 2}
   - {fileID: 11400000, guid: 4a37d9ecaf0a994408774772d38dec9b, type: 2}
   <StartingDeck>k__BackingField:
   - {fileID: 11400000, guid: 696e9ce4088adf744af6d765b34910ac, type: 2}

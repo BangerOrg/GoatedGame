@@ -343,7 +343,6 @@ MonoBehaviour:
   <MoveSpeed>k__BackingField: 5
   <InitialMoveSpeed>k__BackingField: 5
   fistPrefab: {fileID: 6943489743176248935, guid: 0ab173016f0b2644eb421db9bff929d1, type: 3}
-  <GameOverScreen>k__BackingField: {fileID: 7973900633473582584, guid: f6a76edf7c9eab3438577129ab6b9e6b, type: 3}
   ImmuFramesOnHit: 10
   <PlayerClass>k__BackingField: {fileID: 0}
   <BonusDamage>k__BackingField: 0
@@ -508,6 +507,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: beb57304-1457-4cb1-aa70-98d7cdccf83d
     m_ActionName: Player/TogglePause[/Keyboard/k]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6547559521655480698}
+        m_TargetAssemblyTypeName: Player, ScriptAssembly
+        m_MethodName: toggleCheatConsole
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: f4c21e73-cbee-4509-82b4-89acb0dc7001
+    m_ActionName: Player/Toggle Cheat[/Keyboard/f7]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player

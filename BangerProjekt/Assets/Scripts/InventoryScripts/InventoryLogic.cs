@@ -24,11 +24,6 @@ public class InventoryLogic : MonoBehaviour
 	void Start()
 	{
 		ActiveInventory.Init(InventorySlots);
-		/*for (int i = 0; i < ItemsEquipped.Length; i++)
-		{
-			ItemsEquipped[i] = null;
-			//reset all items, after that we can load them from save
-		}*/
 	}
 	private void OnEnable()
 	{
@@ -47,7 +42,6 @@ public class InventoryLogic : MonoBehaviour
 	public void OnDestroy()
 	{
 		Instance = null;
-		//ItemsEquipped = new Item[(int)Enums.SlotTag.None];
 		InventorySlots = STANDARD_INVENTORY_SLOTS;
 		ActiveInventory = null;
 	}
@@ -60,35 +54,6 @@ public class InventoryLogic : MonoBehaviour
 		}
 	}
 
-	/*public static void EquipItem(Item itemToEquip)
-	{
-		ItemsEquipped[(int)itemToEquip.ItemTag] = itemToEquip;
-		if (itemToEquip is WeaponItem)
-		{
-			WeaponItem tempWeapon = itemToEquip as WeaponItem; //this works man this is scuffed
-			SendNewWeapon?.Invoke(tempWeapon.CorrespondingPrefab); //gets called in player btw
-		}
-		else
-		{
-			ChangeItemPlayerStats?.Invoke(ItemsEquipped[(int)itemToEquip.ItemTag], true); // true because we add the stats
-																						  //if nothing is equipped, we equip the one we have and increase our stats accordingly
-																						  //this gets called when the Player has nothing equipped
-		}
-	}
-
-	public static void UnEquipItem(int tagOfItemInt)
-	{
-		Item itemToUnequip = ItemsEquipped[tagOfItemInt];
-		if (itemToUnequip is WeaponItem)
-		{
-			SendNewWeapon?.Invoke(null); //just dont send a new weapon the PlayerScript does the magic :)
-		}
-		else
-		{
-			ChangeItemPlayerStats?.Invoke(ItemsEquipped[tagOfItemInt], false); // false because subtract the stats
-		}
-		ItemsEquipped[tagOfItemInt] = null;
-	}*/
 
 	private void SaveInventory()
 	{
