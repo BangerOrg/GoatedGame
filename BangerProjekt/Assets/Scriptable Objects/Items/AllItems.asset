@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 6f9860a57839d46ad98984025121b246, type: 3}
   m_Name: AllItems
-  m_EditorClassIdentifier: ScriptAssembly::AllItemsSO
+  m_EditorClassIdentifier: 
   Items:
   - {fileID: 11400000, guid: 58bb1f4cb774556ea8d49ab9cb5ae7e9, type: 2}
   - {fileID: 11400000, guid: 4a37d9ecaf0a994408774772d38dec9b, type: 2}

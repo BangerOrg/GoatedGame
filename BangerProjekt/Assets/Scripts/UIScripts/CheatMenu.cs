@@ -21,6 +21,7 @@ public class CheatMenu : MonoBehaviour
 	public void ProcessCommand(string input)
 	{
 		if (string.IsNullOrWhiteSpace(input)) return;
+		if (!itemlist) { Log("No Item List found"); }
 		Log($"\n> {input}");
 		string[] args = input.Trim().Split(' ');
 		string command = args[0].ToLower();
@@ -37,7 +38,7 @@ public class CheatMenu : MonoBehaviour
 
 			case "items":
 				Log("Available Items:");
-				foreach (var item in itemlist.Items)
+				foreach (Item item in itemlist.Items)
 				{
 					if (item != null) Log($"  - {item.name}");
 				}

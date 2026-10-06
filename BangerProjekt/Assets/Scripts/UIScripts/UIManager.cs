@@ -237,6 +237,7 @@ public class UIManager : MonoBehaviour
 			Player.playerInput.actions.FindAction("Interact").Disable();
 			Player.playerInput.actions.FindAction("Open Inventory").Disable();
 			Player.playerInput.actions.FindAction("Toggle Shop").Disable();
+			Player.playerInput.actions.FindAction("Move").Disable();
 		}
 		else
 		{
@@ -244,6 +245,7 @@ public class UIManager : MonoBehaviour
 			Player.playerInput.actions.FindAction("Interact").Enable();
 			Player.playerInput.actions.FindAction("Open Inventory").Enable();
 			Player.playerInput.actions.FindAction("Toggle Shop").Enable();
+			Player.playerInput.actions.FindAction("Move").Enable();
 		}
 	}
 
