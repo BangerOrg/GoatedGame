@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class LassoProjectile : MonoBehaviour
+public class LassoProjectile : MonoBehaviour, IProjectile
 {
 	public Unit Unit { get; set; }
 	public Rigidbody2D Rb { get; set; }
@@ -14,15 +16,19 @@ public class LassoProjectile : MonoBehaviour
 	private LineRenderer lineRenderer; // <-- HIER: LineRenderer Referenz
 
 	private bool isShrinking = true;
-	private int pointsCount = 32;
+	private const int pointsCount = 32;
 	private float totalEnemyArea = 0f;
 	private float currentRadius;
+
+	private const float BASE_RADIUS = 4.5f;
+
+	public static event Action lassoEnd;
 
 	void Awake()
 	{
 		Rb = GetComponent<Rigidbody2D>();
 		lassoArea = GetComponent<EdgeCollider2D>();
-		lineRenderer = GetComponent<LineRenderer>(); // <-- HIER: Automatisches Holen der Komponente
+		lineRenderer = GetComponent<LineRenderer>();
 
 		SetupLineRenderer();
 	}
@@ -50,7 +56,11 @@ public class LassoProjectile : MonoBehaviour
 
 		weaponScript.OnTriggerReleased += HandleTriggerReleased;
 
-		currentRadius = weaponScript.ShotDelay * (weaponScript.BulletAmount * 0.5f);
+		currentRadius = BASE_RADIUS * weaponScript.BulletAmount * 0.5f;
+		if (weaponScript.ShotDelay > 1)
+		{
+			currentRadius *= weaponScript.ShotDelay;
+		}
 
 		StartCapture();
 		GenerateCircleCollider(currentRadius);
@@ -64,6 +74,7 @@ public class LassoProjectile : MonoBehaviour
 
 	private void OnDestroy()
 	{
+		lassoEnd?.Invoke();
 		if (weaponScript != null)
 		{
 			weaponScript.OnTriggerReleased -= HandleTriggerReleased;
@@ -112,7 +123,7 @@ public class LassoProjectile : MonoBehaviour
 
 			float area = Mathf.PI * currentRadius * currentRadius;
 
-			if (area <= totalEnemyArea * 1.15f || AreAllEnemiesImmobalized())
+			if (area <= totalEnemyArea * 1.15f || AreAllEnemiesImmobilized())
 			{
 				isShrinking = false;
 				foreach (GameObject e in trappedEnemies)
@@ -138,7 +149,10 @@ public class LassoProjectile : MonoBehaviour
 		}
 	}
 
-	private bool AreAllEnemiesImmobalized()
+
+
+
+	private bool AreAllEnemiesImmobilized()
 	{
 		foreach (GameObject t in trappedEnemies)
 		{
@@ -164,7 +178,6 @@ public class LassoProjectile : MonoBehaviour
 		{
 			float angleRad = Mathf.Deg2Rad * (i * angleStep);
 			Vector2 point = new Vector2(Mathf.Cos(angleRad) * radius, Mathf.Sin(angleRad) * radius);
-
 			colliderPoints[i] = point;
 			linePoints[i] = new Vector3(point.x, point.y, 0f); // Für Visuals
 		}

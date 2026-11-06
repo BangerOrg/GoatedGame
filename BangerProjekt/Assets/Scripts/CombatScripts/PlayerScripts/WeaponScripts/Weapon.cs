@@ -52,7 +52,7 @@ public abstract class Weapon : MonoBehaviour
 
 	public event Action OnTriggerReleased;
 
-	private void Awake()
+	protected void Awake()
 	{
 		InitInput();
 		CanShoot = true;
@@ -74,18 +74,18 @@ public abstract class Weapon : MonoBehaviour
 			}
 		}
 	}
-	private void Start()
+	protected void Start()
 	{
 		SetItemStats();
 		bulletsLeft = BulletAmount + Player.Instance.BonusBulletAmount;
 	}
-	private void OnEnable()
+	protected void OnEnable()
 	{
 		InitInput();
 		Fire.started += FiringStart;
 		Fire.canceled += FiringStopped;
 	}
-	void OnDisable()
+	protected void OnDisable()
 	{
 		Fire.started -= FiringStart;
 		Fire.canceled -= FiringStopped;
@@ -97,6 +97,7 @@ public abstract class Weapon : MonoBehaviour
 
 	private void Update() //we check for the shooting in Update because we need to register clicks (depends on frames)
 	{
+
 		if (CanShoot && HoldingTrigger)
 		{
 			if (ShotDelay > 0)
@@ -135,7 +136,7 @@ public abstract class Weapon : MonoBehaviour
 	}
 
 
-	public IEnumerator StartShotDelayCooldown()
+	public virtual IEnumerator StartShotDelayCooldown()
 	{
 		CanShoot = false;
 		float bonusShotDelayIncrease = 1 + ((Player.Instance.BonusFireRate - 1) / 3f);
@@ -143,7 +144,7 @@ public abstract class Weapon : MonoBehaviour
 		CanShoot = true;
 	}
 
-	public IEnumerator StartReloadCooldown()
+	public virtual IEnumerator StartReloadCooldown()
 	{
 		CanShoot = false;
 		yield return new WaitForSeconds(1f / (FireRate * Player.Instance.BonusFireRate));

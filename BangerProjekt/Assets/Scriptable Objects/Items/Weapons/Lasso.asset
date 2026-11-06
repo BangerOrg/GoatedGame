@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <FireRate>k__BackingField: 1
   <BulletAmount>k__BackingField: 1
-  <Damage>k__BackingField: 10
+  <Damage>k__BackingField: 1
   <Defense>k__BackingField: 0
   <HealthBonus>k__BackingField: 0
   <CritChance>k__BackingField: 0.3
@@ -29,7 +29,7 @@ MonoBehaviour:
   <DamageMult>k__BackingField: 1
   <ShotDelayOrRange>k__BackingField: 0
   <SpreadAngle>k__BackingField: 0
-  <ShotSpeed>k__BackingField: 10
+  <ShotSpeed>k__BackingField: 3
   <LifeSteal>k__BackingField: 0
   <BulletPierce>k__BackingField: 0
   <BulletBounces>k__BackingField: 0
