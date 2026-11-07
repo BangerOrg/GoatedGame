@@ -5,22 +5,24 @@ using UnityEngine;
 using Unity.VisualScripting;
 public class PlayerBullet : MonoBehaviour, IProjectile
 {
-	private float timeAlive; //the max time alive before spontaneously imploding
+
+	protected const int SECONDS_TO_LIVE = 20;
+	protected float timeAlive; //the max time alive before spontaneously imploding
 	protected Weapon weaponScript;
 	protected Player playerScript;
-	private Rigidbody2D rb;
-	private int RemainingPierce;
-	private int RemainingBulletBounces;
-	private Vector2 bulletPos;
-	private bool isBouncing;
+	protected Rigidbody2D rb;
+	protected int RemainingPierce;
+	protected int RemainingBulletBounces;
+	protected Vector2 bulletPos;
+	protected bool isBouncing;
 
 	public Unit Unit { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 	public Rigidbody2D Rb { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 	public int Pierce { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
-	private void Awake()
+	protected virtual void Awake()
 	{
-		timeAlive = 20;
+		timeAlive = SECONDS_TO_LIVE;
 		weaponScript = GameObject.FindWithTag("Weapon").GetComponent<Weapon>();
 		playerScript = GameObject.FindWithTag("Player").GetComponent<Player>();
 		RemainingBulletBounces = weaponScript.BulletBounces;
@@ -40,7 +42,7 @@ public class PlayerBullet : MonoBehaviour, IProjectile
 		Destroy(gameObject); //Destroy the Object
 	}
 
-	public float CritCalculate() // starts the Crit roulet
+	public virtual float CritCalculate() // starts the Crit roulet
 	{
 		int temp = Random.Range(1, 101);
 		if (temp <= weaponScript.CritChance * playerScript.BonusCritChance)
@@ -109,7 +111,7 @@ public class PlayerBullet : MonoBehaviour, IProjectile
 		else { BounceInitiator(currObject); } //else means that they are basically like walls, so we bounce
 	}
 
-	public void DamageCalculation(GameObject currObject, bool isLifestealable)
+	public virtual void DamageCalculation(GameObject currObject, bool isLifestealable)
 	{
 		if (isLifestealable) LifeStealCalculate();
 		float CritDamage = CritCalculate();

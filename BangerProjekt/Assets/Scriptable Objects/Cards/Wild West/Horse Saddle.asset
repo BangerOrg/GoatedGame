@@ -15,10 +15,10 @@ MonoBehaviour:
   <ID>k__BackingField: 4
   <CardRarity>k__BackingField: 1
   <Name>k__BackingField: Horse Saddle
-  <Description>k__BackingField: MoveSpeed up
+  <Description>k__BackingField: considerable Speed Up when close to Enemies
   <CardImage>k__BackingField: {fileID: 0}
   <LayerOfCard>k__BackingField: {fileID: 11400000, guid: 0fabe26fb7db2b149b44f8d10c84ea67, type: 2}
   <CostToPlay>k__BackingField: 1
   <CardEffects>k__BackingField:
-  - <First>k__BackingField: {fileID: 11400000, guid: 148f355f79d948848b94f3fe96120e08, type: 2}
-    <Second>k__BackingField: 0.2
+  - <First>k__BackingField: {fileID: 11400000, guid: 11754484d602805d0b3609689f81efa7, type: 2}
+    <Second>k__BackingField: 3;0.6

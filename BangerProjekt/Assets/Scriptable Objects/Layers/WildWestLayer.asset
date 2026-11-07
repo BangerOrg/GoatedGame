@@ -30,6 +30,7 @@ MonoBehaviour:
   <PossibleObstacles>k__BackingField:
   - {fileID: 11400000, guid: 0e8d4ed23838b13b09d08144d3e21586, type: 2}
   - {fileID: 11400000, guid: 16221f76cb5367393856a07afac0487d, type: 2}
+  - {fileID: 11400000, guid: 2806aa155210c4614884678380fb440e, type: 2}
   <PossibleItems>k__BackingField:
   - {fileID: 11400000, guid: f181f1f0fce92dc49bde8d6204706418, type: 2}
   - {fileID: 11400000, guid: a1d7bfb99b6318043b0ce33cd2f15cc3, type: 2}
@@ -45,6 +46,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: acb9645663755e74088d6bc61de0de0c, type: 2}
   - {fileID: 11400000, guid: 010d26f644b01c041b41a002184a3cf7, type: 2}
   - {fileID: 11400000, guid: 6b926878258fbbe4e85eadfa788fc696, type: 2}
+  - {fileID: 11400000, guid: 5e66697f2c55337b696da1d1b070d7d5, type: 2}
   <GroundSprite>k__BackingField: {fileID: 2800000, guid: fc031a5ad4bdc694fb3873e2d7742a61, type: 3}
   <CardBackground>k__BackingField:
   - {fileID: -2625156432672287234, guid: 45cf077dda240354e81fd1307606cba5, type: 3}

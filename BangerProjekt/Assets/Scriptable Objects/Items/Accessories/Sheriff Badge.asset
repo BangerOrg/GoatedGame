@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e426954fab93b54f1b424c6a76e51dd1, type: 3}
   m_Name: Sheriff Badge
   m_EditorClassIdentifier: 
-  <FireRate>k__BackingField: 0.4
+  <FireRate>k__BackingField: 0.2
   <BulletAmount>k__BackingField: 1
-  <Damage>k__BackingField: 0.2
+  <Damage>k__BackingField: 0
   <Defense>k__BackingField: 0
   <HealthBonus>k__BackingField: 0
-  <CritChance>k__BackingField: 0.2
-  <CritDamage>k__BackingField: 0.5
+  <CritChance>k__BackingField: 0.1
+  <CritDamage>k__BackingField: 0.4
   <ID>k__BackingField: 9
   <ItemTag>k__BackingField: 1
   <ItemName>k__BackingField: Sheriff Badge
   <Icon>k__BackingField: {fileID: 0}
-  <ItemRarity>k__BackingField: 0
+  <ItemRarity>k__BackingField: 2
   <Description>k__BackingField: Looks pretty cool
   <Cost>k__BackingField: 0

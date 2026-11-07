@@ -8,7 +8,7 @@ public class ObstacleScript : MonoBehaviour
 	[field: SerializeField] public Obstacle Obstacle { get; set; }
 	private Player player;
 
-	public void Setup()
+	public virtual void Setup()
 	{
 		this.GetComponent<SpriteRenderer>().sprite = Obstacle.Sprite;
 
@@ -17,6 +17,8 @@ public class ObstacleScript : MonoBehaviour
 		if (Obstacle.Passable) Passable();
 		if (Obstacle.Destroyable) Destroyable();
 		if (Obstacle.Carnivore || Obstacle.Herbivore) Edible();
+		if (Obstacle.DamagesUnitsInside) DamagesUnits();
+		if (Obstacle.DamagesUnitsTemporarily) DamagesUnitsTemp();
 	}
 
 	private void Passable()
@@ -69,7 +71,18 @@ public class ObstacleScript : MonoBehaviour
 			Destroy(this.gameObject);
 		}
 	}
-	void OnTriggerEnter2D(Collider2D collision)
+
+	private void DamagesUnits()
+	{
+		this.AddComponent<DamagingObstacle>();
+	}
+
+	private void DamagesUnitsTemp()
+	{
+		this.AddComponent<TemporaryDamagingObstacle>();
+	}
+
+	public virtual void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (collision.GetComponent<Unit>())
 			collision.GetComponent<Unit>().MoveSpeed += Obstacle.SpeedModifier;
@@ -85,7 +98,7 @@ public class ObstacleScript : MonoBehaviour
 			collision.gameObject.GetComponent<Player>().DamageUnit(Obstacle.ContactDamage, 1f);
 		}
 	}
-	void OnTriggerExit2D(Collider2D collision)
+	public virtual void OnTriggerExit2D(Collider2D collision)
 	{
 		if (collision.GetComponent<Unit>())
 			collision.GetComponent<Unit>().MoveSpeed -= Obstacle.SpeedModifier;

@@ -102,7 +102,7 @@ MonoBehaviour:
   <Defense>k__BackingField: 0
   <DamageReduction>k__BackingField: 0
   <MoveSpeed>k__BackingField: 4
-  <InitialMoveSpeed>k__BackingField: 2
+  <InitialMoveSpeed>k__BackingField: 4
   xpObject: {fileID: 3385395565852105219, guid: 1001d61beaa204204bd3341064bdedaa, type: 3}
   xpValue: 30
   pickup: {fileID: 6933032603654902607, guid: ccb29caaaefcb5c44baa24124ad78950, type: 3}

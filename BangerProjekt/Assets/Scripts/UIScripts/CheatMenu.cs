@@ -53,8 +53,8 @@ public class CheatMenu : MonoBehaviour
 				break;
 		}
 
-		inputField.text = ""; //Clear input field
-		inputField.ActivateInputField(); //Keep focus active for next command
+		inputField.text = "";
+		inputField.ActivateInputField();
 	}
 
 	private void Log(string message)
@@ -76,7 +76,7 @@ public class CheatMenu : MonoBehaviour
 
 		if (foundItem != null)
 		{
-			//Calling Inventory system to add the item directly
+
 			if (InventoryLogic.ActiveInventory != null)
 			{
 				InventoryLogic.ActiveInventory.TryAddItem(foundItem);

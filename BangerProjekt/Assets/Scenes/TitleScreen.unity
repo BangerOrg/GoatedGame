@@ -3199,7 +3199,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Banger Game
+  m_text: Xenodrome of the Eons
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e3a99922838e77649a024f1543af470c, type: 2}
   m_sharedMaterial: {fileID: -7855463194107501126, guid: e3a99922838e77649a024f1543af470c, type: 2}
@@ -3226,8 +3226,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 80
+  m_fontSizeBase: 80
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

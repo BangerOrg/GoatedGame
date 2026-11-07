@@ -14,15 +14,13 @@ public class DashEffect : CardEffect
 		duration = float.Parse(strings[0], info.NumberFormat);
 		speedMult = float.Parse(strings[1], info.NumberFormat);
 		Dash();
-		UseAbilities.Instance.AbilityDuration(this, duration,effect);
+		UseAbilities.Instance.AbilityDuration(this, duration, effect);
 	}
 
 	public void Dash()
 	{
 		Player.Instance.BonusMoveSpeed += speedMult;  //the player gets really fast
 		movement.Instance.pc.Disable();
-		Debug.Log(movement.Instance.rb.velocity);
-
 	}
 
 	public override void RevertEffect(string effect)

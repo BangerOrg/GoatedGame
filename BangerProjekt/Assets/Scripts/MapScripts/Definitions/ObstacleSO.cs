@@ -15,12 +15,15 @@ public class Obstacle : ScriptableObject
 	[field: SerializeField] public int ExplodeDamage { get; set; }
 	[field: SerializeField] public bool Carnivore { get; set; }
 	[field: SerializeField] public bool Herbivore { get; set; }
+	[field: SerializeField] public bool DamagesUnitsInside { get; set; }
+	[field: SerializeField] public bool DamagesUnitsTemporarily { get; set; }
 	[field: SerializeField] public int HP { get; set; } //only makes sense when its Destroyable or is Edible AKA Herbivore/Carnivore
 	[field: SerializeField] public bool DealsContactDamage { get; set; }
 	[field: SerializeField] public int ContactDamage { get; set; }
 	[field: SerializeField] public Enums.ObstacleSize size { get; set; }
 	[field: SerializeField] public GameObject ObstaclePrefab { get; set; }
 	[field: SerializeField] public GameObject ObstacleExplosionPrefab { get; set; }
+
 
 
 	private float GetTargetUnitWidth()

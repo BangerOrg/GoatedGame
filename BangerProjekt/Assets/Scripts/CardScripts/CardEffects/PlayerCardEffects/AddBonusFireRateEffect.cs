@@ -11,7 +11,6 @@ public class AddBonusFireRateEffect : CardEffect
 	public override void ExecuteEffect(string effect)
 	{
 		value = float.Parse(effect, info.NumberFormat);
-		Debug.Log("Add FireRate with value: " + value);
 		Player.Instance.BonusFireRate += value;
 	}
 
@@ -19,6 +18,5 @@ public class AddBonusFireRateEffect : CardEffect
 	{
 		value = float.Parse(effect, info.NumberFormat);
 		Player.Instance.BonusFireRate -= value;
-		Debug.Log("Sub FireRate with value: " + value);
 	}
 }

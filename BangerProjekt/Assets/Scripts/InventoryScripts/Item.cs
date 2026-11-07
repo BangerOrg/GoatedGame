@@ -28,7 +28,6 @@ public class Item : ScriptableObject // Creating a item class for the standard i
 	[field: SerializeField] public Sprite Icon { get; set; }
 	[field: SerializeField] public Enums.Rarity ItemRarity { get; set; }
 	[field: SerializeField] public string Description { get; set; }
-	[field: SerializeField] public int Cost { get; set; } //Pricy stuff
 	void Awake()
 	{
 		if (ItemName == null) Debug.Log("Item is missing Name!!!");

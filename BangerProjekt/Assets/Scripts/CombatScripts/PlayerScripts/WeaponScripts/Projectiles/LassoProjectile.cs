@@ -13,7 +13,7 @@ public class LassoProjectile : MonoBehaviour, IProjectile
 
 	private List<GameObject> trappedEnemies = new List<GameObject>();
 	private EdgeCollider2D lassoArea;
-	private LineRenderer lineRenderer; // <-- HIER: LineRenderer Referenz
+	private LineRenderer lineRenderer;
 
 	private bool isShrinking = true;
 	private const int pointsCount = 32;
@@ -37,8 +37,8 @@ public class LassoProjectile : MonoBehaviour, IProjectile
 	{
 		if (lineRenderer != null)
 		{
-			lineRenderer.useWorldSpace = false; // Punkte sind lokal zum Lasso-Objekt
-			lineRenderer.loop = true; // Geschlossener Kreis
+			lineRenderer.useWorldSpace = false;
+			lineRenderer.loop = true;
 			lineRenderer.positionCount = pointsCount;
 		}
 	}
@@ -170,7 +170,7 @@ public class LassoProjectile : MonoBehaviour, IProjectile
 	private void GenerateCircleCollider(float radius)
 	{
 		Vector2[] colliderPoints = new Vector2[pointsCount + 1];
-		Vector3[] linePoints = new Vector3[pointsCount]; // LineRenderer braucht Vector3
+		Vector3[] linePoints = new Vector3[pointsCount];
 
 		float angleStep = 360f / pointsCount;
 
@@ -179,14 +179,12 @@ public class LassoProjectile : MonoBehaviour, IProjectile
 			float angleRad = Mathf.Deg2Rad * (i * angleStep);
 			Vector2 point = new Vector2(Mathf.Cos(angleRad) * radius, Mathf.Sin(angleRad) * radius);
 			colliderPoints[i] = point;
-			linePoints[i] = new Vector3(point.x, point.y, 0f); // Für Visuals
+			linePoints[i] = new Vector3(point.x, point.y, 0f);
 		}
 
-		// Collider-Schleife schließen
 		colliderPoints[pointsCount] = colliderPoints[0];
 		lassoArea.points = colliderPoints;
 
-		// LineRenderer Punkte setzen
 		if (lineRenderer != null)
 		{
 			lineRenderer.SetPositions(linePoints);
