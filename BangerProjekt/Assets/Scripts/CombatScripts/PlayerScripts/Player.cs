@@ -162,14 +162,13 @@ public class Player : Unit
 		}
 		AddImmunityFrames(ImmuFramesOnHit);
 		PopUp.Create(transform.position + new Vector3(0.3f, 1.5f, 0), amount.ToString(), Color.red, 5);
-		//Update the Healthbar if existent
 		if (CurrentHealth <= 0) Die?.Invoke();
 	}
 
 	public override void HealUnit(int amount)
 	{
 		base.HealUnit(amount);
-		//Update the healthbar if existent
+		PopUp.Create(transform.position + new Vector3(0.3f, 1.5f, 0), amount.ToString(), Color.green, 5);
 	}
 
 	public void ApplyLifesteal() // starts the life steal Attempted

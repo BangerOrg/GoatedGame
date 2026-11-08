@@ -145,7 +145,6 @@ public class UIManager : MonoBehaviour
 
 	public void SetAbilityImage()
 	{
-		Debug.Log("Changing ability item");
 		Item item = InventoryLogic.ActiveInventory.EquippedItems[(int)Enums.SlotTag.Ability];
 		if (item != null)
 		{
@@ -153,7 +152,6 @@ public class UIManager : MonoBehaviour
 		}
 		else
 		{
-			Debug.Log("No Item in change");
 			abilityImage.sprite = noAbility;
 		}
 	}

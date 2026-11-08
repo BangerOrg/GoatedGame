@@ -6,13 +6,16 @@ public class DamagingObstacle : MonoBehaviour
 {
 	//these obstacles make percentage damage, not absolute numbers of damage
 
-	private int damagePerTick;
-	private Obstacle Obstacle;
+	protected int damagePerTick;
+	protected Obstacle Obstacle;
 
 
-	void Awake()
+
+
+	public virtual void Start()
 	{
 		Obstacle = GetComponent<ObstacleScript>().Obstacle;
+		damagePerTick = Obstacle.ContactDamage;
 	}
 
 	public void OnTriggerEnter2D(Collider2D collision)
@@ -35,6 +38,15 @@ public class DamagingObstacle : MonoBehaviour
 	public virtual void DamagePlayer()
 	{
 		Player player = GameObject.FindWithTag("Player").GetComponent<Player>();
-		player.DamageUnit(Mathf.CeilToInt((damagePerTick / 100f) * Player.Instance.MaxHealth), 1);
+		if (damagePerTick < 0)
+		{
+			player.HealUnit(Mathf.CeilToInt(-1 * (damagePerTick / 100f) * Player.Instance.MaxHealth));
+			//we do * -1 so we do not heal a negative amount (-> damage)
+		}
+		else
+		{
+			player.DamageUnit(Mathf.CeilToInt((damagePerTick / 100f) * Player.Instance.MaxHealth), 1);
+
+		}
 	}
 }

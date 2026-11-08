@@ -6,27 +6,16 @@ public class TemporaryDamagingObstacle : DamagingObstacle
 {
 	private int damageCount = 0;
 
-	private Obstacle Obstacle;
-	public int TotalTicks
-	{
-		get
-		{
-			return Obstacle.HP;
-		}
-		private set
-		{
-			Obstacle.HP = value;
-		}
-	}
+	private int totalTicks;
 
-	void Awake()
+	public override void Start()
 	{
-		Obstacle = GetComponent<ObstacleScript>().Obstacle;
+		base.Start();
+		totalTicks = Obstacle.HP;
 	}
-
 	public override void DamagePlayer()
 	{
-		if (damageCount < TotalTicks)
+		if (damageCount < totalTicks)
 		{
 			base.DamagePlayer();
 			damageCount++;

@@ -109,7 +109,6 @@ public class RoomManager : MonoBehaviour
 	}
 	public void GenerateRooms(int numOfRooms) //might later be called by something else, hence public and the Parameter(Optional)
 	{
-		Debug.Log("room Numbers: " + numOfRooms);
 		tries = 0;
 		for (int i = 0; i < numOfRooms; i++) //iterrate over how many rooms should be generated
 		{

@@ -74,11 +74,25 @@ public class ObstacleScript : MonoBehaviour
 
 	private void DamagesUnits()
 	{
+		if (!GetComponent<Rigidbody2D>())
+		{
+			Rigidbody2D rb = this.AddComponent<Rigidbody2D>();
+			rb.angularDrag = 0;
+			rb.freezeRotation = true;
+			rb.gravityScale = 0;
+		}
 		this.AddComponent<DamagingObstacle>();
 	}
 
 	private void DamagesUnitsTemp()
 	{
+		if (!GetComponent<Rigidbody2D>())
+		{
+			Rigidbody2D rb = this.AddComponent<Rigidbody2D>();
+			rb.angularDrag = 0;
+			rb.freezeRotation = true;
+			rb.gravityScale = 0;
+		}
 		this.AddComponent<TemporaryDamagingObstacle>();
 	}
 
