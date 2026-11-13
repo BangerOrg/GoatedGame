@@ -2,15 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TemporaryDamagingObstacle : DamagingObstacle
+public class TemporaryDamagingObstacle : ObstacleScript
 {
 	private int damageCount = 0;
 
 	private int totalTicks;
 
-	public override void Start()
+
+	public void Setup(Obstacle obstacle)
 	{
-		base.Start();
+		Obstacle = obstacle;
+		base.Setup();
+	}
+	public void Start()
+	{
 		totalTicks = Obstacle.HP;
 	}
 	public override void DamagePlayer()

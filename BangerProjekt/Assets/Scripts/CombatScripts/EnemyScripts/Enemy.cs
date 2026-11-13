@@ -42,8 +42,8 @@ public class Enemy : Unit
 
 	public void Start()
 	{
-		InvokeRepeating("TurnToPlayer", 0, 0.2f);
-		InvokeRepeating("MoveToPlayer", 0, 0.2f);
+		InvokeRepeating("TurnToPlayer", 0, GameManager.STANDARD_TICK_TIME);
+		InvokeRepeating("MoveToPlayer", 0, GameManager.STANDARD_TICK_TIME);
 	}
 	public void TurnToPlayer()
 	{

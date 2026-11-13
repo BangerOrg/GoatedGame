@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
 {
 	public const int START_MIN_CREDITS = 10;
 	public const int START_MAX_CREDITS = 20;
+	public static float STANDARD_TICK_TIME = 0.2f;
 	public static RoomScript currentRoom;
 	public static Action currRoomChanged;
 	public static int roomsCleared;
@@ -113,5 +115,11 @@ public class GameManager : MonoBehaviour
 		if (credits < 0) credits = 0; //cant go in debt :(
 		CreditsChanged?.Invoke();
 		//we change the text here for now
+	}
+
+	public void ExecuteCoroutine(IEnumerator func)
+	{
+		StartCoroutine(func);
+		//holy Fuck stackOverflow is the goat
 	}
 }

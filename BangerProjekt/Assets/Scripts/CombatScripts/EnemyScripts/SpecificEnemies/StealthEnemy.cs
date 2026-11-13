@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class StealthEnemy : Enemy
 {
-    [SerializeField] private float distanceToStartVisibility;
+	[SerializeField] private float distanceToStartVisibility;
 
 
-    new void Start()
-    {
-        base.Start();
-        InvokeRepeating("SetVisibility",0,0.2f);
-    }
+	new void Start()
+	{
+		base.Start();
+		InvokeRepeating("SetVisibility", 0, GameManager.STANDARD_TICK_TIME);
+	}
 
-    public void SetVisibility()
-    {
-        SpriteRenderer renderer = gameObject.GetComponent<SpriteRenderer>();
-       renderer.color = new Color(renderer.color.r,renderer.color.g,renderer.color.b,(distanceToStartVisibility - Distance)/distanceToStartVisibility);
-    }
+	public void SetVisibility()
+	{
+		SpriteRenderer renderer = gameObject.GetComponent<SpriteRenderer>();
+		renderer.color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, (distanceToStartVisibility - Distance) / distanceToStartVisibility);
+	}
 
-    //identical to "normal" enemies but we need to change the .a value (alpha value) of the spriteRenderer to "make them invisible"
+	//identical to "normal" enemies but we need to change the .a value (alpha value) of the spriteRenderer to "make them invisible"
 }

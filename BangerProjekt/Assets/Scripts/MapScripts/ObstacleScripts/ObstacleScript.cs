@@ -13,12 +13,11 @@ public class ObstacleScript : MonoBehaviour
 		this.GetComponent<SpriteRenderer>().sprite = Obstacle.Sprite;
 
 		player = GameObject.FindWithTag("Player").GetComponent<Player>();
+		if (Obstacle.DamagesUnitsTemporarily) DamagesUnitsTemp(); //this needs to be done first, because it will destroy this cript and replace it with itself if true
 		Movable();
 		if (Obstacle.Passable) Passable();
 		if (Obstacle.Destroyable) Destroyable();
 		if (Obstacle.Carnivore || Obstacle.Herbivore) Edible();
-		if (Obstacle.DamagesUnitsInside) DamagesUnits();
-		if (Obstacle.DamagesUnitsTemporarily) DamagesUnitsTemp();
 	}
 
 	private void Passable()
@@ -72,20 +71,10 @@ public class ObstacleScript : MonoBehaviour
 		}
 	}
 
-	private void DamagesUnits()
-	{
-		if (!GetComponent<Rigidbody2D>())
-		{
-			Rigidbody2D rb = this.AddComponent<Rigidbody2D>();
-			rb.angularDrag = 0;
-			rb.freezeRotation = true;
-			rb.gravityScale = 0;
-		}
-		this.AddComponent<DamagingObstacle>();
-	}
 
 	private void DamagesUnitsTemp()
 	{
+		if (this is TemporaryDamagingObstacle) return;
 		if (!GetComponent<Rigidbody2D>())
 		{
 			Rigidbody2D rb = this.AddComponent<Rigidbody2D>();
@@ -93,7 +82,8 @@ public class ObstacleScript : MonoBehaviour
 			rb.freezeRotation = true;
 			rb.gravityScale = 0;
 		}
-		this.AddComponent<TemporaryDamagingObstacle>();
+		this.AddComponent<TemporaryDamagingObstacle>().Setup(Obstacle);
+		Destroy(this);
 	}
 
 	public virtual void OnTriggerEnter2D(Collider2D collision)
@@ -109,7 +99,7 @@ public class ObstacleScript : MonoBehaviour
 		}
 		if (collision.gameObject.CompareTag("Player") && Obstacle.DealsContactDamage)
 		{
-			collision.gameObject.GetComponent<Player>().DamageUnit(Obstacle.ContactDamage, 1f);
+			InvokeRepeating("DamagePlayer", 0, GameManager.STANDARD_TICK_TIME);
 		}
 	}
 	public virtual void OnTriggerExit2D(Collider2D collision)
@@ -123,27 +113,56 @@ public class ObstacleScript : MonoBehaviour
 			tmpColor.a = 1f;
 			sr.color = tmpColor;
 		}
+		if (collision.gameObject.CompareTag("Player") && Obstacle.DealsContactDamage)
+		{
+			CancelInvoke("DamagePlayer");
+		}
 
 	}
-	void OnTriggerStay2D(Collider2D collision)
-	{
-		if (collision.CompareTag("Player") && Obstacle.DealsContactDamage)
-		{
-			collision.gameObject.GetComponent<Player>().DamageUnit(Obstacle.ContactDamage, 1f);
-		}
-	}
-	void OnCollisionStay2D(Collision2D collision)
+	public virtual void OnCollisionEnter2D(Collision2D collision)
 	{
 		if (collision.gameObject.CompareTag("Player") && Obstacle.DealsContactDamage)
 		{
-			collision.gameObject.GetComponent<Player>().DamageUnit(Obstacle.ContactDamage, 1f);
+			InvokeRepeating("DamagePlayer", 0, GameManager.STANDARD_TICK_TIME);
 		}
 	}
-	void OnCollisionEnter2D(Collision2D collision)
+
+	public virtual void OnCollisionExit2D(Collision2D collision)
 	{
 		if (collision.gameObject.CompareTag("Player") && Obstacle.DealsContactDamage)
 		{
-			collision.gameObject.GetComponent<Player>().DamageUnit(Obstacle.ContactDamage, 1f);
+			CancelInvoke("DamagePlayer");
+		}
+	}
+
+	public virtual void DamagePlayer()
+	{
+		int damagePerTick = Obstacle.ContactDamage;
+		Player player = GameObject.FindWithTag("Player").GetComponent<Player>();
+		if (damagePerTick < 0)
+		{
+			if (Obstacle.DealsPercentageDamage)
+			{
+				player.HealUnit(Mathf.CeilToInt(-1 * (damagePerTick / 100f) * Player.Instance.MaxHealth));
+				//we do * -1 so we do not heal a negative amount (-> damage)
+			}
+			else
+			{
+				player.HealUnit(-1 * damagePerTick);
+			}
+
+		}
+		else
+		{
+			if (Obstacle.DealsPercentageDamage)
+			{
+				player.DamageUnit(Mathf.CeilToInt((damagePerTick / 100f) * Player.Instance.MaxHealth), 1);
+			}
+			else
+			{
+				player.HealUnit(-1 * damagePerTick);
+			}
+
 		}
 	}
 

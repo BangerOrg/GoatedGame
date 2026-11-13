@@ -49,7 +49,6 @@ public class DeckLogic : MonoBehaviour
 		ShopHover.purchaseCard += AddCard;
 		LayerManager.newLayer += StartTurn;
 		CardInHand.CardPlayed += PlayCard;
-		RoomScript.RoomCleared += OnRoomClearCardEffects;
 	}
 
 	private void OnDisable()
@@ -59,7 +58,6 @@ public class DeckLogic : MonoBehaviour
 		ShopHover.purchaseCard -= AddCard;
 		LayerManager.newLayer -= StartTurn;
 		CardInHand.CardPlayed -= PlayCard;
-		RoomScript.RoomCleared -= OnRoomClearCardEffects;
 	}
 
 	public void OnDestroy()
@@ -136,16 +134,6 @@ public class DeckLogic : MonoBehaviour
 
 	}
 
-	public void OnRoomClearCardEffects()
-	{
-		foreach (Card card in activeCards)
-		{
-			foreach (Pair<CardEffect, string> pair in card.CardEffects)
-			{
-				pair.First.OnRoomClear();
-			}
-		}
-	}
 
 	public void ResetCardEffects()
 	{

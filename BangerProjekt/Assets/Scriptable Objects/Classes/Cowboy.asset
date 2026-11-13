@@ -19,11 +19,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f181f1f0fce92dc49bde8d6204706418, type: 2}
   - {fileID: 11400000, guid: 4a37d9ecaf0a994408774772d38dec9b, type: 2}
   <StartingDeck>k__BackingField:
-  - {fileID: 11400000, guid: 696e9ce4088adf744af6d765b34910ac, type: 2}
+  - {fileID: 11400000, guid: 63136b38c225d6767976facdc49cbd77, type: 2}
   - {fileID: 11400000, guid: 6b926878258fbbe4e85eadfa788fc696, type: 2}
   - {fileID: 11400000, guid: 010d26f644b01c041b41a002184a3cf7, type: 2}
   - {fileID: 11400000, guid: 5e66697f2c55337b696da1d1b070d7d5, type: 2}
-  - {fileID: 11400000, guid: 010d26f644b01c041b41a002184a3cf7, type: 2}
+  - {fileID: 11400000, guid: 7220e9cabd518f55ebe17e9ed1ac6054, type: 2}
   - {fileID: 11400000, guid: 4d67abf66fc2fa85d8982c746c4f30f1, type: 2}
   - {fileID: 11400000, guid: 0ef33ba827dbaa843812c7c824b08991, type: 2}
   - {fileID: 11400000, guid: acb9645663755e74088d6bc61de0de0c, type: 2}

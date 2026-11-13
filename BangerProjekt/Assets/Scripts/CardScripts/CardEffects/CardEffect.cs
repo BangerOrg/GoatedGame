@@ -10,10 +10,6 @@ public abstract class CardEffect : ScriptableObject
 	public abstract void ExecuteEffect(string effect);
 	public abstract void RevertEffect(string effect);
 
-	public virtual void OnRoomClear()
-	{
-
-	}
 
 	protected CultureInfo info = new CultureInfo("en-EN");
 }

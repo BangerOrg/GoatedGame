@@ -19,6 +19,9 @@ public class HigherHPForRewardEffect : CardEffect
 
 	public override void RevertEffect(string effect)
 	{
+		string[] strings = effect.Split(";");
+		hpIncrease = float.Parse(strings[0], info.NumberFormat);
+		creditReward = int.Parse(strings[1], info.NumberFormat);
 		GameManager.EnemyHealthModifier -= hpIncrease;
 		GameManager.Instance.ChangeCredits(creditReward * (LayerManager.CurrentLayerNumber - 1));
 	}

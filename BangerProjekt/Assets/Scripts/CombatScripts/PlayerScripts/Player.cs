@@ -11,9 +11,7 @@ public class Player : Unit
 {
 
 	public static Player Instance;
-	private Weapon weaponScript;
 	private UseAbilities abilityScript;
-	[SerializeField] private GameObject fistPrefab;
 
 
 	//Start of level variables ------------------------------
@@ -94,7 +92,6 @@ public class Player : Unit
 			Destroy(this);
 		}
 
-		weaponScript = GameObject.FindWithTag("Weapon").GetComponent<Weapon>(); //gameObject with small g = this.GameObject
 		abilityScript = gameObject.GetComponent<UseAbilities>();
 		playerInput = this.GetComponent<PlayerInput>();
 		base.Awake();
@@ -122,8 +119,6 @@ public class Player : Unit
 		SaveManager.LoadingGame += LoadStats;
 		GameManager.currRoomChanged += RoomChange;
 		RoomScript.RoomCleared += RoomChange;
-		Inventory.SendNewWeapon += NewWeapon;
-		Inventory.ChangeItemPlayerStats += ChangeItemStats;
 	}
 
 	private void OnDisable()
@@ -132,8 +127,6 @@ public class Player : Unit
 		SaveManager.LoadingGame -= LoadStats;
 		GameManager.currRoomChanged -= RoomChange;
 		RoomScript.RoomCleared -= RoomChange;
-		Inventory.SendNewWeapon -= NewWeapon;
-		Inventory.ChangeItemPlayerStats -= ChangeItemStats;
 	}
 
 	public void Interact()
@@ -157,7 +150,7 @@ public class Player : Unit
 		if (amount <= 0) return;
 		if (CurrentHealth > 0)
 		{
-			amount = Mathf.RoundToInt(amount * (1 - DamageReduction)); // calculates damage ammount based on Damage Reduction
+			amount = CalculateTotalDamageTaken(amount); // calculates damage ammount based on Damage Reduction
 			CurrentHealth -= amount;
 		}
 		AddImmunityFrames(ImmuFramesOnHit);
@@ -165,6 +158,10 @@ public class Player : Unit
 		if (CurrentHealth <= 0) Die?.Invoke();
 	}
 
+	public int CalculateTotalDamageTaken(int amount)
+	{
+		return Mathf.RoundToInt(amount * (1 - CalculateDamageReduction()));
+	}
 	public override void HealUnit(int amount)
 	{
 		base.HealUnit(amount);
@@ -222,58 +219,8 @@ public class Player : Unit
 	//end of exp related functions -----------------------
 
 	//start of inventory functions -----------------------
-	public void ChangeItemStats(Item itemToChangeStats, bool addSub)
-	{
-		//Debug.Log("Changing Item");
-		if (!itemToChangeStats) //to catch errors, see if an item even got sent
-		{
-			Debug.LogError("no item sent!");
-			return;
-		}
-		if (addSub)
-		{
-			BonusDamage += itemToChangeStats.Damage;
-			BonusFireRate += itemToChangeStats.FireRate;
-			BonusBulletAmount += itemToChangeStats.BulletAmount;
-			BonusCritChance += itemToChangeStats.CritChance;
-			BonusCritDamage += itemToChangeStats.CritDamage;
-			Defense += itemToChangeStats.Defense;
-			AddMaxHealth(itemToChangeStats.HealthBonus);
-		}
-		else
-		{
-			BonusDamage -= itemToChangeStats.Damage;
-			BonusFireRate -= itemToChangeStats.FireRate;
-			BonusBulletAmount -= itemToChangeStats.BulletAmount;
-			BonusCritChance -= itemToChangeStats.CritChance;
-			BonusCritDamage -= itemToChangeStats.CritDamage;
-			Defense -= itemToChangeStats.Defense;
-			AddMaxHealth(-itemToChangeStats.HealthBonus);
-			//if equipment adds / subtracts more stats, this has to be added here
-		}
-		if (itemToChangeStats is AbilityItem)
-		{
-			//Debug.Log("Changing Ability item");
-			AbilityItem tempAbility = itemToChangeStats as AbilityItem;
-			abilityScript.Cooldown = tempAbility.AbilityCooldown;
-		}
-	}
 
-	public void NewWeapon(GameObject newWeaponItem)
-	{
-		if (!newWeaponItem)
-		{
-			newWeaponItem = fistPrefab;
-		}
-		//Debug.Log("Swaping Weapon in player");
-		DestroyImmediate(GameObject.FindWithTag("Weapon")); //the weapon gets fucking blasted
-		GameObject newWeaponObject = Instantiate(newWeaponItem, gameObject.transform);
-		weaponScript = newWeaponObject.GetComponent<Weapon>();
-		//both 0 to just add the extra damage
-		//simply adding that shit (might need to get a function later)
-		//set new weapon and add stats
 
-	}
 
 	//end of inventory functions
 
@@ -352,7 +299,7 @@ public class Player : Unit
 	public void toggleCheatConsole() { ToggleCheatConsole?.Invoke(); }
 	public int CalcTotalDamage()
 	{
-		return (int)Math.Round(weaponScript.Damage * BonusDamage);
+		return (int)Math.Round(EquipmentManager.Instance.WeaponScript.Damage * BonusDamage);
 	}
 	//End of General Functions
 }

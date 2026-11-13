@@ -15,7 +15,7 @@ public class SpeedWhenCloseScript : MonoBehaviour
 
 	void Awake()
 	{
-		InvokeRepeating("CheckForEnemiesInRange", 1, 0.2f);
+		InvokeRepeating("CheckForEnemiesInRange", 1, GameManager.STANDARD_TICK_TIME);
 	}
 	public void Init(float radius, float speedMultiplier)
 	{

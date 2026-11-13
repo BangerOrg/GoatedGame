@@ -14,9 +14,10 @@ public class TemporaryDamageUpEffect : CardEffect
 		value += float.Parse(strings[0], info.NumberFormat);
 		downPerRoom += float.Parse(strings[1], info.NumberFormat);
 		Player.Instance.BonusDamage += value;
+		RoomScript.RoomCleared += OnRoomClear;
 	}
 
-	public override void OnRoomClear()
+	public void OnRoomClear()
 	{
 		Player.Instance.BonusDamage -= downPerRoom;
 		value -= downPerRoom;
